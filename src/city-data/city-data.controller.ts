@@ -10,5 +10,4 @@ export class CityDataController {
   async getAllProvince() {
     return this.cityDataService.getAllProvinces();
   }
-
 }

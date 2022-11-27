@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Province } from '../entities/province/province.entity';
+import { Province } from '../app/entities/province/province.entity';
 import { ProvinceService } from 'src/province/province.service';
 
 @Injectable()

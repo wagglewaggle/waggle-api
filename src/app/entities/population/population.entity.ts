@@ -17,7 +17,7 @@ export class Population {
   @ManyToOne(() => Place, (place) => place.populations)
   place: Place;
 
-  @Column('enum')
+  @Column('enum', { enum: PopulationLevel })
   level: PopulationLevel;
 
   @Column('text')

@@ -4,8 +4,7 @@ import { config } from '../config/config.service';
 
 export class MysqlConfigService implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    const entityPath = path.join(__dirname, './**/*.entity.{ts,js}');
-    console.log(entityPath);
+    const entityPath = path.join(__dirname, '../**/*.entity.{ts,js}');
     return {
       type: 'mysql',
       host: config.mysqlHost,
@@ -16,7 +15,7 @@ export class MysqlConfigService implements TypeOrmOptionsFactory {
       entities: [entityPath],
       timezone: 'Z',
       logging: false,
-      synchronize: true,
+      synchronize: false,
       keepConnectionAlive: true,
       // autoLoadEntities: true,
     };
