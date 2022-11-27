@@ -1,8 +1,7 @@
-import { MysqlConfigService } from '@lib/entity/mysql-config.service';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RequestMiddleware } from './app/middlewares/request.middleware';
+import { MysqlConfigService } from './app/mysql/mysql-config.service';
 import { CityDataModule } from './city-data/city-data.module';
 import { ProvinceModule } from './province/province.module';
 

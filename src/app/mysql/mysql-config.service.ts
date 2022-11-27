@@ -1,10 +1,11 @@
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import * as path from 'path';
-import { config } from '../../../src/app/config/config.service';
+import { config } from '../config/config.service';
 
 export class MysqlConfigService implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
     const entityPath = path.join(__dirname, './**/*.entity.{ts,js}');
+    console.log(entityPath);
     return {
       type: 'mysql',
       host: config.mysqlHost,
