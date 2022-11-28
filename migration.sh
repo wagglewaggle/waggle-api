@@ -1,13 +1,13 @@
 #!/bin/sh
 
-# yarn ts-node $(yarn bin typeorm) migration:generate migration/add-population -d ./src/app/mysql/data-source.ts
-
 generate="gen"
 run="run"
 revert="re"
+create="create"
 
-if [ "$1" = "$generate" ]
+if [ "$1" = "$generate" ] # generate
 then
+
     if [ -z "$2" ]
     then
         echo 'usage: ./migration.sh gen {name}'
@@ -15,15 +15,32 @@ then
     fi
 
     yarn ts-node $(yarn bin typeorm) migration:generate migration/"$2" -d ./src/app/mysql/data-source.ts
-elif [ "$1" = "$run" ]
+
+elif [ "$1" = "$run" ] # run
 then
+
     yarn ts-node $(yarn bin typeorm) migration:run -d ./src/app/mysql/data-source.ts
-elif [ "$1" = "$revert" ]
+
+elif [ "$1" = "$revert" ] # revert
 then
-    echo "revert!!!"
+
+    yarn ts-node $(yarn bin typeorm) migration:revert -d ./src/app/mysql/data-source.ts
+
+elif [ "$1" = "$create" ] # create
+then
+
+    if [ -z "$2" ]
+    then
+        echo 'usage: ./migration.sh create {name}'
+        exit 1;
+    fi
+
+    yarn ts-node $(yarn bin typeorm) migration:create migration/"$2"
+
 else
     echo "usage: ./migration.sh {command}"
     echo "1. gen"
     echo "2. run"
     echo "3. re"
+    echo "4. create"
 fi

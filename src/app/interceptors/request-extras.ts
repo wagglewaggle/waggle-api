@@ -4,7 +4,6 @@ export class RequestExtras {
   private readonly TEST = 'hi';
 
   constructor(req: IRequestAugmented) {
-    console.log('hi');
   }
 
   getTest(): string {
