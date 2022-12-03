@@ -5,6 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Cctv } from '../cctv/cctv.entity';
 import { KtAccident } from '../kt-accident/kt-accident.entity';
 import { KtPopulation } from '../kt-population/kt-population.entity';
 import { Province } from '../province/province.entity';
@@ -31,4 +32,7 @@ export class KtPlace {
 
   @OneToMany(() => KtAccident, (accident) => accident.place)
   accidents: KtAccident[];
+
+  @OneToMany(() => Cctv, (cctv) => cctv.place)
+  cctvs: Cctv[];
 }
