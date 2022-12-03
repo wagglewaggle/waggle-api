@@ -6,10 +6,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Place } from '../place/place.entity';
+import { KtPlace } from '../kt-place/kt-place.entity';
 
 @Entity()
-export class Accident {
+export class KtAccident {
   @PrimaryGeneratedColumn()
   idx: number;
 
@@ -28,8 +28,8 @@ export class Accident {
   @Column('int')
   y: number;
 
-  @ManyToOne(() => Place, (place) => place.accidents)
-  place: Place;
+  @ManyToOne(() => KtPlace, (place) => place.accidents)
+  place: KtPlace;
 
   @CreateDateColumn()
   createdDate: Date;

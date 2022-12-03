@@ -6,19 +6,19 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Place } from '../place/place.entity';
-import { PopulationLevel } from './population.constant';
+import { KtPlace } from '../kt-place/kt-place.entity';
+import { KtPopulationLevel } from './kt-population.constant';
 
 @Entity()
-export class Population {
+export class KtPopulation {
   @PrimaryGeneratedColumn()
   idx: number;
 
-  @ManyToOne(() => Place, (place) => place.populations)
-  place: Place;
+  @ManyToOne(() => KtPlace, (place) => place.populations)
+  place: KtPlace;
 
-  @Column('enum', { enum: PopulationLevel })
-  level: PopulationLevel;
+  @Column('enum', { enum: KtPopulationLevel })
+  level: KtPopulationLevel;
 
   @Column('text')
   message: string;
