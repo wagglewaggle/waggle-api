@@ -22,10 +22,10 @@ export class KtAccident {
   @Column('text')
   info: string;
 
-  @Column('int')
+  @Column('decimal', { precision: 17, scale: 15 })
   x: number;
 
-  @Column('int')
+  @Column('decimal', { precision: 17, scale: 14 })
   y: number;
 
   @ManyToOne(() => KtPlace, (place) => place.accidents)

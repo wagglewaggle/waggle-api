@@ -21,7 +21,7 @@ export class KtPlace {
   @Column('decimal', { precision: 17, scale: 15 })
   x: number;
 
-  @Column('decimal', { precision: 17, scale: 15 })
+  @Column('decimal', { precision: 17, scale: 14 })
   y: number;
 
   @ManyToOne(() => Province, (province) => province.ktPlaces)
