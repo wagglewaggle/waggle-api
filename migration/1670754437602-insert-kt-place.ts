@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from "typeorm"
 
-export class insertSktPlace1670748844443 implements MigrationInterface {
+export class insertKtPlace1670754437602 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`INSERT INTO \`exit\`.\`skt_place\` (poiId, name, provinceIdx, x, y) VALUES (5799875, '롯데월드몰', 1, 37.51385147, 127.10448326)`);

@@ -18,10 +18,10 @@ export class KtPlace {
   @Column('varchar')
   name: string;
 
-  @Column('decimal', { precision: 17, scale: 15 })
+  @Column('double')
   x: number;
 
-  @Column('decimal', { precision: 17, scale: 14 })
+  @Column('double')
   y: number;
 
   @ManyToOne(() => Province, (province) => province.ktPlaces)

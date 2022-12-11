@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from "typeorm"
 
-export class insertKtPlace1670748657053 implements MigrationInterface {
+export class insertSktPlace1670754442242 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`INSERT INTO \`exit\`.kt_place (idx, name, provinceIdx, x, y) VALUES (1, '홍대 관광특구', 1, 37.55458049807929, 126.92187309265138)`);
@@ -35,6 +35,7 @@ export class insertKtPlace1670748657053 implements MigrationInterface {
         await queryRunner.query(`INSERT INTO \`exit\`.kt_place (idx, name, provinceIdx, x, y) VALUES (30, '압구정로데오거리', 1, 37.525485900907675, 127.0386028289795)`);
         await queryRunner.query(`INSERT INTO \`exit\`.kt_place (idx, name, provinceIdx, x, y) VALUES (31, '가로수길', 1, 37.52119731630126, 127.02392578125001)`);
         await queryRunner.query(`INSERT INTO \`exit\`.kt_place (idx, name, provinceIdx, x, y) VALUES (32, '수유리 먹자골목', 1, 37.64159225623666, 127.02598571777345)`);
+
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
