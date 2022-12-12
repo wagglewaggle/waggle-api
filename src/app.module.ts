@@ -2,13 +2,14 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RequestMiddleware } from './app/middlewares/request.middleware';
 import { MysqlConfigService } from './app/mysql/mysql-config.service';
+import { ProvinceModule } from './province/province.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
 });
 
 @Module({
-  imports: [TypeOrmRootModule],
+  imports: [TypeOrmRootModule, ProvinceModule],
   providers: [
     // { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
     // { provide: APP_FILTER, useClass: AllExceptionFilter },
