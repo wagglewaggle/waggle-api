@@ -8,4 +8,11 @@ export interface IErrorCode {
   ERR_0000007: string;
   ERR_0000008: string;
   ERR_0000009: string;
+
+  // Province
+
+  // Place
+  ERR_0002001: string;
+
+  // Population
 }

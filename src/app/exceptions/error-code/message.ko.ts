@@ -10,6 +10,8 @@ const errors: IErrorCode = {
   ERR_0000007: '요청시간 초과',
   ERR_0000008: 'API서버 Bad Gateway',
   ERR_0000009: '잘못된 요청입니다.',
+
+  ERR_0002001: '해당하는 장소가 없습니다.',
 };
 
 export default errors;
