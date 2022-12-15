@@ -5,7 +5,6 @@ import { config } from '@lib/config';
 export class MysqlConfigService implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
     const entityPath = path.join(__dirname, './**/*.entity.{ts,js}');
-    console.log(entityPath);
     return {
       type: 'better-sqlite3',
       // host: config.mysqlHost,
