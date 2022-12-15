@@ -15,10 +15,7 @@ export class KtPlaceService {
   async getKtPlaceByIdx(idx: number, relation?: string[]): Promise<KtPlace> {
     const [place] = await this.ktPlaceRepository.getKtPlace({ idx }, relation);
     if (!place) {
-      throw new ClientRequestException(
-        ERROR_CODE.ERR_0002001,
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);
     }
 
     return place;

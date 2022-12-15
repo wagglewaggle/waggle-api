@@ -10,10 +10,7 @@ export class ProvinceRepository {
     private readonly repository: Repository<Province>,
   ) {}
 
-  async getProvinces(
-    where: FindOptionsWhere<Province>,
-    relations?: string[],
-  ): Promise<Province[]> {
+  async getProvinces(where: FindOptionsWhere<Province>, relations?: string[]): Promise<Province[]> {
     const options: FindManyOptions = { where };
     if (relations) {
       options.relations = relations;

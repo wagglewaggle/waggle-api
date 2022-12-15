@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Cctv } from '../cctv/cctv.entity';
 import { KtAccident } from '../kt-accident/kt-accident.entity';
 import { KtPopulation } from '../kt-population/kt-population.entity';

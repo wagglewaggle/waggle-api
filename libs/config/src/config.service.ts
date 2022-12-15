@@ -29,8 +29,7 @@ export class ConfigService {
       MYSQL_PASSWORD: Joi.string(),
     });
 
-    const { error, value: validatedEnvConfig } =
-      envVarsSchema.validate(envConfig);
+    const { error, value: validatedEnvConfig } = envVarsSchema.validate(envConfig);
     if (error) {
       throw new Error(`Config validation error: ${error.message}`);
     }

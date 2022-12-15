@@ -5,14 +5,9 @@ import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
 
 @Injectable()
 export class KtPlaceRepository {
-  constructor(
-    @InjectRepository(KtPlace) private readonly repository: Repository<KtPlace>,
-  ) {}
+  constructor(@InjectRepository(KtPlace) private readonly repository: Repository<KtPlace>) {}
 
-  async getKtPlace(
-    where: FindOptionsWhere<KtPlace>,
-    relation?: string[],
-  ): Promise<KtPlace[]> {
+  async getKtPlace(where: FindOptionsWhere<KtPlace>, relation?: string[]): Promise<KtPlace[]> {
     const options: any = { where };
     if (Array.isArray(relation)) {
       options.relations = relation;
