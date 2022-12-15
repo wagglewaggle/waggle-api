@@ -10,7 +10,7 @@ export class SktPopulation {
   @ManyToOne(() => SktPlace, (place) => place.populations)
   place: SktPlace;
 
-  @Column('simple-enum', { enum: SktPopulationLevel })
+  @Column('enum', { enum: SktPopulationLevel })
   level: SktPopulationLevel;
 
   @CreateDateColumn()

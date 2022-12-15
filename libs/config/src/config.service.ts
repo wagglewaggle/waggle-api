@@ -27,6 +27,9 @@ export class ConfigService {
       MYSQL_DATABASE: Joi.string().required(),
       MYSQL_USERNAME: Joi.string().required(),
       MYSQL_PASSWORD: Joi.string(),
+      KT_API_KEY: Joi.string().required(),
+      SKT_TMAP_API_KEY: Joi.string().required(),
+      SKT_CONGESTION_API_KEY: Joi.string().required(),
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(envConfig);
@@ -70,6 +73,18 @@ export class ConfigService {
 
   get mysqlPassword(): string {
     return this.envConfig.MYSQL_PASSWORD;
+  }
+
+  get ktApiKey(): string {
+    return this.envConfig.KT_API_KEY;
+  }
+
+  get sktTmapApiKey(): string {
+    return this.envConfig.SKT_TMAP_API_KEY;
+  }
+
+  get sktCongestionApiKey(): string {
+    return this.envConfig.SKT_CONGESTION_API_KEY;
   }
 }
 

@@ -43,4 +43,5 @@ else
     echo "2. run"
     echo "3. re"
     echo "4. create"
+    exit 1;
 fi
