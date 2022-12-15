@@ -10,7 +10,7 @@ export class KtPopulation {
   @ManyToOne(() => KtPlace, (place) => place.populations)
   place: KtPlace;
 
-  @Column('enum', { enum: KtPopulationLevel })
+  @Column('simple-enum', { enum: KtPopulationLevel })
   level: KtPopulationLevel;
 
   @Column('text')
@@ -35,7 +35,7 @@ export class KtPopulation {
   thirties: number;
 
   @Column('int')
-  fourties: number;
+  forties: number;
 
   @Column('int')
   fifties: number;

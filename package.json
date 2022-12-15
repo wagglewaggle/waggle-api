@@ -26,6 +26,7 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.1",
+    "better-sqlite3": "^8.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "dotenv": "^16.0.3",
@@ -82,8 +83,7 @@
     ],
     "moduleNameMapper": {
       "^@lib/entity(|/.*)$": "<rootDir>/libs/entity/src/$1",
-      "^lib/config(|/.*)$": "<rootDir>/libs/config/src/$1",
-      "^lib/entity(|/.*)$": "<rootDir>/libs/entity/src/$1"
+      "^@lib/config(|/.*)$": "<rootDir>/libs/config/src/$1"
     }
   },
   "packageManager": "yarn@3.3.0"

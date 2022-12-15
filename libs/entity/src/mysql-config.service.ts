@@ -4,16 +4,17 @@ import { config } from '@lib/config';
 
 export class MysqlConfigService implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    const entityPath = path.join(__dirname, '../**/*.entity.{ts,js}');
+    const entityPath = path.join(__dirname, './**/*.entity.{ts,js}');
+    console.log(entityPath);
     return {
-      type: 'mysql',
-      host: config.mysqlHost,
-      port: config.mysqlPort,
-      username: config.mysqlUsername,
-      password: config.mysqlPassword,
+      type: 'better-sqlite3',
+      // host: config.mysqlHost,
+      // port: config.mysqlPort,
+      // username: config.mysqlUsername,
+      // password: config.mysqlPassword,
       database: config.mysqlDatabase,
       entities: [entityPath],
-      timezone: 'Z',
+      // timezone: 'Z',
       logging: false,
       synchronize: false,
       keepConnectionAlive: true,
