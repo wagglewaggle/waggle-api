@@ -24,7 +24,13 @@
       ],
       "@lib/entity/*": [
         "libs/entity/src/*"
-      ]
+      ],
+      "@lib/config": [
+        "libs/config/src"
+      ],
+      "@lib/config/*": [
+        "libs/config/src/*"
+      ],
     }
   }
 }
