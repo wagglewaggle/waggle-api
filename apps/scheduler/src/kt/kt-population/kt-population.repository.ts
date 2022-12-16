@@ -10,10 +10,7 @@ export class KtPopulationRepository {
     private readonly repository: Repository<KtPopulation>,
   ) {}
 
-  async addKtPopulation(
-    ktPopulation: KtPopulation,
-    manager?: EntityManager,
-  ): Promise<KtPopulation> {
+  async addKtPopulation(ktPopulation: KtPopulation, manager?: EntityManager): Promise<KtPopulation> {
     if (manager) {
       return manager.save(KtPopulation, ktPopulation);
     }

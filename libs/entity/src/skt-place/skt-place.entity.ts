@@ -1,4 +1,6 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from '../category/category.entity';
+import { Location } from '../location/location.entity';
 import { Province } from '../province/province.entity';
 import { SktPopulation } from '../skt-population/skt-population.entity';
 
@@ -21,6 +23,12 @@ export class SktPlace {
 
   @ManyToOne(() => Province, (province) => province.sktPlaces)
   province: Province;
+
+  @ManyToOne(() => Location, (location) => location.sktPlaces, { nullable: true })
+  location: Location;
+
+  @OneToMany(() => Category, (category) => category.sktPlace)
+  categories: Category;
 
   @OneToMany(() => SktPopulation, (sktPopulation) => sktPopulation.place)
   populations: SktPopulation[];
