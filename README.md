@@ -1,8 +1,8 @@
-# Exit Server
+# WaggleWaggle
 
 ## Description
 
-인구 밀집도 서버
+인구 밀집도 Api, Scheduler
 
 ## Usage
 * yarn berry 버전 사용
@@ -31,16 +31,16 @@ $ yarn run start:prod
 
 ```bash
 # 변경사항에 대해 migration 파일 생성
-npm run typeorm migration:generate -- -n migrationNameHere
-yarn ts-node $(yarn bin typeorm) migration:generate migration/migrationNameHere -d data-source.ts
+./migration.sh gen {migrationName}
 
 # 현재까지의 migration 반영
-npm run typeorm migration:run
-yarn ts-node $(yarn bin typeorm) migration:run -d data-source.ts
+./migration.sh run
 
 # migration 되돌리기
-npm run typeorm migration:revert
-yarn ts-node $(yarn bin typeorm) migration:revert -d data-source.ts
+./migration.sh re
+
+# migration 직접 생성
+./migration.sh create {migrationName}
 
 # 참고
 https://typeorm.io/#/migrations
