@@ -14,7 +14,7 @@ export class KtPopulationEntity extends KtPopulation {
   readonly teenager: number;
   readonly twenties: number;
   readonly thirties: number;
-  readonly fourties: number;
+  readonly forties: number;
   readonly fifties: number;
   readonly sixties: number;
   readonly seventies: number;
@@ -48,7 +48,7 @@ export class KtPopulationEntity extends KtPopulation {
     this.teenager = LIVE_PPLTN_STTS.PPLTN_RATE_10;
     this.twenties = LIVE_PPLTN_STTS.PPLTN_RATE_20;
     this.thirties = LIVE_PPLTN_STTS.PPLTN_RATE_30;
-    this.fourties = LIVE_PPLTN_STTS.PPLTN_RATE_40;
+    this.forties = LIVE_PPLTN_STTS.PPLTN_RATE_40;
     this.fifties = LIVE_PPLTN_STTS.PPLTN_RATE_50;
     this.sixties = LIVE_PPLTN_STTS.PPLTN_RATE_60;
     this.seventies = LIVE_PPLTN_STTS.PPLTN_RATE_70;

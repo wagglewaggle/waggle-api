@@ -10,13 +10,15 @@ export class KtAccidentEntity extends KtAccident {
   readonly y: number;
   readonly place: KtPlace;
 
-  constructor(place: KtPlace, { ACDNT_CNTRL_STTS }: IAccidentControlStatus) {
+  constructor(place: KtPlace, accident: IAccidentControlStatus) {
     super();
-    this.type = ACDNT_CNTRL_STTS.ACDNT_TYPE;
-    this.dtype = ACDNT_CNTRL_STTS.ACDNT_DTYPE;
-    this.info = ACDNT_CNTRL_STTS.ACDNT_INFO;
-    this.x = ACDNT_CNTRL_STTS.ACDNT_X;
-    this.y = ACDNT_CNTRL_STTS.ACDNT_Y;
+    this.type = accident.ACDNT_TYPE;
+    this.dtype = accident.ACDNT_DTYPE;
+    this.info = accident.ACDNT_INFO;
+    this.x = accident.ACDNT_X;
+    this.y = accident.ACDNT_Y;
     this.place = place;
+    // console.log(ACDNT_CNTRL_STTS);
+    // console.log(this);
   }
 }

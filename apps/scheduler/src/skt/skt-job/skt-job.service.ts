@@ -7,6 +7,7 @@ import { SktPopulationEntity } from '../skt-population/entity/skt-population.ent
 import { SktPopulationService } from '../skt-population/skt-population.service';
 import { ISktCityData } from './skt-city-data.interface';
 import { SktDefaultInfo } from './skt-job.constant';
+import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 
 @Injectable()
 export class SktJobService {
@@ -18,27 +19,34 @@ export class SktJobService {
     this.url = `${SktDefaultInfo.API_HOST}/${SktDefaultInfo.API_URI}`;
   }
 
-  @Cron(CronExpression.EVERY_5_SECONDS)
+  @Cron(CronExpression.EVERY_30_MINUTES)
   async run() {
     try {
-      const places = await this.sktPlaceService.getSktPlace(1);
+      const places = await this.sktPlaceService.getSktPlaces();
+      for (const place of places) {
+        await this.updateSktPopulation(place);
+      }
 
-      const { data }: AxiosResponse<ISktCityData> = await axios.get(`${this.url}/${places.poiId}`, {
+      this.logger.log(`successfully done`);
+    } catch (e) {
+      this.logger.warn('failed');
+      this.logger.warn(e);
+      throw e;
+    }
+  }
+
+  async updateSktPopulation(place: SktPlace) {
+    try {
+      const { data }: AxiosResponse<ISktCityData> = await axios.get(`${this.url}/${place.poiId}`, {
         headers: {
           appKey: config.sktCongestionApiKey,
         },
       });
-
       const {
         contents: { rltm },
       } = data;
 
-      // TODO: update, not add
-      await this.sktPopulatiuonService.addSktPopulation(new SktPopulationEntity(places, rltm));
-
-      this.logger.log(`skt job done~!`);
-      // for (const place of places) {
-      // }
+      await this.sktPopulatiuonService.addSktPopulation(new SktPopulationEntity(place, rltm));
     } catch (e) {
       this.logger.warn(e);
       throw e;

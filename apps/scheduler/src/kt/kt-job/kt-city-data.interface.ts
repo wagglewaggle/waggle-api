@@ -2,7 +2,7 @@ export interface IKtCityData {
   'SeoulRtd.citydata': {
     CITYDATA: {
       LIVE_PPLTN_STTS: ILivePopulationStatus;
-      ACDNT_CNTRL_STTS: IAccidentControlStatus | string;
+      ACDNT_CNTRL_STTS: string | IAccidentObject;
     };
   };
 }
@@ -31,14 +31,16 @@ export interface ILivePopulationStatus {
 }
 
 export interface IAccidentControlStatus {
-  ACDNT_CNTRL_STTS: {
-    ACDNT_OCCR_DT: string;
-    EXP_CLR_DT: string;
-    ACDNT_TYPE: string;
-    ACDNT_DTYPE: string;
-    ACDNT_INFO: string;
-    ACDNT_X: number;
-    ACDNT_Y: number;
-    ACDNT_TIME: string;
-  };
+  ACDNT_OCCR_DT: string;
+  EXP_CLR_DT: string;
+  ACDNT_TYPE: string;
+  ACDNT_DTYPE: string;
+  ACDNT_INFO: string;
+  ACDNT_X: number;
+  ACDNT_Y: number;
+  ACDNT_TIME: string;
+}
+
+export interface IAccidentObject {
+  ACDNT_CNTRL_STTS: IAccidentControlStatus | IAccidentControlStatus[];
 }
