@@ -15,4 +15,7 @@ export interface IErrorCode {
   ERR_0002001: string;
 
   // Population
+
+  // Location
+  ERR_0004001: string;
 }

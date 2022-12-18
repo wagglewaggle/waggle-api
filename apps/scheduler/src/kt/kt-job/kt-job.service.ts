@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule';
 import axios from 'axios';
 import { XMLParser } from 'fast-xml-parser';
 import { config } from '@lib/config';
@@ -8,7 +8,7 @@ import { KtAccidentService } from '../kt-accident/kt-accident.service';
 import { KtPlaceService } from '../kt-place/kt-place.service';
 import { KtPopulationEntity } from '../kt-population/entity/kt-population.entity';
 import { KtPopulationService } from '../kt-population/kt-population.service';
-import { IAccidentControlStatus, IAccidentObject, IKtCityData } from './kt-city-data.interface';
+import { IAccidentObject, IKtCityData } from './kt-city-data.interface';
 import { KtDefaultInfo } from './kt-job.constant';
 import { sleep } from '../../app/app.util';
 import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
@@ -31,7 +31,7 @@ export class KtJobService {
     this.rate = 10;
   }
 
-  @Cron('*/10 * * * * *')
+  @Cron('*/5 * * * *')
   async run() {
     try {
       const places = await this.ktPlaceService.getKtPlaces();

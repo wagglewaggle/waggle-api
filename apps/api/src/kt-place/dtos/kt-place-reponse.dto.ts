@@ -3,15 +3,17 @@ import { Cctv } from '@lib/entity/cctv/cctv.entity';
 import { KtAccident } from '@lib/entity/kt-accident/kt-accident.entity';
 import { KtPopulation } from '@lib/entity/kt-population/kt-population.entity';
 import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
+import { KtPopulationResponseDto } from './kt-population-response.dto';
+import { KtAccidentResponseDto } from './kt-accident-response.dto';
 
 export class KtPlaceResponseDto {
   @Exclude() private readonly _idx: number;
   @Exclude() private readonly _name: string;
   @Exclude() private readonly _x: number;
   @Exclude() private readonly _y: number;
-  @Exclude() private readonly _populations: KtPopulation[];
-  @Exclude() private readonly _accidents: KtAccident[];
-  @Exclude() private readonly _cctvs: Cctv[];
+  @Exclude() private readonly _populations: KtPopulation[] | undefined;
+  @Exclude() private readonly _accidents: KtAccident[] | undefined;
+  @Exclude() private readonly _cctvs: Cctv[] | undefined;
 
   constructor(place: KtPlace) {
     this._idx = place.idx;
@@ -43,5 +45,19 @@ export class KtPlaceResponseDto {
     return this._y;
   }
 
-  // @Expose()
+  @Expose()
+  get populations(): KtPopulationResponseDto[] | undefined {
+    if (!this._populations) {
+      return undefined;
+    }
+    return this._populations.map((population) => new KtPopulationResponseDto(population));
+  }
+
+  @Expose()
+  get accidents(): KtAccidentResponseDto[] | undefined {
+    if (!this._accidents) {
+      return undefined;
+    }
+    return this._accidents.map((accident) => new KtAccidentResponseDto(accident));
+  }
 }

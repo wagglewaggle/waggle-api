@@ -9,7 +9,7 @@ export class KtPlaceService {
   constructor(private readonly ktPlaceRepository: KtPlaceRepository) {}
 
   async getKtPlaces(): Promise<KtPlace[]> {
-    return await this.ktPlaceRepository.getKtPlace({});
+    return await this.ktPlaceRepository.getKtPlace({}, ['populations']);
   }
 
   async getKtPlaceByIdx(idx: number, relation?: string[]): Promise<KtPlace> {
@@ -22,6 +22,7 @@ export class KtPlaceService {
   }
 
   async getKtPlaceAllInfo(idx: number): Promise<KtPlace> {
-    return await this.getKtPlaceByIdx(idx, ['populations', 'accidents']);
+    const place = await this.getKtPlaceByIdx(idx, ['populations', 'accidents', 'cctvs']);
+    return place;
   }
 }

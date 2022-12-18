@@ -4,6 +4,6 @@ import { config } from '@lib/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(config.apiPort, config.apiHost);
+  await app.listen(config.schedulerPort, config.schedulerHost);
 }
 bootstrap();

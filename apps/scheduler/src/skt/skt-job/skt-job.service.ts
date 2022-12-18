@@ -14,7 +14,7 @@ export class SktJobService {
   private readonly logger: Logger;
   private readonly url: string;
 
-  constructor(private readonly sktPlaceService: SktPlaceService, private readonly sktPopulatiuonService: SktPopulationService) {
+  constructor(private readonly sktPlaceService: SktPlaceService, private readonly sktPopulationService: SktPopulationService) {
     this.logger = new Logger(SktJobService.name);
     this.url = `${SktDefaultInfo.API_HOST}/${SktDefaultInfo.API_URI}`;
   }
@@ -46,7 +46,7 @@ export class SktJobService {
         contents: { rltm },
       } = data;
 
-      await this.sktPopulatiuonService.addSktPopulation(new SktPopulationEntity(place, rltm));
+      await this.sktPopulationService.addSktPopulation(new SktPopulationEntity(place, rltm));
     } catch (e) {
       this.logger.warn(e);
       throw e;

@@ -22,6 +22,8 @@ export class ConfigService {
         .default(ENV.DEVELOPMENT),
       API_HOST: Joi.string().default('0.0.0.0'),
       API_PORT: Joi.number().default(3000),
+      SCHEDULER_HOST: Joi.string().default('0.0.0.0'),
+      SCHEDULER_PORT: Joi.number().default(3030),
       MYSQL_HOST: Joi.string().required(),
       MYSQL_PORT: Joi.number().required(),
       MYSQL_DATABASE: Joi.string().required(),
@@ -53,6 +55,14 @@ export class ConfigService {
 
   get apiPort(): number {
     return parseInt(this.envConfig.API_PORT, 10);
+  }
+
+  get schedulerHost(): string {
+    return this.envConfig.SCHEDULER_HOST;
+  }
+
+  get schedulerPort(): number {
+    return this.envConfig.SCHEDULER_PORT;
   }
 
   get mysqlHost(): string {

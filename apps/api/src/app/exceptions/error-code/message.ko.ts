@@ -12,6 +12,8 @@ const errors: IErrorCode = {
   ERR_0000009: '잘못된 요청입니다.',
 
   ERR_0002001: '해당하는 장소가 없습니다.',
+
+  ERR_0004001: '조회하려는 주변 장소가 없습니다.',
 };
 
 export default errors;
