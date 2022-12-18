@@ -34,9 +34,9 @@ export class KtPlaceRepository {
     }
 
     if (query.populationSort) {
-      queryBuilder.orderBy('population.level', 'ASC');
-    } else {
       queryBuilder.orderBy('population.level', 'DESC');
+    } else {
+      queryBuilder.orderBy('population.level', 'ASC');
     }
 
     const [places, count] = await queryBuilder.getManyAndCount();

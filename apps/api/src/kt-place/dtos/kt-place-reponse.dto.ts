@@ -7,6 +7,7 @@ import { KtPopulationResponseDto } from './kt-population-response.dto';
 import { KtAccidentResponseDto } from './kt-accident-response.dto';
 import { Category } from '@lib/entity/category/category.entity';
 import { CategoryResponseDto } from '../../category/dtos/category-response.dto';
+import { KtCctvResponseDto } from './kt-cctv-response.dto';
 
 export class KtPlaceResponseDto {
   @Exclude() private readonly _idx: number;
@@ -71,5 +72,13 @@ export class KtPlaceResponseDto {
       return undefined;
     }
     return this._accidents.map((accident) => new KtAccidentResponseDto(accident));
+  }
+
+  @Expose()
+  get cctvs(): KtCctvResponseDto[] | undefined {
+    if (!this._cctvs) {
+      return undefined;
+    }
+    return this._cctvs.map((cctv) => new KtCctvResponseDto(cctv));
   }
 }

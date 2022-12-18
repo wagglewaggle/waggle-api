@@ -44,3 +44,6 @@ ormconfig.json
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# apidoc output
+apidocDist/**/*
