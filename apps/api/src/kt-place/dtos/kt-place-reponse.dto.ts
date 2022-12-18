@@ -5,12 +5,14 @@ import { KtPopulation } from '@lib/entity/kt-population/kt-population.entity';
 import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
 import { KtPopulationResponseDto } from './kt-population-response.dto';
 import { KtAccidentResponseDto } from './kt-accident-response.dto';
+import { Category } from '../../../../../libs/entity/src/category/category.entity';
 
 export class KtPlaceResponseDto {
   @Exclude() private readonly _idx: number;
   @Exclude() private readonly _name: string;
   @Exclude() private readonly _x: number;
   @Exclude() private readonly _y: number;
+  @Exclude() private readonly _categories: Category[] | undefined;
   @Exclude() private readonly _populations: KtPopulation[] | undefined;
   @Exclude() private readonly _accidents: KtAccident[] | undefined;
   @Exclude() private readonly _cctvs: Cctv[] | undefined;
@@ -20,6 +22,7 @@ export class KtPlaceResponseDto {
     this._name = place.name;
     this._x = place.x;
     this._y = place.y;
+    this._categories = place.categories;
     this._populations = place.populations;
     this._accidents = place.accidents;
     this._cctvs = place.cctvs;

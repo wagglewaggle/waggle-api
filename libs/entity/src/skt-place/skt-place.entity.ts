@@ -28,7 +28,7 @@ export class SktPlace {
   location: Location;
 
   @OneToMany(() => Category, (category) => category.sktPlace)
-  categories: Category;
+  categories: Category[];
 
   @OneToMany(() => SktPopulation, (sktPopulation) => sktPopulation.place)
   populations: SktPopulation[];

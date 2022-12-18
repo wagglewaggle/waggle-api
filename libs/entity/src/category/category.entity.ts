@@ -12,8 +12,8 @@ export class Category {
   type: CategoryType;
 
   @ManyToOne(() => KtPlace, (ktPlace) => ktPlace.categories)
-  ktPlace: KtPlace[];
+  ktPlace: KtPlace;
 
   @ManyToOne(() => SktPlace, (sktPlace) => sktPlace.categories)
-  sktPlace: SktPlace[];
+  sktPlace: SktPlace;
 }

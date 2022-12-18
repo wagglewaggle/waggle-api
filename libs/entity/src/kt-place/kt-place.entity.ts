@@ -27,7 +27,7 @@ export class KtPlace {
   location: Location;
 
   @OneToMany(() => Category, (category) => category.ktPlace)
-  categories: Category;
+  categories: Category[];
 
   @OneToMany(() => KtPopulation, (population) => population.place)
   populations: KtPopulation[];
