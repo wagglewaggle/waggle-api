@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
-import { KtPlaceListFilterQueryDto } from './kt-place.dto';
+import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
+import { SktPlaceListFilterQueryDto } from './skt-place.dto';
 
 @Injectable()
-export class KtPlaceRepository {
-  constructor(@InjectRepository(KtPlace) private readonly repository: Repository<KtPlace>) {}
+export class SktPlaceRepository {
+  constructor(@InjectRepository(SktPlace) private readonly repository: Repository<SktPlace>) {}
 
-  createQueryBuilder(alias = 'ktPlace') {
+  createQueryBuilder(alias = 'sktPlace') {
     return this.repository.createQueryBuilder(alias);
   }
 
-  async getKtPlace(where: FindOptionsWhere<KtPlace>, relation?: string[]): Promise<KtPlace[]> {
+  async getSktPlace(where: FindOptionsWhere<SktPlace>, relation?: string[]): Promise<SktPlace[]> {
     const options: any = { where };
     if (Array.isArray(relation)) {
       options.relations = relation;
@@ -20,8 +20,8 @@ export class KtPlaceRepository {
     return this.repository.find(options);
   }
 
-  async getKtPlaces(query: KtPlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
-    const queryBuilder = this.createQueryBuilder().leftJoinAndSelect('ktPlace.populations', 'population');
+  async getSktPlaces(query: SktPlaceListFilterQueryDto): Promise<[SktPlace[], number]> {
+    const queryBuilder = this.createQueryBuilder().leftJoinAndSelect('sktPlace.populations', 'population');
 
     if (query.level) {
       queryBuilder.andWhere('population.level = :level', { level: query.level });

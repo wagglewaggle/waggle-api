@@ -1,8 +1,9 @@
-import { Type } from 'class-transformer';
-import { IsNumber } from 'class-validator';
+import { IsEnum, IsOptional } from 'class-validator';
+import { KtPopulationLevel } from '@lib/entity/kt-population/kt-population.constant';
+import { ListFilterQueryDto } from '../app/app.dto';
 
-export class KtPlaceIdxParamDto {
-  @Type(() => Number)
-  @IsNumber()
-  idx: number;
+export class KtPlaceListFilterQueryDto extends ListFilterQueryDto {
+  @IsOptional()
+  @IsEnum(KtPopulationLevel)
+  level: KtPopulationLevel;
 }
