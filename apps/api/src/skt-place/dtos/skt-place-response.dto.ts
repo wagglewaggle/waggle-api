@@ -3,6 +3,7 @@ import { Category } from '@lib/entity/category/category.entity';
 import { SktPopulation } from '@lib/entity/skt-population/skt-population.entity';
 import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 import { SktPopulationResponseDto } from './skt-population-response.dto';
+import { CategoryResponseDto } from '../../category/dtos/category-response.dto';
 
 export class SktPlaceResponseDto {
   @Exclude() private readonly _idx: number;
@@ -49,15 +50,18 @@ export class SktPlaceResponseDto {
   }
 
   @Expose()
+  get categories(): CategoryResponseDto[] | undefined {
+    if (!this._categories) {
+      return undefined;
+    }
+    return this._categories.map((category) => new CategoryResponseDto(category));
+  }
+
+  @Expose()
   get populations(): SktPopulationResponseDto[] | undefined {
     if (!this._populations) {
       return undefined;
     }
     return this._populations.map((population) => new SktPopulationResponseDto(population));
   }
-
-  // @Expose()
-  // get idx(): number {
-  //   return this._idx;
-  // }
 }

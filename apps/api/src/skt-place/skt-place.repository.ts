@@ -21,10 +21,16 @@ export class SktPlaceRepository {
   }
 
   async getSktPlaces(query: SktPlaceListFilterQueryDto): Promise<[SktPlace[], number]> {
-    const queryBuilder = this.createQueryBuilder().leftJoinAndSelect('sktPlace.populations', 'population');
+    const queryBuilder = this.createQueryBuilder()
+      .leftJoinAndSelect('sktPlace.populations', 'population')
+      .leftJoinAndSelect('sktPlace.categories', 'category');
 
     if (query.level) {
       queryBuilder.andWhere('population.level = :level', { level: query.level });
+    }
+
+    if (query.category) {
+      queryBuilder.andWhere('category.type = :type', { type: query.category });
     }
 
     if (query.populationSort) {
