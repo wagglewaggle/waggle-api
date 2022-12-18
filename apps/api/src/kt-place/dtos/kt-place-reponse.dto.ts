@@ -5,7 +5,8 @@ import { KtPopulation } from '@lib/entity/kt-population/kt-population.entity';
 import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
 import { KtPopulationResponseDto } from './kt-population-response.dto';
 import { KtAccidentResponseDto } from './kt-accident-response.dto';
-import { Category } from '../../../../../libs/entity/src/category/category.entity';
+import { Category } from '@lib/entity/category/category.entity';
+import { CategoryResponseDto } from '../../category/dtos/category-response.dto';
 
 export class KtPlaceResponseDto {
   @Exclude() private readonly _idx: number;
@@ -46,6 +47,14 @@ export class KtPlaceResponseDto {
   @Expose()
   get y(): number {
     return this._y;
+  }
+
+  @Expose()
+  get categories(): CategoryResponseDto[] | undefined {
+    if (!this._categories) {
+      return undefined;
+    }
+    return this._categories.map((category) => new CategoryResponseDto(category));
   }
 
   @Expose()

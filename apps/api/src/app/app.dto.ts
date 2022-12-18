@@ -1,5 +1,6 @@
 import { Transform, Type } from 'class-transformer';
-import { IsBoolean, IsNumber } from 'class-validator';
+import { IsBoolean, IsEnum, IsNumber, IsOptional } from 'class-validator';
+import { CategoryType } from '@lib/entity/category/category.constant';
 
 export class PlaceIdxParamDto {
   @Type(() => Number)
@@ -11,4 +12,8 @@ export class ListFilterQueryDto {
   @Transform(({ value }) => value === 'true')
   @IsBoolean()
   populationSort: boolean;
+
+  @IsOptional()
+  @IsEnum(CategoryType)
+  category: CategoryType;
 }

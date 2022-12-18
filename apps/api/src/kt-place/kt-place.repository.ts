@@ -21,10 +21,16 @@ export class KtPlaceRepository {
   }
 
   async getKtPlaces(query: KtPlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
-    const queryBuilder = this.createQueryBuilder().leftJoinAndSelect('ktPlace.populations', 'population');
+    const queryBuilder = this.createQueryBuilder()
+      .leftJoinAndSelect('ktPlace.populations', 'population')
+      .leftJoinAndSelect('ktPlace.categories', 'category');
 
     if (query.level) {
       queryBuilder.andWhere('population.level = :level', { level: query.level });
+    }
+
+    if (query.category) {
+      queryBuilder.andWhere('category.type = :type', { type: query.category });
     }
 
     if (query.populationSort) {
