@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import * as path from 'path';
-import { config } from '@lib/config';
+import { config } from '../../config/src/config.service';
 
 export class MysqlConfigService implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
