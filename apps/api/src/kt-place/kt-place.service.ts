@@ -23,7 +23,7 @@ export class KtPlaceService {
   }
 
   async getKtPlaceAllInfo(idx: number): Promise<KtPlace> {
-    const [place] = await this.ktPlaceRepository.getKtPlace({ idx }, ['populations', 'accidents', 'cctvs']);
+    const [place] = await this.ktPlaceRepository.getKtPlace({ idx }, ['populations', 'accidents', 'cctvs', 'ktRoadTraffic']);
     if (!place) {
       throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);
     }
