@@ -7,7 +7,7 @@ import { KtPlaceModule } from './kt/kt-place/kt-place.module';
 import { KtPopulationModule } from './kt/kt-population/kt-population.module';
 import { KtAccidentModule } from './kt/kt-accident/kt-accident.module';
 import { MysqlConfigService } from '../../../libs/entity/src/mysql-config.service';
-import { KtRoadTrafficModule } from './kt-road-traffic/kt-road-traffic.module';
+import { KtRoadTrafficModule } from './kt/kt-road-traffic/kt-road-traffic.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,

@@ -6,7 +6,7 @@ import { KtPopulation } from '@lib/entity/kt-population/kt-population.entity';
 import { KtPlaceModule } from '../kt-place/kt-place.module';
 import { KtPopulationModule } from '../kt-population/kt-population.module';
 import { KtAccidentModule } from '../kt-accident/kt-accident.module';
-import { KtRoadTrafficModule } from '../../kt-road-traffic/kt-road-traffic.module';
+import { KtRoadTrafficModule } from '../kt-road-traffic/kt-road-traffic.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([KtPlace, KtPopulation]), KtPlaceModule, KtPopulationModule, KtAccidentModule, KtRoadTrafficModule],

@@ -13,8 +13,8 @@ import { KtDefaultInfo } from './kt-job.constant';
 import { sleep } from '../../app/app.util';
 import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
 import { DataSource, QueryRunner } from 'typeorm';
-import { KtRoadTrafficService } from '../../kt-road-traffic/kt-road-traffic.service';
-import { KtRoadTrafficEntity } from '../../kt-road-traffic/entity/kt-road-traffic.entity';
+import { KtRoadTrafficService } from '../kt-road-traffic/kt-road-traffic.service';
+import { KtRoadTrafficEntity } from '../kt-road-traffic/entity/kt-road-traffic.entity';
 
 @Injectable()
 export class KtJobService {
@@ -36,7 +36,7 @@ export class KtJobService {
     this.rate = 10;
   }
 
-  @Cron('*/1 * * * *')
+  @Cron('*/5 * * * *')
   async run() {
     try {
       const places = await this.ktPlaceService.getKtPlaces();

@@ -1,6 +1,6 @@
 import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
 import { KtRoadTraffic } from '@lib/entity/kt-road-traffic/kt-road-traffic.entity';
-import { IRoadTraffic } from '../../kt/kt-job/kt-city-data.interface';
+import { IRoadTraffic } from '../../kt-job/kt-city-data.interface';
 
 export class KtRoadTrafficEntity extends KtRoadTraffic {
   readonly idx: number;
