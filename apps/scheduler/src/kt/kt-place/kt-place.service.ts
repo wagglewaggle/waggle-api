@@ -14,4 +14,9 @@ export class KtPlaceService {
     const [place] = await this.ktPlaceRepository.getKtPlace({ idx });
     return place;
   }
+
+  async getKtPlaceAndAccidents(idx: number): Promise<KtPlace | undefined> {
+    const [place] = await this.ktPlaceRepository.getKtPlace({ idx }, ['accidents']);
+    return place;
+  }
 }

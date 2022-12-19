@@ -12,6 +12,7 @@ import { IAccidentObject, IKtCityData } from './kt-city-data.interface';
 import { KtDefaultInfo } from './kt-job.constant';
 import { sleep } from '../../app/app.util';
 import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
+import { DataSource, QueryRunner } from 'typeorm';
 
 @Injectable()
 export class KtJobService {
@@ -24,6 +25,7 @@ export class KtJobService {
     private readonly ktPlaceService: KtPlaceService,
     private readonly ktPopulationService: KtPopulationService,
     private readonly ktAccidentService: KtAccidentService,
+    private readonly dataSource: DataSource,
   ) {
     this.logger = new Logger(KtJobService.name);
     this.xmlParser = new XMLParser();
@@ -31,7 +33,7 @@ export class KtJobService {
     this.rate = 10;
   }
 
-  @Cron('*/5 * * * *')
+  @Cron('*/1 * * * *')
   async run() {
     try {
       const places = await this.ktPlaceService.getKtPlaces();
@@ -59,9 +61,10 @@ export class KtJobService {
   }
 
   async updateKtAccident(place: KtPlace, accident: string | IAccidentObject) {
-    // console.log(accident);
     try {
       if (typeof accident !== 'string') {
+        await this.preprocessKtAccident(place);
+
         const { ACDNT_CNTRL_STTS } = accident;
         if (Array.isArray(ACDNT_CNTRL_STTS)) {
           await Promise.all(ACDNT_CNTRL_STTS.map((accident) => this.ktAccidentService.addKtAccident(new KtAccidentEntity(place, accident))));
@@ -72,6 +75,26 @@ export class KtJobService {
     } catch (e) {
       this.logger.error('This is updateKtAccident ' + e);
       throw e;
+    }
+  }
+
+  async preprocessKtAccident(place: KtPlace) {
+    const connection = this.dataSource;
+    const queryRunner: QueryRunner = connection.createQueryRunner();
+    const manager = queryRunner.manager;
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const { accidents } = await this.ktPlaceService.getKtPlaceAndAccidents(place.idx);
+      await Promise.all(accidents.map((accident) => this.ktAccidentService.deleteKtAccident(accident, manager)));
+      await queryRunner.commitTransaction();
+    } catch (e) {
+      if (queryRunner.isTransactionActive) {
+        await queryRunner.rollbackTransaction();
+      }
+      throw e;
+    } finally {
+      await queryRunner.release();
     }
   }
 }
