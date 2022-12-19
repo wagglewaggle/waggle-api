@@ -119,6 +119,11 @@
  * @apiSuccess {number} cctvs.idx cctv idx
  * @apiSuccess {string} cctvs.src cctv 주소
  * @apiSuccess {string} cctvs.cctvname cctv 이름
+ * @apiSuccess {object} roadTraffic 도로소통현황
+ * @apiSuccess {number} roadTraffic.idx 도로소통현황 idx
+ * @apiSuccess {string} roadTraffic.type 도로소통현황 상태
+ * @apiSuccess {string} roadTraffic.info 도로소통현황 상세 정보
+ * @apiSuccess {number} roadTraffic.avgSpeed 도로소통현황 평균 속도
  *
  * @apiSuccessExample Response (example):
  * HTTP/1.1 200 OK
@@ -166,6 +171,12 @@
             "src": "/SeoulRtd/cctv?src=http://210.179.218.52:1935/live/135.stream/playlist.m3u8&cctvname=L010112",
             "cctvname": "동대문운동장"
         }
-    ]
+    ],
+    "roadTraffic": {
+        "idx": 3,
+        "type": "서행",
+        "info": "해당 장소로 이동·진입시 시간이 다소 소요될 수 있어요.",
+        "avgSpeed": 18
+    }
 }
  */
