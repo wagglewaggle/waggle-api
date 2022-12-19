@@ -13,6 +13,8 @@ import { KtDefaultInfo } from './kt-job.constant';
 import { sleep } from '../../app/app.util';
 import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
 import { DataSource, QueryRunner } from 'typeorm';
+import { KtRoadTrafficService } from '../../kt-road-traffic/kt-road-traffic.service';
+import { KtRoadTrafficEntity } from '../../kt-road-traffic/entity/kt-road-traffic.entity';
 
 @Injectable()
 export class KtJobService {
@@ -25,6 +27,7 @@ export class KtJobService {
     private readonly ktPlaceService: KtPlaceService,
     private readonly ktPopulationService: KtPopulationService,
     private readonly ktAccidentService: KtAccidentService,
+    private readonly ktRoadTrafficService: KtRoadTrafficService,
     private readonly dataSource: DataSource,
   ) {
     this.logger = new Logger(KtJobService.name);
@@ -47,6 +50,9 @@ export class KtJobService {
             await this.updateKtAccident(place, result['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS);
 
             await this.ktPopulationService.addKtPopulation(new KtPopulationEntity(place, result['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS));
+            await this.ktRoadTrafficService.addKtRoadTraffic(
+              new KtRoadTrafficEntity(place, result['SeoulRtd.citydata'].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA),
+            );
           }),
         );
 

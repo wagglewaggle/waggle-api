@@ -2,6 +2,9 @@ export interface IKtCityData {
   'SeoulRtd.citydata': {
     CITYDATA: {
       LIVE_PPLTN_STTS: ILivePopulationStatus;
+      ROAD_TRAFFIC_STTS: {
+        AVG_ROAD_DATA: IRoadTraffic;
+      };
       ACDNT_CNTRL_STTS: string | IAccidentObject;
     };
   };
@@ -43,4 +46,11 @@ export interface IAccidentControlStatus {
 
 export interface IAccidentObject {
   ACDNT_CNTRL_STTS: IAccidentControlStatus | IAccidentControlStatus[];
+}
+
+export interface IRoadTraffic {
+  ROAD_MSG: string;
+  ROAD_TRAFFIC_IDX: string;
+  ROAD_TRFFIC_TIME: string;
+  ROAD_TRAFFIC_SPD: number;
 }
