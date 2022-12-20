@@ -32,6 +32,7 @@ export class KtPopulationEntity extends KtPopulation {
       case '보통':
         this.level = KtPopulationLevel.Normal;
         break;
+      case '약간 붐빔':
       case '붐빔':
         this.level = KtPopulationLevel.Crowded;
         break;

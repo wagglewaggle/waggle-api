@@ -66,11 +66,12 @@ export class KtJobService {
     }
   }
 
-  async updateKtAccident(place: KtPlace, accident: string | IAccidentObject) {
+  private async updateKtAccident(place: KtPlace, accident: string | IAccidentObject) {
     try {
-      if (typeof accident !== 'string') {
-        await this.preprocessKtAccident(place);
+      // 새로운 로그가 쌓이든 안 쌓이든 항상 전처리를 하도록 한다.
+      await this.preprocessKtAccident(place);
 
+      if (typeof accident !== 'string') {
         const { ACDNT_CNTRL_STTS } = accident;
         if (Array.isArray(ACDNT_CNTRL_STTS)) {
           await Promise.all(ACDNT_CNTRL_STTS.map((accident) => this.ktAccidentService.addKtAccident(new KtAccidentEntity(place, accident))));
@@ -84,7 +85,7 @@ export class KtJobService {
     }
   }
 
-  async preprocessKtAccident(place: KtPlace) {
+  private async preprocessKtAccident(place: KtPlace) {
     const connection = this.dataSource;
     const queryRunner: QueryRunner = connection.createQueryRunner();
     const manager = queryRunner.manager;
