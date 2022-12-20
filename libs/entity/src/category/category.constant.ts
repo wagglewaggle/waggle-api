@@ -6,6 +6,6 @@ export enum CategoryType {
   Palace = '궁궐',
   Subway = '지하철',
   Village = '마을',
-  Christmas = '크리스마스 핫플레이스',
+  Christmas = '크리스마스 핫플',
   Hangang = '한강',
 }
