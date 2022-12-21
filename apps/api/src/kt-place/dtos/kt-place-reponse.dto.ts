@@ -10,6 +10,8 @@ import { CategoryResponseDto } from '../../category/dtos/category-response.dto';
 import { KtCctvResponseDto } from './kt-cctv-response.dto';
 import { KtRoadTraffic } from '@lib/entity/kt-road-traffic/kt-road-traffic.entity';
 import { KtRoadTrafficResponseDto } from './kt-road-traffic-response.dto';
+import { Location } from '@lib/entity/location/location.entity';
+import { LocationResponseDto } from '../../location/dtos/location-response.dto';
 
 export class KtPlaceResponseDto {
   @Exclude() private readonly _idx: number;
@@ -21,8 +23,9 @@ export class KtPlaceResponseDto {
   @Exclude() private readonly _accidents: KtAccident[] | undefined;
   @Exclude() private readonly _cctvs: Cctv[] | undefined;
   @Exclude() private readonly _roadTraffic: KtRoadTraffic | undefined;
+  @Exclude() private readonly _location: Location | undefined;
 
-  constructor(place: KtPlace) {
+  constructor(place: KtPlace, location?: Location) {
     this._idx = place.idx;
     this._name = place.name;
     this._x = place.x;
@@ -32,6 +35,7 @@ export class KtPlaceResponseDto {
     this._accidents = place.accidents;
     this._cctvs = place.cctvs;
     this._roadTraffic = place.ktRoadTraffic;
+    this._location = location;
   }
 
   @Expose()
@@ -92,5 +96,13 @@ export class KtPlaceResponseDto {
       return undefined;
     }
     return new KtRoadTrafficResponseDto(this._roadTraffic);
+  }
+
+  @Expose()
+  get locations(): LocationResponseDto | undefined {
+    if (!this._location) {
+      return undefined;
+    }
+    return new LocationResponseDto(this._location);
   }
 }

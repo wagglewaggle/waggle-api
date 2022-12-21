@@ -4,10 +4,12 @@ import ERROR_CODE from '../app/exceptions/error-code';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import { KtPlaceRepository } from './kt-place.repository';
 import { KtPlaceListFilterQueryDto } from './kt-place.dto';
+import { LocationService } from '../location/location.service';
+import { Location } from '@lib/entity/location/location.entity';
 
 @Injectable()
 export class KtPlaceService {
-  constructor(private readonly ktPlaceRepository: KtPlaceRepository) {}
+  constructor(private readonly ktPlaceRepository: KtPlaceRepository, private readonly locationService: LocationService) {}
 
   async getKtPlaces(query: KtPlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
     return await this.ktPlaceRepository.getKtPlaces(query);
@@ -22,12 +24,13 @@ export class KtPlaceService {
     return place;
   }
 
-  async getKtPlaceAllInfo(idx: number): Promise<KtPlace> {
-    const [place] = await this.ktPlaceRepository.getKtPlace({ idx }, ['populations', 'accidents', 'cctvs', 'ktRoadTraffic']);
+  async getKtPlaceAllInfo(idx: number): Promise<[KtPlace, Location]> {
+    const [place] = await this.ktPlaceRepository.getKtPlace({ idx }, ['populations', 'accidents', 'cctvs', 'ktRoadTraffic', 'location']);
+    const location = await this.locationService.getLocationByName(place.location.name);
     if (!place) {
       throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);
     }
 
-    return place;
+    return [place, location];
   }
 }

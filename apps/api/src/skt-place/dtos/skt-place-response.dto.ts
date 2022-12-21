@@ -4,6 +4,8 @@ import { SktPopulation } from '@lib/entity/skt-population/skt-population.entity'
 import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 import { SktPopulationResponseDto } from './skt-population-response.dto';
 import { CategoryResponseDto } from '../../category/dtos/category-response.dto';
+import { Location } from '@lib/entity/location/location.entity';
+import { LocationResponseDto } from '../../location/dtos/location-response.dto';
 
 export class SktPlaceResponseDto {
   @Exclude() private readonly _idx: number;
@@ -13,8 +15,9 @@ export class SktPlaceResponseDto {
   @Exclude() private readonly _y: number;
   @Exclude() private readonly _categories: Category[];
   @Exclude() private readonly _populations: SktPopulation[];
+  @Exclude() private readonly _location: Location | undefined;
 
-  constructor(place: SktPlace) {
+  constructor(place: SktPlace, location?: Location) {
     this._idx = place.idx;
     this._poiId = place.poiId;
     this._name = place.name;
@@ -22,6 +25,7 @@ export class SktPlaceResponseDto {
     this._y = place.y;
     this._categories = place.categories;
     this._populations = place.populations;
+    this._location = location;
   }
 
   @Expose()
@@ -63,5 +67,13 @@ export class SktPlaceResponseDto {
       return undefined;
     }
     return this._populations.map((population) => new SktPopulationResponseDto(population));
+  }
+
+  @Expose()
+  get location(): LocationResponseDto | undefined {
+    if (!this._location) {
+      return undefined;
+    }
+    return new LocationResponseDto(this._location);
   }
 }
