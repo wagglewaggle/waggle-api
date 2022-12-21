@@ -38,42 +38,46 @@
  * @apiSuccessExample Response (example):
  * HTTP/1.1 200 OK
  * {
-  "list": [
-      {
-          "idx": 37,
-          "name": "월드컵공원",
-          "x": 37.57019501908968,
-          "y": 126.8833351135254,
-          "categories": [
-              {
-                  "idx": 47,
-                  "type": "공원"
-              }
-          ],
-          "populations": [
-              {
-                  "idx": 37,
-                  "level": "RELAXATION",
-                  "message": "사람이 몰려있을 가능성이 낮고 붐빔은 거의 느껴지지 않아요. 도보 이동이 자유로워요.",
-                  "male": 51,
-                  "female": 49,
-                  "zeroGen": 1,
-                  "teenage": 7,
-                  "twenties": 13,
-                  "thirties": 20,
-                  "forties": 21,
-                  "fifties": 21,
-                  "sixties": 12,
-                  "seventies": 5,
-                  "resident": 5,
-                  "nonResident": 95,
-                  "createdDate": "2022-12-17T20:25:34.812Z",
-                  "updatedDate": "2022-12-18T16:21:51.000Z"
-              }
-          ]
-      }
-  ],
-  "count": 40
+    "list": [
+        {
+            "idx": 32,
+            "name": "망원한강공원",
+            "x": 37.55250491995003,
+            "y": 126.899273050949,
+            "categories": [
+                {
+                    "idx": 42,
+                    "type": "공원"
+                },
+                {
+                    "idx": 79,
+                    "type": "한강"
+                }
+            ],
+            "populations": [
+                {
+                    "idx": 32,
+                    "level": "RELAXATION",
+                    "message": "사람이 몰려있을 가능성이 낮고 붐빔은 거의 느껴지지 않아요. 도보 이동이 자유로워요.",
+                    "male": 52,
+                    "female": 48,
+                    "zeroGen": 0,
+                    "teenage": 4,
+                    "twenties": 19,
+                    "thirties": 25,
+                    "forties": 18,
+                    "fifties": 16,
+                    "sixties": 10,
+                    "seventies": 8,
+                    "resident": 49,
+                    "nonResident": 51,
+                    "createdDate": "2022-12-17T15:15:00.363Z",
+                    "updatedDate": "2022-12-21T14:30:24.690Z"
+                }
+            ]
+        },
+    ],
+    "count": 40
 }
  */
 
@@ -124,6 +128,11 @@
  * @apiSuccess {string} roadTraffic.type 도로소통현황 상태
  * @apiSuccess {string} roadTraffic.info 도로소통현황 상세 정보
  * @apiSuccess {number} roadTraffic.avgSpeed 도로소통현황 평균 속도
+ * @apiSuccess {object} location 주변 지역
+ * @apiSuccess {number} location.idx 지역 인덱스 번호
+ * @apiSuccess {string} location.name 지역 이름
+ * @apiSuccess {ktPlace[]} location.ktPlaces kt 장소 리스트
+ * @apiSuccess {sktPlace[]} location.sktPlaces skt 장소 리스트
  *
  * @apiSuccessExample Response (example):
  * HTTP/1.1 200 OK
@@ -137,34 +146,23 @@
             "idx": 2,
             "level": "NORMAL",
             "message": "사람이 몰려있을 수 있지만 크게 붐비지는 않아요. 도보 이동에 큰 제약이 없어요.",
-            "male": 44,
-            "female": 56,
-            "zeroGen": 1,
-            "teenage": 7,
-            "twenties": 27,
-            "thirties": 23,
-            "forties": 17,
-            "fifties": 13,
+            "male": 50,
+            "female": 50,
+            "zeroGen": 0,
+            "teenage": 3,
+            "twenties": 26,
+            "thirties": 27,
+            "forties": 19,
+            "fifties": 14,
             "sixties": 8,
             "seventies": 3,
-            "resident": 11,
-            "nonResident": 89,
-            "createdDate": "2022-12-17T20:25:05.159Z",
-            "updatedDate": "2022-12-18T16:20:17.000Z"
+            "resident": 27,
+            "nonResident": 73,
+            "createdDate": "2022-12-17T14:13:01.824Z",
+            "updatedDate": "2022-12-21T14:31:00.029Z"
         }
     ],
-    "accidents": [
-        {
-            "idx": 2,
-            "type": "집회및행사",
-            "dtype": "행사",
-            "info": "[통제] 청계천로 차 없는 거리 행사(청계광장~삼일교| 양방향) |(토) 14:00 ~ (일) 22:00|(공휴일) : 10:00 - 22:00",
-            "x": 126.98281663886924,
-            "y": 37.5687698499172,
-            "createdDate": "2022-12-17T20:25:11.245Z",
-            "updatedDate": "2022-12-17T20:25:11.245Z"
-        },
-    ],
+    "accidents": [],
     "cctvs": [
         {
             "idx": 1,
@@ -173,10 +171,71 @@
         }
     ],
     "roadTraffic": {
-        "idx": 3,
+        "idx": 2,
         "type": "서행",
         "info": "해당 장소로 이동·진입시 시간이 다소 소요될 수 있어요.",
-        "avgSpeed": 18
+        "avgSpeed": 17
+    },
+    "locations": {
+        "idx": 6,
+        "name": "중구",
+        "ktPlaces": [
+            {
+                "idx": 2,
+                "name": "동대문 관광특구",
+                "categories": [
+                    {
+                        "idx": 3,
+                        "type": "골목 및 거리"
+                    }
+                ],
+                "populations": [
+                    {
+                        "idx": 2,
+                        "level": "NORMAL",
+                        "message": "사람이 몰려있을 수 있지만 크게 붐비지는 않아요. 도보 이동에 큰 제약이 없어요.",
+                        "male": 50,
+                        "female": 50,
+                        "zeroGen": 0,
+                        "teenage": 3,
+                        "twenties": 26,
+                        "thirties": 27,
+                        "forties": 19,
+                        "fifties": 14,
+                        "sixties": 8,
+                        "seventies": 3,
+                        "resident": 27,
+                        "nonResident": 73,
+                        "createdDate": "2022-12-17T14:13:01.824Z",
+                        "updatedDate": "2022-12-21T14:31:00.029Z"
+                    }
+                ]
+            },
+        ],
+        "sktPlaces": [
+            {
+                "idx": 7,
+                "name": "신세계백화점본점신관",
+                "categories": [
+                    {
+                        "idx": 61,
+                        "type": "쇼핑몰"
+                    },
+                    {
+                        "idx": 62,
+                        "type": "크리스마스 핫플"
+                    }
+                ],
+                "populations": [
+                    {
+                        "idx": 7,
+                        "level": "VERY_RELAXATION",
+                        "createdDate": "2022-12-17T10:16:00.823Z",
+                        "updatedDate": "2022-12-21T14:30:00.773Z"
+                    }
+                ]
+            },
+        ]
     }
 }
  */

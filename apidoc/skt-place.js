@@ -70,6 +70,11 @@
  * @apiSuccess {string} populations.level 혼잡도 level</br>매우 여유로음 = 'VERY_RELAXATION'</br>여유 = 'RELAXATION'</br>보통 = 'NORMAL'</br>붐빔 = 'CROWDED'</br>매우 붐빔 = 'VERY_CROWDED'
  * @apiSuccess {Date} populations.createdDate 생성 날짜
  * @apiSuccess {Date} populations.updatedDate 업데이트 날짜
+ * @apiSuccess {object} location 주변 지역
+ * @apiSuccess {number} location.idx 지역 인덱스 번호
+ * @apiSuccess {string} location.name 지역 이름
+ * @apiSuccess {ktPlace[]} location.ktPlaces kt 장소 리스트
+ * @apiSuccess {sktPlace[]} location.sktPlaces skt 장소 리스트
  *
  * @apiSuccessExample Response (example):
  * HTTP/1.1 200 OK
@@ -82,10 +87,71 @@
     "populations": [
         {
             "idx": 1,
-            "level": "VERY_CROWDED",
-            "createdDate": "2022-12-17T20:30:00.452Z",
-            "updatedDate": "2022-12-18T15:30:00.000Z"
+            "level": "RELAXATION",
+            "createdDate": "2022-12-17T10:16:00.220Z",
+            "updatedDate": "2022-12-21T14:30:00.029Z"
         }
-    ]
+    ],
+    "location": {
+        "idx": 1,
+        "name": "송파구",
+        "ktPlaces": [
+            {
+                "idx": 39,
+                "name": "잠실종합운동장",
+                "categories": [
+                    {
+                        "idx": 49,
+                        "type": "공원"
+                    }
+                ],
+                "populations": [
+                    {
+                        "idx": 39,
+                        "level": "RELAXATION",
+                        "message": "사람이 몰려있을 가능성이 낮고 붐빔은 거의 느껴지지 않아요. 도보 이동이 자유로워요.",
+                        "male": 58,
+                        "female": 42,
+                        "zeroGen": 0,
+                        "teenage": 7,
+                        "twenties": 11,
+                        "thirties": 20,
+                        "forties": 28,
+                        "fifties": 21,
+                        "sixties": 10,
+                        "seventies": 4,
+                        "resident": 16,
+                        "nonResident": 84,
+                        "createdDate": "2022-12-17T15:15:00.010Z",
+                        "updatedDate": "2022-12-21T14:30:24.691Z"
+                    }
+                ]
+            },
+        ],
+        "sktPlaces": [
+            {
+                "idx": 1,
+                "name": "롯데월드몰",
+                "categories": [
+                    {
+                        "idx": 51,
+                        "type": "쇼핑몰"
+                    },
+                    {
+                        "idx": 52,
+                        "type": "크리스마스 핫플"
+                    }
+                ],
+                "populations": [
+                    {
+                        "idx": 1,
+                        "level": "RELAXATION",
+                        "createdDate": "2022-12-17T10:16:00.220Z",
+                        "updatedDate": "2022-12-21T14:30:00.029Z"
+                    }
+                ]
+            },
+        ]
+    }
 }
  */
