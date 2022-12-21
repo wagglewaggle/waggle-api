@@ -20,8 +20,9 @@ export class KtPopulationEntity extends KtPopulation {
   readonly seventies: number;
   readonly resident: number;
   readonly nonResident: number;
+  readonly updatedDate: Date;
 
-  constructor(place: KtPlace, { LIVE_PPLTN_STTS }: ILivePopulationStatus) {
+  constructor(place: KtPlace, { LIVE_PPLTN_STTS }: ILivePopulationStatus, updatedDate: Date) {
     super();
     this.idx = place.idx;
     this.place = place;
@@ -55,5 +56,6 @@ export class KtPopulationEntity extends KtPopulation {
     this.seventies = LIVE_PPLTN_STTS.PPLTN_RATE_70;
     this.resident = LIVE_PPLTN_STTS.RESNT_PPLTN_RATE;
     this.nonResident = LIVE_PPLTN_STTS.NON_RESNT_PPLTN_RATE;
+    this.updatedDate = updatedDate; // 이전 데이터에서 변경된 점이 없으면 updatedDate가 갱신되지 않기 때문에 js date로 수정한다
   }
 }

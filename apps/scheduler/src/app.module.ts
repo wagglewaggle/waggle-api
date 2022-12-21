@@ -14,6 +14,15 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
 });
 
 @Module({
-  imports: [ScheduleModule.forRoot(), TypeOrmRootModule, KtJobModule, KtPlaceModule, KtPopulationModule, KtAccidentModule, SktJobModule, KtRoadTrafficModule],
+  imports: [
+    ScheduleModule.forRoot(),
+    TypeOrmRootModule,
+    KtJobModule,
+    KtPlaceModule,
+    KtPopulationModule,
+    KtAccidentModule,
+    SktJobModule,
+    KtRoadTrafficModule,
+  ],
 })
 export class AppModule {}

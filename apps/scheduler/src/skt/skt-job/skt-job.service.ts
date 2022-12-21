@@ -37,6 +37,7 @@ export class SktJobService {
 
   async updateSktPopulation(place: SktPlace) {
     try {
+      const updatedDate = new Date();
       const { data }: AxiosResponse<ISktCityData> = await axios.get(`${this.url}/${place.poiId}`, {
         headers: {
           appKey: config.sktCongestionApiKey,
@@ -46,7 +47,7 @@ export class SktJobService {
         contents: { rltm },
       } = data;
 
-      await this.sktPopulationService.addSktPopulation(new SktPopulationEntity(place, rltm));
+      await this.sktPopulationService.addSktPopulation(new SktPopulationEntity(place, rltm, updatedDate));
     } catch (e) {
       this.logger.warn(e);
       throw e;

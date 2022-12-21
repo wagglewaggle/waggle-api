@@ -7,8 +7,9 @@ export class SktPopulationEntity extends SktPopulation {
   readonly idx: number;
   readonly place: SktPlace;
   readonly level: SktPopulationLevel;
+  readonly updatedDate: Date;
 
-  constructor(place: SktPlace, rltm: ISktRealTimeCongestion) {
+  constructor(place: SktPlace, rltm: ISktRealTimeCongestion, updatedDate: Date) {
     super();
     this.idx = place.idx;
     this.place = place;
@@ -37,5 +38,6 @@ export class SktPopulationEntity extends SktPopulation {
       default:
         throw new Error(`Area Congest Level Error : ${rltm.congestionLevel}`);
     }
+    this.updatedDate = updatedDate;
   }
 }

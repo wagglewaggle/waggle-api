@@ -44,12 +44,14 @@ export class KtJobService {
       for (let i = 0; i <= places.length / this.rate; i++) {
         await Promise.all(
           places.slice(i * this.rate, (i + 1) * this.rate).map(async (place) => {
+            const updatedDate = new Date();
             const { data } = await axios.get(`${this.url}/${place.name}`);
             const result: IKtCityData = await this.xmlParser.parse(data);
 
             await this.updateKtAccident(place, result['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS);
-
-            await this.ktPopulationService.addKtPopulation(new KtPopulationEntity(place, result['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS));
+            await this.ktPopulationService.addKtPopulation(
+              new KtPopulationEntity(place, result['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS, updatedDate),
+            );
             await this.ktRoadTrafficService.addKtRoadTraffic(
               new KtRoadTrafficEntity(place, result['SeoulRtd.citydata'].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA),
             );
