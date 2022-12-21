@@ -24,13 +24,12 @@ export class KtPlaceService {
     return place;
   }
 
-  async getKtPlaceAllInfo(idx: number): Promise<[KtPlace, Location]> {
-    const [place] = await this.ktPlaceRepository.getKtPlace({ idx }, ['populations', 'accidents', 'cctvs', 'ktRoadTraffic', 'location']);
-    const location = await this.locationService.getLocationByName(place.location.name);
-    if (!place) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);
+  async getKtPlaceAllInfo(idx: number): Promise<KtPlace | [KtPlace, Location]> {
+    const place = await this.getKtPlaceByIdx(idx, ['populations', 'accidents', 'cctvs', 'ktRoadTraffic', 'location']);
+    if (!place.location) {
+      return place;
     }
-
+    const location = await this.locationService.getLocationByName(place.location.name);
     return [place, location];
   }
 }

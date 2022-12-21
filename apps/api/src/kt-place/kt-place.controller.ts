@@ -17,8 +17,12 @@ export class KtPlaceController {
 
   @Get(':idx')
   async getKtPlace(@Param() param: PlaceIdxParamDto): Promise<KtPlaceResponseDto> {
-    const [place, location] = await this.ktPlaceService.getKtPlaceAllInfo(param.idx);
-    return new KtPlaceResponseDto(place, location);
+    const result = await this.ktPlaceService.getKtPlaceAllInfo(param.idx);
+    if (Array.isArray(result)) {
+      const [place, location] = result;
+      return new KtPlaceResponseDto(place, location);
+    }
+    return new KtPlaceResponseDto(result);
   }
 
   // @Get('')

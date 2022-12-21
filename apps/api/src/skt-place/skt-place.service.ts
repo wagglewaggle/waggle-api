@@ -24,8 +24,11 @@ export class SktPlaceService {
     return place;
   }
 
-  async getSktPlaceAllInfo(idx: number): Promise<[SktPlace, Location]> {
+  async getSktPlaceAllInfo(idx: number): Promise<SktPlace | [SktPlace, Location]> {
     const place = await this.getSktPlaceByIdx(idx, ['populations', 'location']);
+    if (!place.location) {
+      return place;
+    }
     const location = await this.locationService.getLocationByName(place.location.name);
     return [place, location];
   }

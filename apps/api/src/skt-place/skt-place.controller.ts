@@ -17,7 +17,11 @@ export class SktPlaceController {
 
   @Get(':idx')
   async getSktPlace(@Param() param: PlaceIdxParamDto): Promise<SktPlaceResponseDto> {
-    const [place, location] = await this.sktPlaceService.getSktPlaceAllInfo(param.idx);
-    return new SktPlaceResponseDto(place, location);
+    const result = await this.sktPlaceService.getSktPlaceAllInfo(param.idx);
+    if (Array.isArray(result)) {
+      const [place, location] = result;
+      return new SktPlaceResponseDto(place, location);
+    }
+    return new SktPlaceResponseDto(result);
   }
 }
