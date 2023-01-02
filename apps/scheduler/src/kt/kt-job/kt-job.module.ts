@@ -7,9 +7,17 @@ import { KtPlaceModule } from '../kt-place/kt-place.module';
 import { KtPopulationModule } from '../kt-population/kt-population.module';
 import { KtAccidentModule } from '../kt-accident/kt-accident.module';
 import { KtRoadTrafficModule } from '../kt-road-traffic/kt-road-traffic.module';
+import { SentryModule } from '../../app/sentry/sentry.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([KtPlace, KtPopulation]), KtPlaceModule, KtPopulationModule, KtAccidentModule, KtRoadTrafficModule],
+  imports: [
+    TypeOrmModule.forFeature([KtPlace, KtPopulation]),
+    KtPlaceModule,
+    KtPopulationModule,
+    KtAccidentModule,
+    KtRoadTrafficModule,
+    SentryModule,
+  ],
   providers: [KtJobService],
 })
 export class KtJobModule {}

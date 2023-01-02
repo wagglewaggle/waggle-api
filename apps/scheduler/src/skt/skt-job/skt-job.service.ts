@@ -8,13 +8,19 @@ import { SktPopulationService } from '../skt-population/skt-population.service';
 import { ISktCityData } from './skt-city-data.interface';
 import { SktDefaultInfo } from './skt-job.constant';
 import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
+import { SentryService } from '../../app/sentry/sentry.service';
+import { JobType } from '../../app/app.constant';
 
 @Injectable()
 export class SktJobService {
   private readonly logger: Logger;
   private readonly url: string;
 
-  constructor(private readonly sktPlaceService: SktPlaceService, private readonly sktPopulationService: SktPopulationService) {
+  constructor(
+    private readonly sktPlaceService: SktPlaceService,
+    private readonly sktPopulationService: SktPopulationService,
+    private readonly sentryService: SentryService,
+  ) {
     this.logger = new Logger(SktJobService.name);
     this.url = `${SktDefaultInfo.API_HOST}/${SktDefaultInfo.API_URI}`;
   }
@@ -29,8 +35,7 @@ export class SktJobService {
 
       this.logger.log(`successfully done`);
     } catch (e) {
-      this.logger.warn('failed');
-      this.logger.warn(e);
+      this.sentryService.sendError(e, JobType.SKT);
       throw e;
     }
   }
@@ -49,7 +54,6 @@ export class SktJobService {
 
       await this.sktPopulationService.addSktPopulation(new SktPopulationEntity(place, rltm, updatedDate));
     } catch (e) {
-      this.logger.warn(e);
       throw e;
     }
   }

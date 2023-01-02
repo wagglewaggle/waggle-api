@@ -15,6 +15,8 @@ import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
 import { DataSource, QueryRunner } from 'typeorm';
 import { KtRoadTrafficService } from '../kt-road-traffic/kt-road-traffic.service';
 import { KtRoadTrafficEntity } from '../kt-road-traffic/entity/kt-road-traffic.entity';
+import { SentryService } from '../../app/sentry/sentry.service';
+import { JobType } from '../../app/app.constant';
 
 @Injectable()
 export class KtJobService {
@@ -29,6 +31,7 @@ export class KtJobService {
     private readonly ktAccidentService: KtAccidentService,
     private readonly ktRoadTrafficService: KtRoadTrafficService,
     private readonly dataSource: DataSource,
+    private readonly sentryService: SentryService,
   ) {
     this.logger = new Logger(KtJobService.name);
     this.xmlParser = new XMLParser();
@@ -63,7 +66,7 @@ export class KtJobService {
 
       this.logger.log(`successfully done`);
     } catch (e) {
-      this.logger.warn('This is run ' + e);
+      this.sentryService.sendError(e, JobType.KT);
       throw e;
     }
   }
@@ -82,7 +85,6 @@ export class KtJobService {
         }
       }
     } catch (e) {
-      this.logger.error('This is updateKtAccident ' + e);
       throw e;
     }
   }
