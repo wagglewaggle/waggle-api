@@ -39,7 +39,7 @@ export class KtJobService {
     this.rate = 10;
   }
 
-  @Cron('*/1 * * * *')
+  @Cron('*/5 * * * *')
   async run() {
     try {
       const places = await this.ktPlaceService.getKtPlaces();
