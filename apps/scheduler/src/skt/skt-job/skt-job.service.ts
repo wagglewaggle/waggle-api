@@ -36,7 +36,6 @@ export class SktJobService {
       this.logger.log(`successfully done`);
     } catch (e) {
       this.sentryService.sendError(e, JobType.SKT);
-      throw e;
     }
   }
 
@@ -54,7 +53,7 @@ export class SktJobService {
 
       await this.sktPopulationService.addSktPopulation(new SktPopulationEntity(place, rltm, updatedDate));
     } catch (e) {
-      throw e;
+      throw { error: e, place };
     }
   }
 }

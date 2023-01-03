@@ -3,28 +3,35 @@ import * as Sentry from '@sentry/node';
 import { IncomingWebhook } from '@slack/webhook';
 import { config } from '@lib/config';
 import { JobType } from '../app.constant';
+import { ISentryError } from './sentry.constant';
 
 @Injectable()
 export class SentryService {
-  sendError(error, jobType: JobType) {
-    Sentry.captureException(error);
+  sendError(e: ISentryError, jobType: JobType) {
+    Sentry.captureException(e);
+
+    const { error, place } = e;
 
     if (jobType === JobType.KT) {
-      this.send(`Request Message: ${error.message}`, `Error: ${JSON.stringify(error)}`);
+      this.send(jobType, `Request Message: ${error.message}`, `Error Place: ${JSON.stringify(place)}\n\nError: ${JSON.stringify(error)}`);
     } else {
       const errorPath = error.request.path;
       const errorDataMsg = JSON.stringify(error.response.data);
-      this.send(`Request Message: ${error.message}`, `Error Url: ${errorPath}\n\nError Message : ${errorDataMsg}`);
+      this.send(
+        jobType,
+        `Request Message: ${error.message}`,
+        `Error Place: ${JSON.stringify(place)}\n\nError Path: ${errorPath}\n\nError Message : ${errorDataMsg}`,
+      );
     }
   }
 
-  private send(title: string, value: string) {
+  private send(jobType: JobType, title: string, value: string) {
     const webhook = new IncomingWebhook(config.SLACK_SENTRY_SCHEDULER_WEBHOOK);
     webhook.send({
       attachments: [
         {
           color: 'danger',
-          text: '🚨wagglewaggle-scheduler 버그 발생🚨',
+          text: `🚨wagglewaggle-scheduler Job ${jobType} 버그 발생🚨`,
           fields: [
             {
               title,

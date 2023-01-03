@@ -39,7 +39,7 @@ export class KtJobService {
     this.rate = 10;
   }
 
-  @Cron('*/5 * * * *')
+  @Cron('*/1 * * * *')
   async run() {
     try {
       const places = await this.ktPlaceService.getKtPlaces();
@@ -50,6 +50,10 @@ export class KtJobService {
             const updatedDate = new Date();
             const { data } = await axios.get(`${this.url}/${place.name}`);
             const result: IKtCityData = await this.xmlParser.parse(data);
+
+            if (result['SeoulRtd.citydata'] === undefined) {
+              throw { error: result, place };
+            }
 
             await this.updateKtAccident(place, result['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS);
             await this.ktPopulationService.addKtPopulation(
@@ -67,7 +71,6 @@ export class KtJobService {
       this.logger.log(`successfully done`);
     } catch (e) {
       this.sentryService.sendError(e, JobType.KT);
-      throw e;
     }
   }
 
@@ -85,7 +88,7 @@ export class KtJobService {
         }
       }
     } catch (e) {
-      throw e;
+      throw { error: e, place };
     }
   }
 
@@ -103,7 +106,7 @@ export class KtJobService {
       if (queryRunner.isTransactionActive) {
         await queryRunner.rollbackTransaction();
       }
-      throw e;
+      throw { error: e, place };
     } finally {
       await queryRunner.release();
     }
