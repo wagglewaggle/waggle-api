@@ -15,6 +15,8 @@ import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
 import { DataSource, QueryRunner } from 'typeorm';
 import { KtRoadTrafficService } from '../kt-road-traffic/kt-road-traffic.service';
 import { KtRoadTrafficEntity } from '../kt-road-traffic/entity/kt-road-traffic.entity';
+import { SentryService } from '../../app/sentry/sentry.service';
+import { JobType } from '../../app/app.constant';
 
 @Injectable()
 export class KtJobService {
@@ -29,6 +31,7 @@ export class KtJobService {
     private readonly ktAccidentService: KtAccidentService,
     private readonly ktRoadTrafficService: KtRoadTrafficService,
     private readonly dataSource: DataSource,
+    private readonly sentryService: SentryService,
   ) {
     this.logger = new Logger(KtJobService.name);
     this.xmlParser = new XMLParser();
@@ -36,7 +39,7 @@ export class KtJobService {
     this.rate = 10;
   }
 
-  @Cron('*/5 * * * *')
+  @Cron('*/1 * * * *')
   async run() {
     try {
       const places = await this.ktPlaceService.getKtPlaces();
@@ -47,6 +50,10 @@ export class KtJobService {
             const updatedDate = new Date();
             const { data } = await axios.get(`${this.url}/${place.name}`);
             const result: IKtCityData = await this.xmlParser.parse(data);
+
+            if (result['SeoulRtd.citydata'] === undefined) {
+              throw { error: result, place };
+            }
 
             await this.updateKtAccident(place, result['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS);
             await this.ktPopulationService.addKtPopulation(
@@ -63,8 +70,7 @@ export class KtJobService {
 
       this.logger.log(`successfully done`);
     } catch (e) {
-      this.logger.warn('This is run ' + e);
-      throw e;
+      this.sentryService.sendError(e, JobType.KT);
     }
   }
 
@@ -82,8 +88,7 @@ export class KtJobService {
         }
       }
     } catch (e) {
-      this.logger.error('This is updateKtAccident ' + e);
-      throw e;
+      throw { error: e, place };
     }
   }
 
@@ -101,7 +106,7 @@ export class KtJobService {
       if (queryRunner.isTransactionActive) {
         await queryRunner.rollbackTransaction();
       }
-      throw e;
+      throw { error: e, place };
     } finally {
       await queryRunner.release();
     }
