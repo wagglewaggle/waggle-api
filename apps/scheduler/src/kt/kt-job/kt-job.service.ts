@@ -36,7 +36,7 @@ export class KtJobService {
     this.logger = new Logger(KtJobService.name);
     this.xmlParser = new XMLParser();
     this.url = `${KtDefaultInfo.API_HOST}/${config.ktApiKey}/${KtDefaultInfo.API_URI}`;
-    this.rate = 10;
+    this.rate = 5;
   }
 
   @Cron('*/5 * * * *')
@@ -65,7 +65,7 @@ export class KtJobService {
           }),
         );
 
-        await sleep(3000);
+        await sleep(1000);
       }
 
       this.logger.log(`successfully done`);
