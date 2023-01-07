@@ -1,0 +1,13 @@
+{
+  "apps": [
+    {
+      "name": "api",
+      "script": "yarn",
+      "args": "start",
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_ENV": "prod"
+      }
+    }
+  ]
+}

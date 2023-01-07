@@ -1,0 +1,13 @@
+{
+  "apps": [
+    {
+      "name": "scheduler",
+      "script": "yarn",
+      "args": "start scheduler",
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_ENV": "prod"
+      }
+    }
+  ]
+}
