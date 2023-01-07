@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { KtPlace } from '../kt-place/kt-place.entity';
 
 @Entity()
@@ -14,6 +14,12 @@ export class KtRoadTraffic {
 
   @Column('int')
   avgSpeed: number;
+
+  @CreateDateColumn()
+  createdDate: Date;
+
+  @UpdateDateColumn()
+  updatedDate: Date;
 
   @OneToOne(() => KtPlace, (place) => place.ktRoadTraffic)
   @JoinColumn()
