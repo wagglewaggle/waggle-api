@@ -19,7 +19,7 @@ export class LoggingInterceptor implements NestInterceptor {
       url: req.url,
       params: req.params,
       query: req.query,
-      header: req.header,
+      header: req.headers,
       body: req.body,
       error: null,
       errorCode: null,
