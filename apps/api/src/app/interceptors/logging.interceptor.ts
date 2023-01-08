@@ -2,9 +2,14 @@ import { CallHandler, ExecutionContext, HttpException, Injectable, InternalServe
 import { Request } from 'express';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { ClientRequestException } from '../exceptions/request.exception';
+import { LoggerService } from '../logger/logger.service';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
+  private readonly LOGGER_MESSAGE = 'clientRequest';
+
+  constructor(private readonly logger: LoggerService) {}
+
   intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> {
     const http = context.switchToHttp();
     const req = http.getRequest<Request>();
@@ -31,7 +36,7 @@ export class LoggingInterceptor implements NestInterceptor {
         logObj.success = true;
         this.calculateTimes(logObj);
 
-        console.log(JSON.stringify(logObj));
+        this.logger.log(this.LOGGER_MESSAGE, logObj);
       }),
       catchError((e) => {
         logObj.success = false;
@@ -42,7 +47,7 @@ export class LoggingInterceptor implements NestInterceptor {
         }
 
         this.calculateTimes(logObj);
-        console.log(JSON.stringify(logObj));
+        this.logger.error(this.LOGGER_MESSAGE, logObj);
 
         return throwError(() => (e instanceof HttpException ? e : new InternalServerErrorException(e)));
       }),

@@ -4272,6 +4272,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"file-stream-rotator@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "file-stream-rotator@npm:0.6.1"
+  dependencies:
+    moment: ^2.29.1
+  checksum: ebdf6a9e7ca886a50f4dafb2284d4569cefd5bdf4e4451ead25f4d68b7f9776b2620a3d110d534edd40935d1e17f37d818e2129303201870ff89c71b19b49ac1
+  languageName: node
+  linkType: hard
+
 "fill-range@npm:^7.0.1":
   version: 7.0.1
   resolution: "fill-range@npm:7.0.1"
@@ -6303,6 +6312,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"moment@npm:^2.29.1":
+  version: 2.29.4
+  resolution: "moment@npm:2.29.4"
+  checksum: 0ec3f9c2bcba38dc2451b1daed5daded747f17610b92427bebe1d08d48d8b7bdd8d9197500b072d14e326dd0ccf3e326b9e3d07c5895d3d49e39b6803b76e80e
+  languageName: node
+  linkType: hard
+
 "ms@npm:2.0.0":
   version: 2.0.0
   resolution: "ms@npm:2.0.0"
@@ -6427,6 +6443,18 @@ __metadata:
     "@nestjs/graphql":
       optional: true
   checksum: b699e5bb8cd97bad5c27affa93c47e8bd9102cf314263a30fd036b7adac519090df8ea5d5b36f0d510528788cabc66299dd91a55f63b657b74ca8f5c39567d29
+  languageName: node
+  linkType: hard
+
+"nest-winston@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "nest-winston@npm:1.8.0"
+  dependencies:
+    fast-safe-stringify: ^2.1.1
+  peerDependencies:
+    "@nestjs/common": ^5.0.0 || ^6.6.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
+    winston: ^3.0.0
+  checksum: 7837eea05d68af3b4b6b6a1771adbf915086f4b6dff03c0131be1b0800b562e6fde7ef580a5e626f5a3ab92996845889230ac037432fe1d0e14a61da93668314
   languageName: node
   linkType: hard
 
@@ -6575,6 +6603,13 @@ __metadata:
   version: 3.0.0
   resolution: "object-hash@npm:3.0.0"
   checksum: 80b4904bb3857c52cc1bfd0b52c0352532ca12ed3b8a6ff06a90cd209dfda1b95cee059a7625eb9da29537027f68ac4619363491eedb2f5d3dddbba97494fd6c
+  languageName: node
+  linkType: hard
+
+"object-hash@npm:^2.0.1":
+  version: 2.2.0
+  resolution: "object-hash@npm:2.2.0"
+  checksum: 55ba841e3adce9c4f1b9b46b41983eda40f854e0d01af2802d3ae18a7085a17168d6b81731d43fdf1d6bcbb3c9f9c56d22c8fea992203ad90a38d7d919bc28f1
   languageName: node
   linkType: hard
 
@@ -8499,6 +8534,7 @@ __metadata:
     joi: ^17.7.0
     mysql2: ^2.3.3
     nest-raven: ^9.1.0
+    nest-winston: ^1.8.0
     prettier: ^2.3.2
     reflect-metadata: ^0.1.13
     rimraf: ^3.0.2
@@ -8511,6 +8547,8 @@ __metadata:
     tsconfig-paths: 4.1.0
     typeorm: ^0.3.10
     typescript: ~4.7.4
+    winston: ^3.8.2
+    winston-daily-rotate-file: ^4.7.1
   languageName: unknown
   linkType: soft
 
@@ -8745,7 +8783,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"winston-transport@npm:^4.5.0":
+"winston-daily-rotate-file@npm:^4.7.1":
+  version: 4.7.1
+  resolution: "winston-daily-rotate-file@npm:4.7.1"
+  dependencies:
+    file-stream-rotator: ^0.6.1
+    object-hash: ^2.0.1
+    triple-beam: ^1.3.0
+    winston-transport: ^4.4.0
+  peerDependencies:
+    winston: ^3
+  checksum: 227daea41f722caa017fc7d6f1f80d0e6c428491e57693e6bebc8312b85bcf3aace53cb3a925bda72fab59a6898fa127411d29348ec4b295e2263a7544cda611
+  languageName: node
+  linkType: hard
+
+"winston-transport@npm:^4.4.0, winston-transport@npm:^4.5.0":
   version: 4.5.0
   resolution: "winston-transport@npm:4.5.0"
   dependencies:
@@ -8756,7 +8808,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"winston@npm:^3.3.3":
+"winston@npm:^3.3.3, winston@npm:^3.8.2":
   version: 3.8.2
   resolution: "winston@npm:3.8.2"
   dependencies:
