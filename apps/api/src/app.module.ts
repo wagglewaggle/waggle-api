@@ -8,6 +8,8 @@ import { HealthModule } from './health/health.module';
 import { LocationModule } from './location/location.module';
 import { SktPlaceModule } from './skt-place/skt-place.module';
 import { CategoryModule } from './category/category.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { LoggingInterceptor } from './app/interceptors/logging.interceptor';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
@@ -16,7 +18,7 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
 @Module({
   imports: [TypeOrmRootModule, ProvinceModule, KtPlaceModule, HealthModule, LocationModule, SktPlaceModule, CategoryModule],
   providers: [
-    // { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
+    { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
     // { provide: APP_FILTER, useClass: AllExceptionFilter },
   ],
 })
