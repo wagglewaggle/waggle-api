@@ -29,6 +29,7 @@ export class ConfigService {
       MYSQL_DATABASE: Joi.string().required(),
       MYSQL_USERNAME: Joi.string().required(),
       MYSQL_PASSWORD: Joi.string(),
+      NEED_CONSOLE: Joi.boolean().required(),
       KT_API_KEY: Joi.string().required(),
       SKT_TMAP_API_KEY: Joi.string().required(),
       SKT_CONGESTION_API_KEY: Joi.string().required(),
@@ -85,6 +86,10 @@ export class ConfigService {
 
   get mysqlPassword(): string {
     return this.envConfig.MYSQL_PASSWORD;
+  }
+
+  get needConsole(): boolean {
+    return this.envConfig.NEED_CONSOLE;
   }
 
   get ktApiKey(): string {
