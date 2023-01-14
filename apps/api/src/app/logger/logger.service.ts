@@ -6,7 +6,7 @@ import { config } from '@lib/config';
 
 @Injectable()
 export class LoggerService extends ConsoleLogger {
-  private readonly needConsole: boolean = true;
+  private readonly needConsole: boolean = config.needConsole;
 
   private readonly rotateLoggerFormat;
   private readonly rotateOptions;
