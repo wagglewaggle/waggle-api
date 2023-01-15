@@ -22,7 +22,7 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   imports: [TypeOrmRootModule, LoggerModule, ProvinceModule, KtPlaceModule, HealthModule, LocationModule, SktPlaceModule, CategoryModule, IpModule],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
-    { provide: APP_GUARD, useClass: IpGuard },
+    // { provide: APP_GUARD, useClass: IpGuard },
   ],
 })
 export class AppModule implements NestModule {

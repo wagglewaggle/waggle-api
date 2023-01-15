@@ -5,6 +5,7 @@
 인구 밀집도 Api, Scheduler
 
 ## Usage
+* node v16.16.0
 * yarn berry 버전 사용
 
 ## Installation
