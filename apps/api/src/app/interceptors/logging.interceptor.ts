@@ -3,6 +3,7 @@ import { Request } from 'express';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { ClientRequestException } from '../exceptions/request.exception';
 import { LoggerService } from '../logger/logger.service';
+import { getClientIp } from 'request-ip';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -19,7 +20,7 @@ export class LoggingInterceptor implements NestInterceptor {
       startTime: new Date().toISOString(),
       endTime: null,
       elapsedTime: null,
-      clientIp: req.ip,
+      clientIp: getClientIp(req),
       method: req.method,
       url: req.url,
       params: req.params,

@@ -6790,6 +6790,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"request-ip@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "request-ip@npm:3.3.0"
+  checksum: 9ca26f814201da19cb6f1a18da4f036803b770665ec0e7c556ea975ba553321922a5f04909f6dfc2371f695ca8aaa3c66f02c00a5e902c76435029804cdc4964
+  languageName: node
+  linkType: hard
+
 "require-directory@npm:^2.1.1":
   version: 2.1.1
   resolution: "require-directory@npm:2.1.1"
@@ -8152,6 +8159,7 @@ __metadata:
     nest-winston: ^1.8.0
     prettier: ^2.3.2
     reflect-metadata: ^0.1.13
+    request-ip: ^3.3.0
     rimraf: ^3.0.2
     rxjs: ^7.2.0
     source-map-support: ^0.5.20
