@@ -7,6 +7,21 @@
 ## Usage
 * node v16.16.0
 * yarn berry 버전 사용
+* .env 생성 후 진행 (.env.example 참고)
+* 주요 폴더, 파일 구조
+```
+.
+├── apps
+│   ├── api : api server 개발
+│   └── scheduler : scheduler server 개발 (KT, SKT)
+├── libs
+│   ├── config : env config library (@lib/config)
+│   └── entity : entity library (@lib/entity)
+├── migration : migration dir
+├── migration.sh : migration 실행 스크립트
+├── ormconfig.example.json
+└── .env.example
+```
 
 ## Installation
 
@@ -17,14 +32,18 @@ $ yarn
 ## Running the app
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
+# development api
 $ yarn run start:dev
 
-# production mode
-$ yarn run start:prod
+# build
+$ yarn run build api
+# or
+$ yarn run build scheduler
+
+# product
+$ pm2 start app.json
+# or
+$ pm2 start scheduler.json
 ```
 
 ## Migration
