@@ -36,7 +36,7 @@ export class KtJobService {
     this.logger = new Logger(KtJobService.name);
     this.xmlParser = new XMLParser();
     this.url = `${KtDefaultInfo.API_HOST}/${config.ktApiKey}/${KtDefaultInfo.API_URI}`;
-    this.rate = 5;
+    this.rate = 5; // 5분마다, 5개씩, 3초의 텀을 두고, 40개를 가져온다. -> 최소 (40/5)*3 = 24초 (예상: 평균 48초)
   }
 
   @Cron('*/5 * * * *')
@@ -65,7 +65,7 @@ export class KtJobService {
           }),
         );
 
-        await sleep(1000);
+        await sleep(3000);
       }
 
       this.logger.log(`successfully done`);
