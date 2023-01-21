@@ -6,7 +6,7 @@ import { config } from '@lib/config';
 
 @Injectable()
 export class LoggerService extends ConsoleLogger {
-  private readonly needConsole: boolean = config.useConsoleApi;
+  private readonly needConsole: boolean = config.useConsoleScheduler;
 
   private readonly rotateLoggerFormat;
   private readonly rotateOptions;
@@ -18,7 +18,7 @@ export class LoggerService extends ConsoleLogger {
   constructor() {
     super();
 
-    this.rotateLoggerFormat = format.combine(format.label({ label: config.projectName }), format.timestamp(), format.json());
+    this.rotateLoggerFormat = format.combine(format.label({ label: config.schedulerName }), format.timestamp(), format.json());
     this.rotateOptions = {
       datePattern: 'YYYY-MM-DD',
       maxFiles: '5d',
@@ -32,7 +32,7 @@ export class LoggerService extends ConsoleLogger {
       transports: [
         new DailyRotateFile({
           level: 'info',
-          filename: `./logs/%DATE%-${config.projectName}.log`,
+          filename: `./logs/%DATE%/${config.schedulerName}.log`,
           ...this.rotateOptions,
         }),
       ],
@@ -44,7 +44,7 @@ export class LoggerService extends ConsoleLogger {
       transports: [
         new DailyRotateFile({
           level: 'error',
-          filename: `./logs/%DATE%-${config.projectName}-error.log`,
+          filename: `./logs/%DATE%/${config.schedulerName}-error.log`,
           ...this.rotateOptions,
         }),
       ],

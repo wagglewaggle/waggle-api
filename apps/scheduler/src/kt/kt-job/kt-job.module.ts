@@ -8,6 +8,7 @@ import { KtPopulationModule } from '../kt-population/kt-population.module';
 import { KtAccidentModule } from '../kt-accident/kt-accident.module';
 import { KtRoadTrafficModule } from '../kt-road-traffic/kt-road-traffic.module';
 import { SentryModule } from '../../app/sentry/sentry.module';
+import { LoggerModule } from '../../app/logger/logger.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { SentryModule } from '../../app/sentry/sentry.module';
     KtAccidentModule,
     KtRoadTrafficModule,
     SentryModule,
+    LoggerModule,
   ],
   providers: [KtJobService],
 })
