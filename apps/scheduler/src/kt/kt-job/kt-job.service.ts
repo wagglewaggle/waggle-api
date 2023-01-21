@@ -21,6 +21,8 @@ import { LoggerService } from '../../app/logger/logger.service';
 
 @Injectable()
 export class KtJobService {
+  private readonly jobName: string = 'KT JOB';
+  private readonly blackListSentry: string[] = ['ERROR-500', 'ERROR-600', 'ERROR-601'];
   private readonly xmlParser: XMLParser;
   private readonly url: string;
   private readonly rate: number;
@@ -39,7 +41,7 @@ export class KtJobService {
     this.rate = 5; // 5분마다, 5개씩, 3초의 텀을 두고, 40개를 가져온다. -> 최소 (40/5)*3 = 24초 (예상: 평균 48초)
   }
 
-  @Cron('*/30 * * * * *')
+  @Cron('*/5 * * * *')
   async run() {
     try {
       const places = await this.ktPlaceService.getKtPlaces();
@@ -68,10 +70,13 @@ export class KtJobService {
         await sleep(3000);
       }
 
-      this.loggerService.log(`successfully done`);
+      this.loggerService.log(`!!!${this.jobName}!!! successfully done`);
     } catch (e) {
-      this.loggerService.error(e);
-      this.sentryService.sendError(e, JobType.KT);
+      this.loggerService.error(`!!!${this.jobName}!!! ${JSON.stringify(e)}`);
+
+      if (!this.blackListSentry.includes(e.error.Map?.['RESULT.CODE'])) {
+        this.sentryService.sendError(e, JobType.KT);
+      }
     }
   }
 

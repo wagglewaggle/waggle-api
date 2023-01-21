@@ -14,6 +14,8 @@ import { LoggerService } from '../../app/logger/logger.service';
 
 @Injectable()
 export class SktJobService {
+  private readonly jobName: string = 'SKT JOB';
+  private readonly blackListSentry: string[];
   private readonly url: string;
 
   constructor(
@@ -33,10 +35,13 @@ export class SktJobService {
         await this.updateSktPopulation(place);
       }
 
-      this.loggerService.log(`successfully done`);
+      this.loggerService.log(`!!!${this.jobName}!!! successfully done`);
     } catch (e) {
-      this.loggerService.error(e);
-      this.sentryService.sendError(e, JobType.SKT);
+      this.loggerService.error(`!!!${this.jobName}!!! ${JSON.stringify(e)}`);
+
+      if (!this.blackListSentry.includes(e)) {
+        this.sentryService.sendError(e, JobType.SKT);
+      }
     }
   }
 

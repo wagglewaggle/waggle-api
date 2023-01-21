@@ -31,7 +31,7 @@ export class SentryService {
       attachments: [
         {
           color: 'danger',
-          text: `🚨wagglewaggle-scheduler Job ${jobType} 버그 발생🚨`,
+          text: `${jobType} Job 버그 발생🚨`,
           fields: [
             {
               title,
