@@ -17,9 +17,13 @@ export class ConfigService {
     const envValues = Object.keys(ENV).map((k) => ENV[k]);
     const envVarsSchema: Joi.ObjectSchema = Joi.object({
       PROJECT_NAME: Joi.string().required(),
+      SCHEDULER_NAME: Joi.string().required(),
       ENV: Joi.string()
         .valid(...envValues)
         .default(ENV.DEVELOPMENT),
+      USE_SENTRY: Joi.boolean().required().default(false),
+      USE_CONSOLE_API: Joi.boolean().required().default(false),
+      USE_CONSOLE_SCHEDULER: Joi.boolean().required().default(false),
       API_HOST: Joi.string().default('0.0.0.0'),
       API_PORT: Joi.number().default(3000),
       SCHEDULER_HOST: Joi.string().default('0.0.0.0'),
@@ -29,7 +33,6 @@ export class ConfigService {
       MYSQL_DATABASE: Joi.string().required(),
       MYSQL_USERNAME: Joi.string().required(),
       MYSQL_PASSWORD: Joi.string(),
-      NEED_CONSOLE: Joi.boolean().required(),
       KT_API_KEY: Joi.string().required(),
       SKT_TMAP_API_KEY: Joi.string().required(),
       SKT_CONGESTION_API_KEY: Joi.string().required(),
@@ -47,67 +50,60 @@ export class ConfigService {
   get projectName(): string {
     return this.envConfig.PROJECT_NAME;
   }
-
+  get schedulerName(): string {
+    return this.envConfig.SCHEDULER_NAME;
+  }
   get environment(): ENV {
     return this.envConfig.ENV;
   }
-
+  get useSentry(): boolean {
+    return this.envConfig.USE_SENTRY;
+  }
+  get useConsoleApi(): boolean {
+    return this.envConfig.USE_CONSOLE_API;
+  }
+  get useConsoleScheduler(): boolean {
+    return this.envConfig.USE_CONSOLE_SCHEDULER;
+  }
   get apiHost(): string {
     return this.envConfig.API_HOST;
   }
-
   get apiPort(): number {
     return parseInt(this.envConfig.API_PORT, 10);
   }
-
   get schedulerHost(): string {
     return this.envConfig.SCHEDULER_HOST;
   }
-
   get schedulerPort(): number {
     return this.envConfig.SCHEDULER_PORT;
   }
-
   get mysqlHost(): string {
     return this.envConfig.MYSQL_HOST;
   }
-
   get mysqlPort(): number {
     return parseInt(this.envConfig.MYSQL_PORT, 10);
   }
-
   get mysqlDatabase(): string {
     return this.envConfig.MYSQL_DATABASE;
   }
-
   get mysqlUsername(): string {
     return this.envConfig.MYSQL_USERNAME;
   }
-
   get mysqlPassword(): string {
     return this.envConfig.MYSQL_PASSWORD;
   }
-
-  get needConsole(): boolean {
-    return this.envConfig.NEED_CONSOLE;
-  }
-
   get ktApiKey(): string {
     return this.envConfig.KT_API_KEY;
   }
-
   get sktTmapApiKey(): string {
     return this.envConfig.SKT_TMAP_API_KEY;
   }
-
   get sktCongestionApiKey(): string {
     return this.envConfig.SKT_CONGESTION_API_KEY;
   }
-
   get SLACK_SENTRY_SCHEDULER_WEBHOOK(): string {
     return this.envConfig.SLACK_SENTRY_SCHEDULER_WEBHOOK;
   }
-
   get SENTRY_SCHEDULER_DSN(): string {
     return this.envConfig.SENTRY_SCHEDULER_DSN;
   }

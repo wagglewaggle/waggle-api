@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import axios from 'axios';
 import { XMLParser } from 'fast-xml-parser';
@@ -17,10 +17,10 @@ import { KtRoadTrafficService } from '../kt-road-traffic/kt-road-traffic.service
 import { KtRoadTrafficEntity } from '../kt-road-traffic/entity/kt-road-traffic.entity';
 import { SentryService } from '../../app/sentry/sentry.service';
 import { JobType } from '../../app/app.constant';
+import { LoggerService } from '../../app/logger/logger.service';
 
 @Injectable()
 export class KtJobService {
-  private readonly logger: Logger;
   private readonly xmlParser: XMLParser;
   private readonly url: string;
   private readonly rate: number;
@@ -32,14 +32,14 @@ export class KtJobService {
     private readonly ktRoadTrafficService: KtRoadTrafficService,
     private readonly dataSource: DataSource,
     private readonly sentryService: SentryService,
+    private readonly loggerService: LoggerService,
   ) {
-    this.logger = new Logger(KtJobService.name);
     this.xmlParser = new XMLParser();
     this.url = `${KtDefaultInfo.API_HOST}/${config.ktApiKey}/${KtDefaultInfo.API_URI}`;
     this.rate = 5; // 5분마다, 5개씩, 3초의 텀을 두고, 40개를 가져온다. -> 최소 (40/5)*3 = 24초 (예상: 평균 48초)
   }
 
-  @Cron('*/5 * * * *')
+  @Cron('*/30 * * * * *')
   async run() {
     try {
       const places = await this.ktPlaceService.getKtPlaces();
@@ -68,8 +68,9 @@ export class KtJobService {
         await sleep(3000);
       }
 
-      this.logger.log(`successfully done`);
+      this.loggerService.log(`successfully done`);
     } catch (e) {
+      this.loggerService.error(e);
       this.sentryService.sendError(e, JobType.KT);
     }
   }

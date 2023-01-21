@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import axios, { AxiosResponse } from 'axios';
 import { config } from '@lib/config';
@@ -10,18 +10,18 @@ import { SktDefaultInfo } from './skt-job.constant';
 import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 import { SentryService } from '../../app/sentry/sentry.service';
 import { JobType } from '../../app/app.constant';
+import { LoggerService } from '../../app/logger/logger.service';
 
 @Injectable()
 export class SktJobService {
-  private readonly logger: Logger;
   private readonly url: string;
 
   constructor(
     private readonly sktPlaceService: SktPlaceService,
     private readonly sktPopulationService: SktPopulationService,
     private readonly sentryService: SentryService,
+    private readonly loggerService: LoggerService,
   ) {
-    this.logger = new Logger(SktJobService.name);
     this.url = `${SktDefaultInfo.API_HOST}/${SktDefaultInfo.API_URI}`;
   }
 
@@ -33,8 +33,9 @@ export class SktJobService {
         await this.updateSktPopulation(place);
       }
 
-      this.logger.log(`successfully done`);
+      this.loggerService.log(`successfully done`);
     } catch (e) {
+      this.loggerService.error(e);
       this.sentryService.sendError(e, JobType.SKT);
     }
   }
