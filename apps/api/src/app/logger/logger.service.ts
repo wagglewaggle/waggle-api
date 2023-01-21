@@ -32,7 +32,7 @@ export class LoggerService extends ConsoleLogger {
       transports: [
         new DailyRotateFile({
           level: 'info',
-          filename: `./logs/%DATE%-${config.projectName}.log`,
+          filename: `./logs/%DATE%/${config.projectName}.log`,
           ...this.rotateOptions,
         }),
       ],
@@ -44,7 +44,7 @@ export class LoggerService extends ConsoleLogger {
       transports: [
         new DailyRotateFile({
           level: 'error',
-          filename: `./logs/%DATE%-${config.projectName}-error.log`,
+          filename: `./logs/%DATE%/${config.projectName}-error.log`,
           ...this.rotateOptions,
         }),
       ],
