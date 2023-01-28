@@ -19,7 +19,7 @@ export class KtPlaceResponseDto {
   @Exclude() private readonly _x: number;
   @Exclude() private readonly _y: number;
   @Exclude() private readonly _categories: Category[] | undefined;
-  @Exclude() private readonly _populations: KtPopulation[] | undefined;
+  @Exclude() private readonly _population: KtPopulation | undefined;
   @Exclude() private readonly _accidents: KtAccident[] | undefined;
   @Exclude() private readonly _cctvs: Cctv[] | undefined;
   @Exclude() private readonly _roadTraffic: KtRoadTraffic | undefined;
@@ -31,7 +31,7 @@ export class KtPlaceResponseDto {
     this._x = place.x;
     this._y = place.y;
     this._categories = place.categories;
-    this._populations = place.populations;
+    this._population = place.population;
     this._accidents = place.accidents;
     this._cctvs = place.cctvs;
     this._roadTraffic = place.ktRoadTraffic;
@@ -67,11 +67,8 @@ export class KtPlaceResponseDto {
   }
 
   @Expose()
-  get populations(): KtPopulationResponseDto[] | undefined {
-    if (!this._populations) {
-      return undefined;
-    }
-    return this._populations.map((population) => new KtPopulationResponseDto(population));
+  get population(): KtPopulationResponseDto {
+    return new KtPopulationResponseDto(this._population);
   }
 
   @Expose()

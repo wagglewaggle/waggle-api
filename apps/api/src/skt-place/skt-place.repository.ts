@@ -22,7 +22,7 @@ export class SktPlaceRepository {
 
   async getSktPlaces(query: SktPlaceListFilterQueryDto): Promise<[SktPlace[], number]> {
     const queryBuilder = this.createQueryBuilder()
-      .leftJoinAndSelect('sktPlace.populations', 'population')
+      .leftJoinAndSelect('sktPlace.population', 'population')
       .leftJoinAndSelect('sktPlace.categories', 'category');
 
     if (query.level) {

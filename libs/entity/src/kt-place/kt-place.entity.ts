@@ -21,9 +21,6 @@ export class KtPlace {
   @Column('double')
   y: number;
 
-  @OneToOne(() => KtRoadTraffic, (roadTraffic) => roadTraffic.ktPlace)
-  ktRoadTraffic: KtRoadTraffic;
-
   @ManyToOne(() => Province, (province) => province.ktPlaces)
   province: Province;
 
@@ -33,8 +30,11 @@ export class KtPlace {
   @OneToMany(() => Category, (category) => category.ktPlace)
   categories: Category[];
 
-  @OneToMany(() => KtPopulation, (population) => population.place)
-  populations: KtPopulation[];
+  @OneToOne(() => KtPopulation, (population) => population.place)
+  population: KtPopulation;
+
+  @OneToOne(() => KtRoadTraffic, (roadTraffic) => roadTraffic.ktPlace)
+  ktRoadTraffic: KtRoadTraffic;
 
   @OneToMany(() => KtAccident, (accident) => accident.place)
   accidents: KtAccident[];
