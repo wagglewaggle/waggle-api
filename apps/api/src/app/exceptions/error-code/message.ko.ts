@@ -14,6 +14,8 @@ const errors: IErrorCode = {
   ERR_0002001: '해당하는 장소가 없습니다.',
 
   ERR_0004001: '조회하려는 주변 장소가 없습니다.',
+
+  ERR_0005001: '네이버 소셜 로그인이 거부되었습니다.',
 };
 
 export default errors;

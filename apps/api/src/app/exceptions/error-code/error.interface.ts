@@ -18,4 +18,7 @@ export interface IErrorCode {
 
   // Location
   ERR_0004001: string;
+
+  // SNS Login
+  ERR_0005001: string;
 }

@@ -33,6 +33,8 @@ export class ConfigService {
       MYSQL_DATABASE: Joi.string().required(),
       MYSQL_USERNAME: Joi.string().required(),
       MYSQL_PASSWORD: Joi.string(),
+      NAVER_CLIENT_ID: Joi.string().required(),
+      NAVER_CLIENT_SECRET: Joi.string().required(),
       KT_API_KEY: Joi.string().required(),
       SKT_TMAP_API_KEY: Joi.string().required(),
       SKT_CONGESTION_API_KEY: Joi.string().required(),
@@ -91,6 +93,12 @@ export class ConfigService {
   }
   get mysqlPassword(): string {
     return this.envConfig.MYSQL_PASSWORD;
+  }
+  get naverClientId(): string {
+    return this.envConfig.NAVER_CLIENT_ID;
+  }
+  get naverClientSecret(): string {
+    return this.envConfig.NAVER_CLIENT_SECRET;
   }
   get ktApiKey(): string {
     return this.envConfig.KT_API_KEY;
