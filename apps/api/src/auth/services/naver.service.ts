@@ -1,14 +1,15 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { config } from '@lib/config';
-import { AuthInterface, INaverInformationResponse, INaverTokenResponse } from '../auth.interface';
+import { INaverInformationResponse, INaverTokenResponse } from '../auth.interface';
 import { CallbackQueryDto } from '../auth.type';
 import { ClientRequestException } from '../../app/exceptions/request.exception';
 import ERROR_CODE from '../../app/exceptions/error-code';
 import axios from 'axios';
 import { NaverApiUrl } from '../auth.constant';
+import { BaseAuthService } from '../base-auth.service';
 
 @Injectable()
-export class NaverService implements AuthInterface {
+export class NaverService extends BaseAuthService {
   async callback(query: CallbackQueryDto): Promise<any> {
     if (query.error) {
       throw new ClientRequestException(ERROR_CODE.ERR_0005001, HttpStatus.BAD_REQUEST, { errorDesc: query.error_description });
@@ -23,23 +24,21 @@ export class NaverService implements AuthInterface {
     return userInformation;
   }
 
-  async getToken(code: string): Promise<Record<string, any>> {
+  protected async getToken(code: string): Promise<Record<string, any>> {
     try {
-      const { data } = await axios.post(
-        `${NaverApiUrl.Token}?` +
-          `grant_type=authorization_code&` +
-          `client_id=${config.naverClientId}&` +
-          `client_secret=${config.naverClientSecret}&` +
-          `code=${code}&` +
-          `state=test`,
-      );
+      const query = {
+        client_id: config.naverClientId,
+        client_secret: config.naverClientSecret,
+        code,
+      };
+      const { data } = await axios.post(this.generateRequestUrl(NaverApiUrl.Token, query));
       return data;
     } catch (e) {
       throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  async getInformation(token: string, type: string): Promise<Record<string, any>> {
+  protected async getInformation(token: string, type: string): Promise<Record<string, any>> {
     try {
       const { data } = await axios.post(
         NaverApiUrl.Information,
