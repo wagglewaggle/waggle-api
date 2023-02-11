@@ -35,6 +35,8 @@ export class ConfigService {
       MYSQL_PASSWORD: Joi.string(),
       NAVER_CLIENT_ID: Joi.string().required(),
       NAVER_CLIENT_SECRET: Joi.string().required(),
+      KAKAO_CLIENT_ID: Joi.string().required(),
+      KAKAO_REDIRECT_URL: Joi.string().required(),
       KT_API_KEY: Joi.string().required(),
       SKT_TMAP_API_KEY: Joi.string().required(),
       SKT_CONGESTION_API_KEY: Joi.string().required(),
@@ -99,6 +101,12 @@ export class ConfigService {
   }
   get naverClientSecret(): string {
     return this.envConfig.NAVER_CLIENT_SECRET;
+  }
+  get kakaoClientId(): string {
+    return this.envConfig.KAKAO_CLIENT_ID;
+  }
+  get kakaoRedirectUrl(): string {
+    return this.envConfig.KAKAO_REDIRECT_URL;
   }
   get ktApiKey(): string {
     return this.envConfig.KT_API_KEY;
