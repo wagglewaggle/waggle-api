@@ -11,7 +11,7 @@ import { CallbackQueryDto } from '../auth.type';
 export class KakaoService implements AuthInterface {
   async callback(query: CallbackQueryDto): Promise<any> {
     if (query.error) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR, { errorDesc: query.error_description });
+      throw new ClientRequestException(ERROR_CODE.ERR_0005002, HttpStatus.INTERNAL_SERVER_ERROR, { errorDesc: query.error_description });
     }
 
     const token = (await this.getToken(query.code)) as IKakaoTokenResponse;
