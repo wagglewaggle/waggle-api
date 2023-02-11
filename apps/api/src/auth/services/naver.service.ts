@@ -1,6 +1,6 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { config } from '@lib/config';
-import { AuthInterface, INaverTokenResponse } from '../auth.interface';
+import { AuthInterface, INaverInformationResponse, INaverTokenResponse } from '../auth.interface';
 import { CallbackQueryDto } from '../auth.type';
 import { ClientRequestException } from '../../app/exceptions/request.exception';
 import ERROR_CODE from '../../app/exceptions/error-code';
@@ -19,7 +19,7 @@ export class NaverService implements AuthInterface {
       throw new ClientRequestException(ERROR_CODE.ERR_0005001, HttpStatus.BAD_REQUEST, { errorDesc: token.error_description });
     }
 
-    const userInformation = await this.getInformation(token.access_token, token.token_type);
+    const userInformation = (await this.getInformation(token.access_token, token.token_type)) as INaverInformationResponse;
     return userInformation;
   }
 
@@ -42,7 +42,7 @@ export class NaverService implements AuthInterface {
   async getInformation(token: string, type: string): Promise<Record<string, any>> {
     try {
       const { data } = await axios.post(
-        `${NaverApiUrl.Info}?`,
+        NaverApiUrl.Information,
         {},
         {
           headers: {

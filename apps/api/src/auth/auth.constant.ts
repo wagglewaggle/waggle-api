@@ -8,5 +8,5 @@ export enum ApiPath {
 
 export enum NaverApiUrl {
   Token = 'https://nid.naver.com/oauth2.0/token',
-  Info = 'https://openapi.naver.com/v1/nid/me',
+  Information = 'https://openapi.naver.com/v1/nid/me',
 }
