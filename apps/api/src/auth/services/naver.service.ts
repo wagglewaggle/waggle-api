@@ -7,9 +7,16 @@ import ERROR_CODE from '../../app/exceptions/error-code';
 import axios from 'axios';
 import { NaverApiUrl } from '../auth.constant';
 import { BaseAuthService } from '../base-auth.service';
+import { UserEntity } from '../../user/entity/user.entity';
+import { UserService } from '../../user/user.service';
+import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 
 @Injectable()
 export class NaverService extends BaseAuthService {
+  constructor(readonly userService: UserService) {
+    super(userService);
+  }
+
   async callback(query: CallbackQueryDto): Promise<any> {
     if (query.error) {
       throw new ClientRequestException(ERROR_CODE.ERR_0005001, HttpStatus.BAD_REQUEST, { errorDesc: query.error_description });
@@ -20,8 +27,28 @@ export class NaverService extends BaseAuthService {
       throw new ClientRequestException(ERROR_CODE.ERR_0005001, HttpStatus.BAD_REQUEST, { errorDesc: token.error_description });
     }
 
-    const userInformation = (await this.getInformation(token.access_token, token.token_type)) as INaverInformationResponse;
-    return userInformation;
+    const userNaverInformation = (await this.getInformation(token.access_token, token.token_type)) as INaverInformationResponse;
+
+    const user = new UserEntity({
+      snsId: userNaverInformation.response.id,
+      snsType: SnsType.Naver,
+      email: userNaverInformation.response.email,
+      name: userNaverInformation.response.name,
+      nickname: userNaverInformation.response.nickname,
+      status: UserStatus.Activated,
+    });
+    if (await this.checkDuplicatedUser(userNaverInformation.response.id, SnsType.Naver)) {
+      return {
+        msg: 'dddddone',
+        user,
+      };
+    } else {
+      await this.addNewUser(user);
+      return {
+        msg: 'ffffffail',
+        user,
+      };
+    }
   }
 
   protected async getToken(code: string): Promise<Record<string, any>> {

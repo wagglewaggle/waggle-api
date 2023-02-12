@@ -7,16 +7,43 @@ import { GoogleApiUrl } from '../auth.constant';
 import { IGoogleInformationResponse, IGoogleTokenResponse } from '../auth.interface';
 import { CallbackQueryDto } from '../auth.type';
 import { BaseAuthService } from '../base-auth.service';
+import { UserEntity } from '../../user/entity/user.entity';
+import { UserService } from '../../user/user.service';
+import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 
 @Injectable()
 export class GoogleService extends BaseAuthService {
-  async callback(query: CallbackQueryDto): Promise<any> {
-    const token = (await this.getToken(query.code)) as IGoogleTokenResponse;
-    const userInformation = (await this.getInformation(token.access_token, token.token_type)) as IGoogleInformationResponse;
-    return userInformation;
+  constructor(readonly userService: UserService) {
+    super(userService);
   }
 
-  async getToken(code: string): Promise<Record<string, any>> {
+  async callback(query: CallbackQueryDto): Promise<any> {
+    const token = (await this.getToken(query.code)) as IGoogleTokenResponse;
+    const userGoogleInformation = (await this.getInformation(token.access_token, token.token_type)) as IGoogleInformationResponse;
+
+    const user = new UserEntity({
+      snsId: userGoogleInformation.id,
+      snsType: SnsType.Google,
+      email: userGoogleInformation.email,
+      name: userGoogleInformation.name,
+      nickname: userGoogleInformation.name,
+      status: UserStatus.Activated,
+    });
+    if (await this.checkDuplicatedUser(userGoogleInformation.id, SnsType.Google)) {
+      return {
+        msg: '있다',
+        user,
+      };
+    } else {
+      await this.addNewUser(user);
+      return {
+        msg: '없다',
+        user,
+      };
+    }
+  }
+
+  protected async getToken(code: string): Promise<Record<string, any>> {
     try {
       const query = {
         code,
@@ -32,7 +59,7 @@ export class GoogleService extends BaseAuthService {
     }
   }
 
-  async getInformation(token: string, type: string): Promise<Record<string, any>> {
+  protected async getInformation(token: string, type: string): Promise<Record<string, any>> {
     try {
       const { data } = await axios.get(GoogleApiUrl.Information, {
         headers: {

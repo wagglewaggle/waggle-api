@@ -7,9 +7,16 @@ import { KakaoApiUrl } from '../auth.constant';
 import { IKakaoInformationResponse, IKakaoTokenResponse } from '../auth.interface';
 import { CallbackQueryDto } from '../auth.type';
 import { BaseAuthService } from '../base-auth.service';
+import { SnsType, UserStatus } from '../../../../../libs/entity/src/user/user.constant';
+import { UserService } from '../../user/user.service';
+import { UserEntity } from '../../user/entity/user.entity';
 
 @Injectable()
 export class KakaoService extends BaseAuthService {
+  constructor(readonly userService: UserService) {
+    super(userService);
+  }
+
   async callback(query: CallbackQueryDto): Promise<any> {
     if (query.error) {
       throw new ClientRequestException(ERROR_CODE.ERR_0005002, HttpStatus.INTERNAL_SERVER_ERROR, { value: query.error_description });
@@ -17,10 +24,30 @@ export class KakaoService extends BaseAuthService {
 
     const token = (await this.getToken(query.code)) as IKakaoTokenResponse;
     const userInformation = (await this.getInformation(token.access_token, 'Bearer')) as IKakaoInformationResponse;
-    return userInformation;
+
+    const user = new UserEntity({
+      snsId: String(userInformation.id),
+      snsType: SnsType.Kakao,
+      email: userInformation.kakao_account.email,
+      name: userInformation.kakao_account.profile.nickname,
+      nickname: userInformation.kakao_account.profile.nickname,
+      status: UserStatus.Activated,
+    });
+    if (await this.checkDuplicatedUser(String(userInformation.id), SnsType.Kakao)) {
+      return {
+        msg: 'ddddddddone',
+        user,
+      };
+    } else {
+      await this.addNewUser(user);
+      return {
+        msg: 'ffffffail',
+        user,
+      };
+    }
   }
 
-  async getToken(code: string): Promise<Record<string, any>> {
+  protected async getToken(code: string): Promise<Record<string, any>> {
     try {
       const query = {
         client_id: config.kakaoClientId,
@@ -34,7 +61,7 @@ export class KakaoService extends BaseAuthService {
     }
   }
 
-  async getInformation(token: string, type: string): Promise<Record<string, any>> {
+  protected async getInformation(token: string, type: string): Promise<Record<string, any>> {
     try {
       const { data } = await axios.post(
         KakaoApiUrl.Information,
