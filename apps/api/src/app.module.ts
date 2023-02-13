@@ -13,13 +13,27 @@ import { LoggingInterceptor } from './app/interceptors/logging.interceptor';
 import { LoggerModule } from './app/logger/logger.module';
 import { IpGuard } from './app/guards/ip.guard';
 import { IpModule } from './ip/ip.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
 });
 
 @Module({
-  imports: [TypeOrmRootModule, LoggerModule, ProvinceModule, KtPlaceModule, HealthModule, LocationModule, SktPlaceModule, CategoryModule, IpModule],
+  imports: [
+    TypeOrmRootModule,
+    LoggerModule,
+    ProvinceModule,
+    KtPlaceModule,
+    HealthModule,
+    LocationModule,
+    SktPlaceModule,
+    CategoryModule,
+    IpModule,
+    AuthModule,
+    UserModule,
+  ],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
     // { provide: APP_GUARD, useClass: IpGuard },
