@@ -7,9 +7,10 @@ import { KakaoApiUrl } from '../auth.constant';
 import { IKakaoInformationResponse, IKakaoTokenResponse } from '../auth.interface';
 import { CallbackQueryDto } from '../auth.type';
 import { BaseAuthService } from '../base-auth.service';
-import { SnsType, UserStatus } from '../../../../../libs/entity/src/user/user.constant';
+import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 import { UserService } from '../../user/user.service';
 import { UserEntity } from '../../user/entity/user.entity';
+import { jwtSign } from '../../app/app.util';
 
 @Injectable()
 export class KakaoService extends BaseAuthService {
@@ -17,7 +18,7 @@ export class KakaoService extends BaseAuthService {
     super(userService);
   }
 
-  async callback(query: CallbackQueryDto): Promise<any> {
+  async callback(query: CallbackQueryDto): Promise<Record<string, any>> {
     if (query.error) {
       throw new ClientRequestException(ERROR_CODE.ERR_0005002, HttpStatus.INTERNAL_SERVER_ERROR, { value: query.error_description });
     }
@@ -33,18 +34,16 @@ export class KakaoService extends BaseAuthService {
       nickname: userInformation.kakao_account.profile.nickname,
       status: UserStatus.Activated,
     });
-    if (await this.checkDuplicatedUser(String(userInformation.id), SnsType.Kakao)) {
-      return {
-        msg: 'ddddddddone',
-        user,
-      };
-    } else {
+    if (!(await this.checkDuplicatedUser(String(userInformation.id), SnsType.Kakao))) {
       await this.addNewUser(user);
-      return {
-        msg: 'ffffffail',
-        user,
-      };
     }
+
+    const payload = { type: user.snsType, email: user.email, name: user.name };
+    const jwtToken = await jwtSign(payload);
+    return {
+      token: jwtToken,
+      payload,
+    };
   }
 
   protected async getToken(code: string): Promise<Record<string, any>> {

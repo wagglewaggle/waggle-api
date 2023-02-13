@@ -10,6 +10,7 @@ import { BaseAuthService } from '../base-auth.service';
 import { UserEntity } from '../../user/entity/user.entity';
 import { UserService } from '../../user/user.service';
 import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
+import { jwtSign } from '../../app/app.util';
 
 @Injectable()
 export class GoogleService extends BaseAuthService {
@@ -17,7 +18,7 @@ export class GoogleService extends BaseAuthService {
     super(userService);
   }
 
-  async callback(query: CallbackQueryDto): Promise<any> {
+  async callback(query: CallbackQueryDto): Promise<Record<string, any>> {
     const token = (await this.getToken(query.code)) as IGoogleTokenResponse;
     const userGoogleInformation = (await this.getInformation(token.access_token, token.token_type)) as IGoogleInformationResponse;
 
@@ -29,18 +30,16 @@ export class GoogleService extends BaseAuthService {
       nickname: userGoogleInformation.name,
       status: UserStatus.Activated,
     });
-    if (await this.checkDuplicatedUser(userGoogleInformation.id, SnsType.Google)) {
-      return {
-        msg: '있다',
-        user,
-      };
-    } else {
+    if (!(await this.checkDuplicatedUser(userGoogleInformation.id, SnsType.Google))) {
       await this.addNewUser(user);
-      return {
-        msg: '없다',
-        user,
-      };
     }
+
+    const payload = { type: user.snsType, email: user.email, name: user.name };
+    const jwtToken = await jwtSign(payload);
+    return {
+      token: jwtToken,
+      payload,
+    };
   }
 
   protected async getToken(code: string): Promise<Record<string, any>> {

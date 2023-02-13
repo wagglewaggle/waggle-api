@@ -33,6 +33,7 @@ export class ConfigService {
       MYSQL_DATABASE: Joi.string().required(),
       MYSQL_USERNAME: Joi.string().required(),
       MYSQL_PASSWORD: Joi.string(),
+      JWT_SECRET_KEY: Joi.string().required(),
       NAVER_CLIENT_ID: Joi.string().required(),
       NAVER_CLIENT_SECRET: Joi.string().required(),
       KAKAO_CLIENT_ID: Joi.string().required(),
@@ -98,6 +99,9 @@ export class ConfigService {
   }
   get mysqlPassword(): string {
     return this.envConfig.MYSQL_PASSWORD;
+  }
+  get jwtSecretKey(): string {
+    return this.envConfig.JWT_SECRET_KEY;
   }
   get naverClientId(): string {
     return this.envConfig.NAVER_CLIENT_ID;

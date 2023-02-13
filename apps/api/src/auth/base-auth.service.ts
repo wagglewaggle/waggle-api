@@ -11,7 +11,7 @@ export abstract class BaseAuthService {
     this.userService = userService;
   }
 
-  abstract callback(query: CallbackQueryDto): Promise<any>;
+  abstract callback(query: CallbackQueryDto): Promise<Record<string, any>>;
   protected abstract getToken(code: string): Promise<Record<string, any>>;
   protected abstract getInformation(token: string, type: string): Promise<Record<string, any>>;
 

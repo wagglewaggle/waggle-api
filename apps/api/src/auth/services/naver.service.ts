@@ -10,6 +10,7 @@ import { BaseAuthService } from '../base-auth.service';
 import { UserEntity } from '../../user/entity/user.entity';
 import { UserService } from '../../user/user.service';
 import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
+import { jwtSign } from '../../app/app.util';
 
 @Injectable()
 export class NaverService extends BaseAuthService {
@@ -17,7 +18,7 @@ export class NaverService extends BaseAuthService {
     super(userService);
   }
 
-  async callback(query: CallbackQueryDto): Promise<any> {
+  async callback(query: CallbackQueryDto): Promise<Record<string, any>> {
     if (query.error) {
       throw new ClientRequestException(ERROR_CODE.ERR_0005001, HttpStatus.BAD_REQUEST, { errorDesc: query.error_description });
     }
@@ -37,18 +38,16 @@ export class NaverService extends BaseAuthService {
       nickname: userNaverInformation.response.nickname,
       status: UserStatus.Activated,
     });
-    if (await this.checkDuplicatedUser(userNaverInformation.response.id, SnsType.Naver)) {
-      return {
-        msg: 'dddddone',
-        user,
-      };
-    } else {
+    if (!(await this.checkDuplicatedUser(userNaverInformation.response.id, SnsType.Naver))) {
       await this.addNewUser(user);
-      return {
-        msg: 'ffffffail',
-        user,
-      };
     }
+
+    const payload = { type: user.snsType, email: user.email, name: user.name };
+    const jwtToken = await jwtSign(payload);
+    return {
+      token: jwtToken,
+      payload,
+    };
   }
 
   protected async getToken(code: string): Promise<Record<string, any>> {
