@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { SktPlace } from '../skt-place/skt-place.entity';
 import { SktPopulationLevel } from './skt-population.constant';
 
@@ -7,7 +7,8 @@ export class SktPopulation {
   @PrimaryGeneratedColumn()
   idx: number;
 
-  @ManyToOne(() => SktPlace, (place) => place.populations)
+  @OneToOne(() => SktPlace, (place) => place.population)
+  @JoinColumn()
   place: SktPlace;
 
   @Column('enum', { enum: SktPopulationLevel })

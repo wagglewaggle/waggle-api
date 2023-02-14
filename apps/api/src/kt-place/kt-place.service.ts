@@ -25,7 +25,7 @@ export class KtPlaceService {
   }
 
   async getKtPlaceAllInfo(idx: number): Promise<KtPlace | [KtPlace, Location]> {
-    const place = await this.getKtPlaceByIdx(idx, ['populations', 'accidents', 'cctvs', 'ktRoadTraffic', 'location']);
+    const place = await this.getKtPlaceByIdx(idx, ['population', 'accidents', 'cctvs', 'ktRoadTraffic', 'location']);
     if (!place.location) {
       return place;
     }

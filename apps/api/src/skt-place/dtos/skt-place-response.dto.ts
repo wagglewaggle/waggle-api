@@ -14,7 +14,7 @@ export class SktPlaceResponseDto {
   @Exclude() private readonly _x: number;
   @Exclude() private readonly _y: number;
   @Exclude() private readonly _categories: Category[];
-  @Exclude() private readonly _populations: SktPopulation[];
+  @Exclude() private readonly _population: SktPopulation;
   @Exclude() private readonly _location: Location | undefined;
 
   constructor(place: SktPlace, location?: Location) {
@@ -24,7 +24,7 @@ export class SktPlaceResponseDto {
     this._x = place.x;
     this._y = place.y;
     this._categories = place.categories;
-    this._populations = place.populations;
+    this._population = place.population;
     this._location = location;
   }
 
@@ -62,11 +62,8 @@ export class SktPlaceResponseDto {
   }
 
   @Expose()
-  get populations(): SktPopulationResponseDto[] | undefined {
-    if (!this._populations) {
-      return undefined;
-    }
-    return this._populations.map((population) => new SktPopulationResponseDto(population));
+  get population(): SktPopulationResponseDto {
+    return new SktPopulationResponseDto(this._population);
   }
 
   @Expose()

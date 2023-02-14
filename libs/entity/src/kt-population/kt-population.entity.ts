@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { KtPlace } from '../kt-place/kt-place.entity';
 import { KtPopulationLevel } from './kt-population.constant';
 
@@ -7,7 +7,8 @@ export class KtPopulation {
   @PrimaryGeneratedColumn()
   idx: number;
 
-  @ManyToOne(() => KtPlace, (place) => place.populations)
+  @OneToOne(() => KtPlace, (place) => place.population)
+  @JoinColumn()
   place: KtPlace;
 
   @Column('enum', { enum: KtPopulationLevel })
