@@ -13,17 +13,17 @@ export class AuthController {
     private readonly googleService: GoogleService,
   ) {}
 
-  @Get(`${ApiPath.Naver}/${ApiPath.Redirect}`)
+  @Get(ApiPath.Naver)
   async naverRedirect(@Query() query: CallbackQueryDto) {
     return await this.naverService.callback(query);
   }
 
-  @Get(`${ApiPath.Kakao}/${ApiPath.Redirect}`)
+  @Get(ApiPath.Kakao)
   async kakaoRedirect(@Query() query: CallbackQueryDto) {
     return await this.kakaoService.callback(query);
   }
 
-  @Get(`${ApiPath.Google}/${ApiPath.Redirect}`)
+  @Get(ApiPath.Google)
   async googleRedirect(@Query() query: CallbackQueryDto) {
     return await this.googleService.callback(query);
   }

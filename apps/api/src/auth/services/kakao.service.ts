@@ -19,10 +19,6 @@ export class KakaoService extends BaseAuthService {
   }
 
   async callback(query: CallbackQueryDto): Promise<Record<string, any>> {
-    if (query.error) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0005002, HttpStatus.INTERNAL_SERVER_ERROR, { value: query.error_description });
-    }
-
     const token = (await this.getToken(query.code)) as IKakaoTokenResponse;
     const userInformation = (await this.getInformation(token.access_token, 'Bearer')) as IKakaoInformationResponse;
 
