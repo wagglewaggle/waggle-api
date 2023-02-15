@@ -19,10 +19,6 @@ export class NaverService extends BaseAuthService {
   }
 
   async callback(query: CallbackQueryDto): Promise<Record<string, any>> {
-    if (query.error) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0005001, HttpStatus.BAD_REQUEST, { errorDesc: query.error_description });
-    }
-
     const token = (await this.getToken(query.code)) as INaverTokenResponse;
     if (token.error) {
       throw new ClientRequestException(ERROR_CODE.ERR_0005001, HttpStatus.BAD_REQUEST, { errorDesc: token.error_description });
@@ -56,6 +52,7 @@ export class NaverService extends BaseAuthService {
         client_id: config.naverClientId,
         client_secret: config.naverClientSecret,
         code,
+        state: 'test',
       };
       const { data } = await axios.post(this.generateRequestUrl(NaverApiUrl.Token, query));
       return data;
