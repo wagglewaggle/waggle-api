@@ -41,7 +41,7 @@ export class GoogleService extends BaseAuthService {
     const user = await this.userService.getUserBySnsId(userGoogleInformation.id, SnsType.Google);
     user.isActivated();
 
-    const payload = { type: user.snsType, email: user.email, name: user.name };
+    const payload = { idx: user.idx, type: user.snsType, email: user.email, name: user.name };
     const jwtToken = await jwtSign(payload);
 
     return {
