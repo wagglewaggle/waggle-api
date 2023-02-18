@@ -14,6 +14,6 @@ export class UserService {
   }
 
   async addUser(user: UserEntity, manager?: EntityManager) {
-    await this.userRepository.addUser(user, manager);
+    return await this.userRepository.addUser(user, manager);
   }
 }
