@@ -30,4 +30,6 @@ export interface IErrorCode {
   ERR_0006003: string;
   ERR_0006004: string;
   ERR_0006005: string;
+  ERR_0006006: string;
+  ERR_0006007: string;
 }

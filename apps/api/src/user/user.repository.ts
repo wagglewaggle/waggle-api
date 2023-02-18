@@ -31,4 +31,11 @@ export class UserRepository {
     }
     return this.repository.save(user);
   }
+
+  async modifyUser(where: Partial<User>, set: Partial<User>, manager?: EntityManager) {
+    if (manager) {
+      return manager.update(User, where, set);
+    }
+    return this.repository.update(where, set);
+  }
 }

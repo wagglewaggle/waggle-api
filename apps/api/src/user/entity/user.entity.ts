@@ -14,6 +14,8 @@ export class UserEntity extends User {
   readonly nickname: string;
   readonly status: UserStatus;
   readonly userRole: UserRole;
+  readonly createdDate: Date;
+  readonly updatedDate: Date;
 
   constructor(user: User) {
     super();

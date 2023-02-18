@@ -7,8 +7,11 @@ import { ClientRequestException } from '../exceptions/request.exception';
 export class UserGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest<IRequestAugmented>();
-    const user = req.extras.getUser();
+    if (!req.headers.authorization) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0006006, HttpStatus.BAD_REQUEST);
+    }
 
+    const user = req.extras.getUser();
     if (!user) {
       throw new ClientRequestException(ERROR_CODE.ERR_0006001, HttpStatus.UNAUTHORIZED);
     }
