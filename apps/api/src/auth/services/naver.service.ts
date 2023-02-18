@@ -47,13 +47,14 @@ export class NaverService extends BaseAuthService {
         await this.addNewUser(user, manager);
       }
 
-      const payload = { type: user.snsType, email: user.email, name: user.name, newUser: isDuplicatedUser };
+      const payload = { type: user.snsType, email: user.email, name: user.name };
       const jwtToken = await jwtSign(payload);
 
       await queryRunner.commitTransaction();
       return {
         token: jwtToken,
         payload,
+        newUser: isDuplicatedUser,
       };
     } catch (e) {
       if (queryRunner.isTransactionActive) {

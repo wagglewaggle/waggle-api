@@ -6,6 +6,6 @@ export interface IAuthCallbackResult {
     type: SnsType;
     email: string;
     name: string;
-    newUser: boolean;
   };
+  newUser: boolean;
 }
