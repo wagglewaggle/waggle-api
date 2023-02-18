@@ -1,5 +1,5 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { config } from '@lib/config';
 import ERROR_CODE from '../../app/exceptions/error-code';
 import { ClientRequestException } from '../../app/exceptions/request.exception';
@@ -7,7 +7,6 @@ import { GoogleApiUrl } from '../auth.constant';
 import { IAuthCallbackResult } from '../auth.interface';
 import { CallbackQueryDto } from '../auth.type';
 import { BaseAuthService } from '../base-auth.service';
-import { UserEntity } from '../../user/entity/user.entity';
 import { UserService } from '../../user/user.service';
 import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 import { jwtSign } from '../../app/app.util';
@@ -22,44 +21,34 @@ export class GoogleService extends BaseAuthService {
   }
 
   async callback(query: CallbackQueryDto): Promise<IAuthCallbackResult> {
-    const queryRunner = this.dataSource.createQueryRunner();
-    const manager = queryRunner.manager;
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-    try {
-      const token = (await this.getToken(query.code)) as IGoogleTokenResponse;
-      const userGoogleInformation = (await this.getInformation(token.access_token, token.token_type)) as IGoogleInformationResponse;
+    const token = (await this.getToken(query.code)) as IGoogleTokenResponse;
+    const userGoogleInformation = (await this.getInformation(token.access_token, token.token_type)) as IGoogleInformationResponse;
 
-      const user = new UserEntity({
-        snsId: userGoogleInformation.id,
-        snsType: SnsType.Google,
-        email: userGoogleInformation.email,
-        name: userGoogleInformation.name,
-        nickname: userGoogleInformation.name,
-        status: UserStatus.Activated,
-      });
-      const isDuplicatedUser = await this.checkDuplicatedUser(userGoogleInformation.id, SnsType.Google);
-      if (!isDuplicatedUser) {
-        await this.addNewUser(user, manager);
-      }
-
-      const payload = { type: user.snsType, email: user.email, name: user.name };
-      const jwtToken = await jwtSign(payload);
-
-      await queryRunner.commitTransaction();
-      return {
-        token: jwtToken,
-        payload,
-        existUser: isDuplicatedUser,
-      };
-    } catch (e) {
-      if (queryRunner.isTransactionActive) {
-        await queryRunner.rollbackTransaction();
-      }
-      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR, { value: e });
-    } finally {
-      await queryRunner.release();
+    const isDuplicatedUser = await this.checkDuplicatedUser(userGoogleInformation.id, SnsType.Google);
+    if (!isDuplicatedUser) {
+      await this.addNewUser(
+        this.userService.createInstance({
+          snsId: userGoogleInformation.id,
+          snsType: SnsType.Google,
+          email: userGoogleInformation.email,
+          name: userGoogleInformation.name,
+          nickname: userGoogleInformation.name,
+          status: UserStatus.Activated,
+        }),
+      );
     }
+
+    const user = await this.userService.getUserBySnsId(userGoogleInformation.id, SnsType.Google);
+    user.isActivated();
+
+    const payload = { type: user.snsType, email: user.email, name: user.name };
+    const jwtToken = await jwtSign(payload);
+
+    return {
+      token: jwtToken,
+      payload,
+      existUser: isDuplicatedUser,
+    };
   }
 
   protected async getToken(code: string): Promise<Record<string, any>> {
@@ -73,8 +62,10 @@ export class GoogleService extends BaseAuthService {
       const { data } = await axios.post(this.generateRequestUrl(GoogleApiUrl.Token, query));
       return data;
     } catch (e) {
-      console.log(e);
-      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR);
+      if (e instanceof AxiosError) {
+        throw new ClientRequestException(ERROR_CODE.ERR_0005003, HttpStatus.UNAUTHORIZED);
+      }
+      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR, e);
     }
   }
 
@@ -87,8 +78,10 @@ export class GoogleService extends BaseAuthService {
       });
       return data;
     } catch (e) {
-      console.log(e.data);
-      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR);
+      if (e instanceof AxiosError) {
+        throw new ClientRequestException(ERROR_CODE.ERR_0005003, HttpStatus.UNAUTHORIZED);
+      }
+      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR, e);
     }
   }
 }

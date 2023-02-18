@@ -1,5 +1,4 @@
 import { CanActivate, ExecutionContext, HttpStatus, Injectable } from '@nestjs/common';
-import { UserStatus } from '@lib/entity/user/user.constant';
 import { IRequestAugmented } from '../app.interface';
 import ERROR_CODE from '../exceptions/error-code';
 import { ClientRequestException } from '../exceptions/request.exception';
@@ -14,9 +13,7 @@ export class UserGuard implements CanActivate {
       throw new ClientRequestException(ERROR_CODE.ERR_0006001, HttpStatus.UNAUTHORIZED);
     }
 
-    if ([UserStatus.Deactivated, UserStatus.Locked].includes(user.status)) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0006002, HttpStatus.FORBIDDEN);
-    }
+    user.isActivated();
 
     return true;
   }

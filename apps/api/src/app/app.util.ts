@@ -17,6 +17,17 @@ export const jwtVerify = async (token: string): Promise<JwtUserPayload> => {
   try {
     return (await jwt.verify(token, config.jwtSecretKey)) as JwtUserPayload;
   } catch (e) {
-    throw new ClientRequestException(ERROR_CODE.ERR_0000004, HttpStatus.UNAUTHORIZED);
+    if (e instanceof Error) {
+      switch (e.message) {
+        case 'jwt expired':
+          throw new ClientRequestException(ERROR_CODE.ERR_0006003, HttpStatus.UNAUTHORIZED);
+        case 'invalid token':
+          throw new ClientRequestException(ERROR_CODE.ERR_0006004, HttpStatus.UNAUTHORIZED);
+        case 'invalid signature':
+          throw new ClientRequestException(ERROR_CODE.ERR_0006004, HttpStatus.UNAUTHORIZED);
+        default:
+          throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR, e);
+      }
+    }
   }
 };

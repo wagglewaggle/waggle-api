@@ -4,7 +4,7 @@ import { RequestExtras } from '../interceptors/request-extras';
 import { IRequestAugmented, JwtUserPayload } from '../app.interface';
 import { jwtVerify } from '../app.util';
 import { UserService } from '../../user/user.service';
-import { User } from '@lib/entity/user/user.entity';
+import { UserEntity } from '../../user/entity/user.entity';
 
 @Injectable()
 export class RequestMiddleware implements NestMiddleware {
@@ -27,7 +27,7 @@ export class RequestMiddleware implements NestMiddleware {
     return await jwtVerify(token);
   }
 
-  async getUser(payload: JwtUserPayload | undefined): Promise<User> {
+  async getUser(payload: JwtUserPayload | undefined): Promise<UserEntity> {
     if (!payload) {
       return undefined;
     }

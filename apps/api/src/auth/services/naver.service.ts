@@ -4,10 +4,9 @@ import { IAuthCallbackResult } from '../auth.interface';
 import { CallbackQueryDto } from '../auth.type';
 import { ClientRequestException } from '../../app/exceptions/request.exception';
 import ERROR_CODE from '../../app/exceptions/error-code';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { NaverApiUrl } from '../auth.constant';
 import { BaseAuthService } from '../base-auth.service';
-import { UserEntity } from '../../user/entity/user.entity';
 import { UserService } from '../../user/user.service';
 import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 import { jwtSign } from '../../app/app.util';
@@ -22,48 +21,38 @@ export class NaverService extends BaseAuthService {
   }
 
   async callback(query: CallbackQueryDto): Promise<IAuthCallbackResult> {
-    const queryRunner = this.dataSource.createQueryRunner();
-    const manager = queryRunner.manager;
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-    try {
-      const token = (await this.getToken(query.code)) as INaverTokenResponse;
-      if (token.error) {
-        throw new ClientRequestException(ERROR_CODE.ERR_0005001, HttpStatus.BAD_REQUEST, { errorDesc: token.error_description });
-      }
-
-      const userNaverInformation = (await this.getInformation(token.access_token, token.token_type)) as INaverInformationResponse;
-
-      const user = new UserEntity({
-        snsId: userNaverInformation.response.id,
-        snsType: SnsType.Naver,
-        email: userNaverInformation.response.email,
-        name: userNaverInformation.response.name,
-        nickname: userNaverInformation.response.nickname,
-        status: UserStatus.Activated,
-      });
-      const isDuplicatedUser = await this.checkDuplicatedUser(userNaverInformation.response.id, SnsType.Naver);
-      if (!isDuplicatedUser) {
-        await this.addNewUser(user, manager);
-      }
-
-      const payload = { type: user.snsType, email: user.email, name: user.name };
-      const jwtToken = await jwtSign(payload);
-
-      await queryRunner.commitTransaction();
-      return {
-        token: jwtToken,
-        payload,
-        existUser: isDuplicatedUser,
-      };
-    } catch (e) {
-      if (queryRunner.isTransactionActive) {
-        await queryRunner.rollbackTransaction();
-      }
-      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR, { value: e });
-    } finally {
-      await queryRunner.release();
+    const token = (await this.getToken(query.code)) as INaverTokenResponse;
+    if (token.error) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0005001, HttpStatus.UNAUTHORIZED, { errorDesc: token.error_description });
     }
+
+    const userNaverInformation = (await this.getInformation(token.access_token, token.token_type)) as INaverInformationResponse;
+
+    const isDuplicatedUser = await this.checkDuplicatedUser(userNaverInformation.response.id, SnsType.Naver);
+    if (!isDuplicatedUser) {
+      await this.addNewUser(
+        this.userService.createInstance({
+          snsId: userNaverInformation.response.id,
+          snsType: SnsType.Naver,
+          email: userNaverInformation.response.email,
+          name: userNaverInformation.response.name,
+          nickname: userNaverInformation.response.nickname,
+          status: UserStatus.Activated,
+        }),
+      );
+    }
+
+    const user = await this.userService.getUserBySnsId(userNaverInformation.response.id, SnsType.Naver);
+    user.isActivated();
+
+    const payload = { type: user.snsType, email: user.email, name: user.name };
+    const jwtToken = await jwtSign(payload);
+
+    return {
+      token: jwtToken,
+      payload,
+      existUser: isDuplicatedUser,
+    };
   }
 
   protected async getToken(code: string): Promise<Record<string, any>> {
@@ -77,7 +66,10 @@ export class NaverService extends BaseAuthService {
       const { data } = await axios.post(this.generateRequestUrl(NaverApiUrl.Token, query));
       return data;
     } catch (e) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR);
+      if (e instanceof AxiosError) {
+        throw new ClientRequestException(ERROR_CODE.ERR_0005001, HttpStatus.UNAUTHORIZED);
+      }
+      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR, e);
     }
   }
 
@@ -94,7 +86,10 @@ export class NaverService extends BaseAuthService {
       );
       return data;
     } catch (e) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR);
+      if (e instanceof AxiosError) {
+        throw new ClientRequestException(ERROR_CODE.ERR_0005001, HttpStatus.UNAUTHORIZED);
+      }
+      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR, e);
     }
   }
 }

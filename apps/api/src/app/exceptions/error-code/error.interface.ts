@@ -22,8 +22,12 @@ export interface IErrorCode {
   // SNS Login
   ERR_0005001: string;
   ERR_0005002: string;
+  ERR_0005003: string;
 
   // User
   ERR_0006001: string;
   ERR_0006002: string;
+  ERR_0006003: string;
+  ERR_0006004: string;
+  ERR_0006005: string;
 }
