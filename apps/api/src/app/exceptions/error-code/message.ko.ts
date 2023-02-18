@@ -24,6 +24,7 @@ const errors: IErrorCode = {
   ERR_0006003: '만료된 토큰입니다.',
   ERR_0006004: '유효하지 않은 토큰입니다.',
   ERR_0006005: '잘못된 jwt 서명입니다.',
+  ERR_0006006: '헤더에 토큰 정보가 없습니다.',
 };
 
 export default errors;
