@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DeepPartial, EntityManager } from 'typeorm';
-import { SnsType } from '@lib/entity/user/user.constant';
+import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 import { UserRepository } from './user.repository';
 import { User } from '@lib/entity/user/user.entity';
 import { UserEntity } from './entity/user.entity';
@@ -36,5 +36,9 @@ export class UserService {
 
   async modifyUserSetting(user: UserEntity, body: ModifyUserSettingBodyDto) {
     await this.userRepository.modifyUser({ idx: user.idx }, body);
+  }
+
+  async modifyUserStatus(idx: number, status: UserStatus) {
+    await this.userRepository.modifyUser({ idx }, { status });
   }
 }

@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Put, Req, UseGuards } from '@nestjs/common';
+import { UserStatus } from '@lib/entity/user/user.constant';
 import { IRequestAugmented } from '../app/app.interface';
 import { UserGuard } from '../app/guards/user.guard';
 import { UserResponseDto } from './dtos/user-response.dto';
@@ -21,5 +22,11 @@ export class UserController {
   async modifyUserSetting(@Req() req: IRequestAugmented, @Body(ModifyUserSettingPipe) body: ModifyUserSettingBodyDto) {
     const user = req.extras.getUser();
     await this.userService.modifyUserSetting(user, body);
+  }
+
+  @Put(ApiPath.Deactivate)
+  async deactivateUser(@Req() req: IRequestAugmented) {
+    const user = req.extras.getUser();
+    await this.userService.modifyUserStatus(user.idx, UserStatus.Deactivated);
   }
 }
