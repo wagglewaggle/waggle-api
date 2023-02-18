@@ -14,7 +14,7 @@ export class UserService {
   }
 
   async getUserById(idx: number): Promise<UserEntity | undefined> {
-    const user = await this.userRepository.getUser({ idx });
+    const user = await this.userRepository.getUser({ idx }, ['userRole']);
     if (user) {
       return new UserEntity(user);
     }
@@ -22,7 +22,7 @@ export class UserService {
   }
 
   async getUserBySnsId(snsId: string, snsType: SnsType): Promise<UserEntity | undefined> {
-    const user = await this.userRepository.getUser({ snsId, snsType });
+    const user = await this.userRepository.getUser({ snsId, snsType }, ['userRole']);
     if (user) {
       return new UserEntity(user);
     }
