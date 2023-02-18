@@ -7,5 +7,5 @@ export interface IAuthCallbackResult {
     email: string;
     name: string;
   };
-  newUser: boolean;
+  existUser: boolean;
 }

@@ -50,7 +50,7 @@ export class KakaoService extends BaseAuthService {
       return {
         token: jwtToken,
         payload,
-        newUser: isDuplicatedUser,
+        existUser: isDuplicatedUser,
       };
     } catch (e) {
       if (queryRunner.isTransactionActive) {
