@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { UserRole } from '../user-role/user-role.entity';
 import { SnsType, UserStatus } from './user.constant';
 
 @Entity()
@@ -23,6 +24,9 @@ export class User {
 
   @Column('enum', { enum: UserStatus })
   status: UserStatus;
+
+  @OneToOne(() => UserRole, (userRole) => userRole.user)
+  userRole: UserRole;
 
   @CreateDateColumn()
   createdDate: Date;

@@ -22,7 +22,7 @@ export class UserRepository {
 
   async addUser(user: UserEntity, manager?: EntityManager) {
     if (manager) {
-      return manager.save(user);
+      return manager.save(User, user);
     }
     return this.repository.save(user);
   }

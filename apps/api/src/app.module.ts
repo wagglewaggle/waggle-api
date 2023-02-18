@@ -15,6 +15,7 @@ import { IpGuard } from './app/guards/ip.guard';
 import { IpModule } from './ip/ip.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { UserRoleModule } from './user-role/user-role.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
@@ -33,6 +34,7 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
     IpModule,
     AuthModule,
     UserModule,
+    UserRoleModule,
   ],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
