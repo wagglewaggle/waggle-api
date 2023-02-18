@@ -1,9 +1,20 @@
-import { IRequestAugmented } from '../app.interface';
+import { UserEntity } from '../../user/entity/user.entity';
+import { IRequestExtraData, JwtUserPayload } from '../app.interface';
 
 export class RequestExtras {
-  private readonly TEST = 'hi';
+  private readonly payload: JwtUserPayload;
+  private readonly user: UserEntity;
 
-  getTest(): string {
-    return this.TEST;
+  constructor(data: IRequestExtraData) {
+    this.payload = data.payload;
+    this.user = data.user;
+  }
+
+  getUser(): UserEntity {
+    return this.user;
+  }
+
+  getPayload(): JwtUserPayload {
+    return this.payload;
   }
 }

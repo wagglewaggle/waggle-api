@@ -1,21 +1,28 @@
 import { User } from '@lib/entity/user/user.entity';
 import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
+import { UserRole } from '@lib/entity/user-role/user-role.entity';
+import { HttpStatus } from '@nestjs/common';
+import { ClientRequestException } from '../../app/exceptions/request.exception';
+import ERROR_CODE from '../../app/exceptions/error-code';
 
 export class UserEntity extends User {
+  readonly idx: number;
   readonly snsId: string;
   readonly snsType: SnsType;
   readonly email: string;
   readonly name: string;
   readonly nickname: string;
   readonly status: UserStatus;
+  readonly userRole: UserRole;
 
-  constructor({ snsId, snsType, email, name, nickname, status }) {
+  constructor(user: User) {
     super();
-    this.snsId = snsId;
-    this.snsType = snsType;
-    this.email = email;
-    this.name = name;
-    this.nickname = nickname;
-    this.status = status;
+    Object.assign(this, user);
+  }
+
+  isActivated() {
+    if ([UserStatus.Deactivated, UserStatus.Locked].includes(this.status)) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0006002, HttpStatus.UNAUTHORIZED);
+    }
   }
 }
