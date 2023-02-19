@@ -8,7 +8,7 @@ import { HealthModule } from './health/health.module';
 import { LocationModule } from './location/location.module';
 import { SktPlaceModule } from './skt-place/skt-place.module';
 import { CategoryModule } from './category/category.module';
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './app/interceptors/logging.interceptor';
 import { LoggerModule } from './app/logger/logger.module';
 import { IpGuard } from './app/guards/ip.guard';
@@ -16,6 +16,7 @@ import { IpModule } from './ip/ip.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { UserRoleModule } from './user-role/user-role.module';
+import { AllExceptionFilter } from './app/filters/all-exception.filter';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
@@ -38,6 +39,7 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   ],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
+    { provide: APP_FILTER, useClass: AllExceptionFilter },
     // { provide: APP_GUARD, useClass: IpGuard },
   ],
 })

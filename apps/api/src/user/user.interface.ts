@@ -1,6 +1,7 @@
-import { IsString } from 'class-validator';
+import { Validate } from 'class-validator';
+import { IsUsername } from '../app/validations/common.validation';
 
 export class ModifyUserSettingBodyDto {
-  @IsString()
+  @Validate(IsUsername)
   nickname: string;
 }

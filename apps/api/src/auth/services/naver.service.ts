@@ -23,7 +23,7 @@ export class NaverService extends BaseAuthService {
   async callback(query: CallbackQueryDto): Promise<IAuthCallbackResult> {
     const token = (await this.getToken(query.code)) as INaverTokenResponse;
     if (token.error) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0005001, HttpStatus.UNAUTHORIZED, { errorDesc: token.error_description });
+      throw new ClientRequestException(ERROR_CODE.ERR_0005001, HttpStatus.UNAUTHORIZED, token.error_description);
     }
 
     const userNaverInformation = (await this.getInformation(token.access_token, token.token_type)) as INaverInformationResponse;
