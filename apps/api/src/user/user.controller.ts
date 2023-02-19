@@ -5,7 +5,6 @@ import { UserGuard } from '../app/guards/user.guard';
 import { UserResponseDto } from './dtos/user-response.dto';
 import { ApiPath } from './user.constant';
 import { ModifyUserSettingBodyDto } from './user.interface';
-import { ModifyUserSettingPipe } from './user.pipe';
 import { UserService } from './user.service';
 
 @Controller(ApiPath.Root)
@@ -19,7 +18,7 @@ export class UserController {
   }
 
   @Put(ApiPath.Setting)
-  async modifyUserSetting(@Req() req: IRequestAugmented, @Body(ModifyUserSettingPipe) body: ModifyUserSettingBodyDto) {
+  async modifyUserSetting(@Req() req: IRequestAugmented, @Body() body: ModifyUserSettingBodyDto) {
     const user = req.extras.getUser();
     await this.userService.modifyUserSetting(user, body);
   }
