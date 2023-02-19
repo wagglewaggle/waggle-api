@@ -5,6 +5,7 @@ import { KtAccident } from '../kt-accident/kt-accident.entity';
 import { KtPopulation } from '../kt-population/kt-population.entity';
 import { KtRoadTraffic } from '../kt-road-traffic/kt-road-traffic.entity';
 import { Location } from '../location/location.entity';
+import { PinPlace } from '../pin-place/pin-place.entity';
 import { Province } from '../province/province.entity';
 
 @Entity()
@@ -38,6 +39,9 @@ export class KtPlace {
 
   @OneToMany(() => KtAccident, (accident) => accident.place)
   accidents: KtAccident[];
+
+  @OneToMany(() => PinPlace, (pinPlace) => pinPlace.ktPlace)
+  pinPlaces: PinPlace[];
 
   @OneToMany(() => Cctv, (cctv) => cctv.place)
   cctvs: Cctv[];
