@@ -17,6 +17,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { UserRoleModule } from './user-role/user-role.module';
 import { AllExceptionFilter } from './app/filters/all-exception.filter';
+import { PinPlaceModule } from './pin-place/pin-place.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
@@ -36,6 +37,7 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
     AuthModule,
     UserModule,
     UserRoleModule,
+    PinPlaceModule,
   ],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },

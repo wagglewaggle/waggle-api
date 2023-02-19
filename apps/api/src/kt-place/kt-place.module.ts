@@ -10,5 +10,6 @@ import { LocationModule } from '../location/location.module';
   imports: [TypeOrmModule.forFeature([KtPlace]), LocationModule],
   providers: [KtPlaceService, KtPlaceRepository],
   controllers: [KtPlaceController],
+  exports: [TypeOrmModule.forFeature([KtPlace]), KtPlaceService],
 })
 export class KtPlaceModule {}

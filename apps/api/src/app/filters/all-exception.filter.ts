@@ -34,6 +34,10 @@ export class AllExceptionFilter implements ExceptionFilter {
       statusCode = HttpStatus.NOT_FOUND;
       sendData.message = ERROR_CODE.ERR_0000002;
       sendData.errorCode = this.getErrorCode(sendData.message);
+    } else if (exception instanceof HttpException) {
+      statusCode = exception.getStatus();
+      sendData.message = exception.getResponse();
+      sendData.errorCode = this.getErrorCode(ERROR_CODE.ERR_0000009);
     }
 
     return res.status(statusCode).json(sendData);
