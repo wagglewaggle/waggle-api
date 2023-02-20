@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeepPartial, EntityManager, Repository } from 'typeorm';
+import { DeepPartial, EntityManager, FindOptionsWhere, Repository } from 'typeorm';
 import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
 import { UserEntity } from '../user/entity/user.entity';
 
@@ -16,11 +16,26 @@ export class PinPlaceRepository {
     return this.repository.createQueryBuilder(alias);
   }
 
+  async getPinPlace(where: FindOptionsWhere<PinPlace>, relations?: string[]): Promise<PinPlace[]> {
+    const options: any = { where };
+    if (Array.isArray(relations)) {
+      options.relations = relations;
+    }
+    return await this.repository.find(options);
+  }
+
   async addPinPlace(pinPlace: PinPlace, manager?: EntityManager) {
     if (manager) {
       return manager.save(PinPlace, pinPlace);
     }
     return this.repository.save(pinPlace);
+  }
+
+  async deletePinPlace(pinPlace: PinPlace, manager?: EntityManager) {
+    if (manager) {
+      return manager.remove(PinPlace, pinPlace);
+    }
+    return this.repository.remove(pinPlace);
   }
 
   async getPinPlaces(user: UserEntity): Promise<PinPlace[]> {

@@ -30,6 +30,19 @@ export class PinPlaceService {
     }
   }
 
+  async getPinPlaceByUserAndIdx(user: UserEntity, idx: number): Promise<PinPlace> {
+    const [pinPlace] = await this.pinPlaceRepository.getPinPlace({ idx }, ['user']);
+    if (!pinPlace) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0007002, HttpStatus.BAD_REQUEST);
+    }
+
+    if (pinPlace.user.idx !== user.idx) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0007001, HttpStatus.FORBIDDEN);
+    }
+
+    return pinPlace;
+  }
+
   async addPinPlace(user: UserEntity, body: AddPinPlaceBodyDto) {
     const place = await this.getPlace(body.idx, body.type);
     if (!place) {
@@ -55,5 +68,9 @@ export class PinPlaceService {
 
   async getPinPlacesByUser(user: UserEntity): Promise<PinPlace[]> {
     return await this.pinPlaceRepository.getPinPlaces(user);
+  }
+
+  async deletePinPlace(pinPlace: PinPlace): Promise<void> {
+    await this.pinPlaceRepository.deletePinPlace(pinPlace);
   }
 }

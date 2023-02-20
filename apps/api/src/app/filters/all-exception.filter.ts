@@ -1,4 +1,4 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Response } from 'express';
 import { IRequestAugmented } from '../app.interface';
 import { ClientRequestException } from '../exceptions/request.exception';
@@ -34,10 +34,9 @@ export class AllExceptionFilter implements ExceptionFilter {
       statusCode = HttpStatus.NOT_FOUND;
       sendData.message = ERROR_CODE.ERR_0000002;
       sendData.errorCode = this.getErrorCode(sendData.message);
-    } else if (exception instanceof HttpException) {
-      statusCode = exception.getStatus();
-      sendData.message = exception.getResponse();
-      sendData.errorCode = this.getErrorCode(ERROR_CODE.ERR_0000009);
+    } else if (exception instanceof InternalServerErrorException) {
+      sendData;
+      // TODO: sentry and slack
     }
 
     return res.status(statusCode).json(sendData);

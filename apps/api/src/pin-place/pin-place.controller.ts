@@ -1,9 +1,9 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
 import { IRequestAugmented } from '../app/app.interface';
 import { UserGuard } from '../app/guards/user.guard';
 import { PinPlaceResponseDto } from './dtos/pin-place-response.dto';
 import { ApiPath } from './pin-place.constant';
-import { AddPinPlaceBodyDto } from './pin-place.dto';
+import { AddPinPlaceBodyDto, DeletePinPlaceBodyDto } from './pin-place.dto';
 import { PinPlaceService } from './pin-place.service';
 
 @Controller(ApiPath.Root)
@@ -26,5 +26,13 @@ export class PinPlaceController {
     const sktPlaces = result.filter(({ sktPlace }) => sktPlace !== null).map(({ sktPlace }) => sktPlace);
     const ktPlaces = result.filter(({ ktPlace }) => ktPlace !== null).map(({ ktPlace }) => ktPlace);
     return new PinPlaceResponseDto(sktPlaces, ktPlaces);
+  }
+
+  @Delete()
+  @HttpCode(HttpStatus.OK)
+  async deletePinPlace(@Req() req: IRequestAugmented, @Body() body: DeletePinPlaceBodyDto) {
+    const user = req.extras.getUser();
+    const pinPlace = await this.pinPlaceService.getPinPlaceByUserAndIdx(user, body.idx);
+    await this.pinPlaceService.deletePinPlace(pinPlace);
   }
 }
