@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, Req, UseGuar
 import { IRequestAugmented } from '../app/app.interface';
 import { UserGuard } from '../app/guards/user.guard';
 import { PinPlaceResponseDto } from './dtos/pin-place-response.dto';
+import { PinPlaceEntity } from './entity/pin-place.entity';
 import { ApiPath } from './pin-place.constant';
 import { AddPinPlaceBodyDto, DeletePinPlaceBodyDto } from './pin-place.dto';
 import { PinPlaceService } from './pin-place.service';
@@ -23,8 +24,7 @@ export class PinPlaceController {
   async getPinPlaces(@Req() req: IRequestAugmented): Promise<PinPlaceResponseDto> {
     const user = req.extras.getUser();
     const result = await this.pinPlaceService.getPinPlacesByUser(user);
-    const sktPlaces = result.filter(({ sktPlace }) => sktPlace !== null).map(({ sktPlace }) => sktPlace);
-    const ktPlaces = result.filter(({ ktPlace }) => ktPlace !== null).map(({ ktPlace }) => ktPlace);
+    const { sktPlaces, ktPlaces } = PinPlaceEntity.getPinPlaceByOnePlaceType(result);
     return new PinPlaceResponseDto(sktPlaces, ktPlaces);
   }
 

@@ -46,8 +46,8 @@ export class PinPlaceRepository {
       .leftJoinAndSelect('pinPlace.ktPlace', 'ktPlace')
       .leftJoinAndSelect('ktPlace.population', 'ktPopulation')
       .where('user.idx = :userIdx', { userIdx: user.idx })
-      .orderBy('ktPlace.idx', 'ASC')
-      .addOrderBy('sktPlace.idx', 'ASC');
+      .orderBy('pinPlace.createdDate', 'DESC');
+    // .addOrderBy('sktPlace.idx', 'ASC');
 
     return await queryBuilder.getMany();
   }
