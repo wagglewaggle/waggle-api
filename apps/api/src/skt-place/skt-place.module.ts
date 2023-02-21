@@ -10,5 +10,6 @@ import { LocationModule } from '../location/location.module';
   imports: [TypeOrmModule.forFeature([SktPlace]), LocationModule],
   providers: [SktPlaceService, SktPlaceRepository],
   controllers: [SktPlaceController],
+  exports: [TypeOrmModule.forFeature([SktPlace]), SktPlaceService],
 })
 export class SktPlaceModule {}

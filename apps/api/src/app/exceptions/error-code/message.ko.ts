@@ -11,7 +11,10 @@ const errors: IErrorCode = {
   ERR_0000008: 'API서버 Bad Gateway',
   ERR_0000009: '{value}는 필수 값 입니다.',
 
+  ERR_0001001: '{value}는 정수 타입입니다.',
+
   ERR_0002001: '해당하는 장소가 없습니다.',
+  ERR_0002002: '{value} 장소 타입은 존재하지 않는 타입입니다. (enable value: KT / SKT)',
 
   ERR_0004001: '조회하려는 주변 장소가 없습니다.',
 
@@ -26,6 +29,9 @@ const errors: IErrorCode = {
   ERR_0006005: '잘못된 jwt 서명입니다.',
   ERR_0006006: '헤더에 토큰 정보가 없습니다.',
   ERR_0006007: '잘못된 유저 닉네임입니다.',
+
+  ERR_0007001: '권한이 없는 핀 장소입니다.',
+  ERR_0007002: '해당하는 핀 장소가 없습니다.',
 };
 
 export default errors;

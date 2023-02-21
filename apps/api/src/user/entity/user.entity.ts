@@ -4,6 +4,7 @@ import { UserRole } from '@lib/entity/user-role/user-role.entity';
 import { HttpStatus } from '@nestjs/common';
 import { ClientRequestException } from '../../app/exceptions/request.exception';
 import ERROR_CODE from '../../app/exceptions/error-code';
+import { plainToInstance } from 'class-transformer';
 
 export class UserEntity extends User {
   readonly idx: number;
@@ -20,6 +21,10 @@ export class UserEntity extends User {
   constructor(user: User) {
     super();
     Object.assign(this, user);
+  }
+
+  toEntity(): User {
+    return plainToInstance(User, this);
   }
 
   isActivated() {

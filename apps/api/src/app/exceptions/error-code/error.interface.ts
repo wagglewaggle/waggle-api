@@ -9,10 +9,12 @@ export interface IErrorCode {
   ERR_0000008: string;
   ERR_0000009: string;
 
-  // Province
+  // Validation Check
+  ERR_0001001: string;
 
   // Place
   ERR_0002001: string;
+  ERR_0002002: string;
 
   // Population
 
@@ -32,4 +34,8 @@ export interface IErrorCode {
   ERR_0006005: string;
   ERR_0006006: string;
   ERR_0006007: string;
+
+  // Pin Place
+  ERR_0007001: string;
+  ERR_0007002: string;
 }
