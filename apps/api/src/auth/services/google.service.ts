@@ -9,7 +9,7 @@ import { CallbackQueryDto } from '../auth.type';
 import { BaseAuthService } from '../base-auth.service';
 import { UserService } from '../../user/user.service';
 import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
-import { jwtSign } from '../../app/app.util';
+import { jwtAccessTokenSign } from '../../app/app.util';
 import { UserRoleService } from '../../user-role/user-role.service';
 import { DataSource } from 'typeorm';
 import { IGoogleInformationResponse, IGoogleTokenResponse } from '../auth-platform.interface';
@@ -42,7 +42,7 @@ export class GoogleService extends BaseAuthService {
     user.isActivated();
 
     const payload = { idx: user.idx, type: user.snsType, email: user.email, name: user.name };
-    const jwtToken = await jwtSign(payload);
+    const jwtToken = await jwtAccessTokenSign(payload);
 
     return {
       token: jwtToken,
