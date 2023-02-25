@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { PinPlace } from '../pin-place/pin-place.entity';
 import { UserRole } from '../user-role/user-role.entity';
+import { UserToken } from '../user-token/user-token.entity';
 import { SnsType, UserStatus } from './user.constant';
 
 @Entity()
@@ -31,6 +32,9 @@ export class User {
 
   @OneToMany(() => PinPlace, (pinPlace) => pinPlace.user)
   pinPlaces: PinPlace[];
+
+  @OneToMany(() => UserToken, (userToken) => userToken.user)
+  userTokens: UserToken[];
 
   @CreateDateColumn()
   createdDate: Date;
