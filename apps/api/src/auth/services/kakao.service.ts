@@ -9,14 +9,21 @@ import { CallbackQueryDto } from '../auth.type';
 import { BaseAuthService } from '../base-auth.service';
 import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 import { UserService } from '../../user/user.service';
-import { jwtAccessTokenSign } from '../../app/app.util';
+import { jwtAccessTokenSign, jwtRefreshTokenSign } from '../../app/app.util';
 import { UserRoleService } from '../../user-role/user-role.service';
 import { DataSource } from 'typeorm';
 import { IKakaoInformationResponse, IKakaoTokenResponse } from '../auth-platform.interface';
+import { UserTokenService } from '../../user-token/user-token.service';
+import { UserTokenStatus } from '@lib/entity/user-token/user-token.constant';
 
 @Injectable()
 export class KakaoService extends BaseAuthService {
-  constructor(readonly userService: UserService, readonly userRoleService: UserRoleService, readonly dataSource: DataSource) {
+  constructor(
+    readonly userService: UserService,
+    readonly userRoleService: UserRoleService,
+    readonly userTokenService: UserTokenService,
+    readonly dataSource: DataSource,
+  ) {
     super(userService, userRoleService);
   }
 
@@ -42,10 +49,22 @@ export class KakaoService extends BaseAuthService {
     user.isActivated();
 
     const payload = { idx: user.idx, type: user.snsType, email: user.email, name: user.name };
-    const jwtToken = await jwtAccessTokenSign(payload);
+    const accessToken = await jwtAccessTokenSign(payload);
+    const refreshToken = await jwtRefreshTokenSign({ idx: user.idx });
+
+    const existRefreshToken = await this.userTokenService.getActivatedUserTokenByUser(user);
+    if (existRefreshToken) {
+      if (existRefreshToken.isActivated()) {
+        await this.userTokenService.modifyUserTokenStatus(existRefreshToken.idx, UserTokenStatus.IntentionalExpired);
+      }
+    }
+
+    const userToken = this.userTokenService.createInstance({ token: refreshToken, status: UserTokenStatus.Activated, user });
+    await this.userTokenService.addUserToken(userToken);
 
     return {
-      token: jwtToken,
+      accessToken,
+      refreshToken,
       payload,
       existUser: isDuplicatedUser,
     };
