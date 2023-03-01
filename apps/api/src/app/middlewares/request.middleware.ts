@@ -11,14 +11,14 @@ export class RequestMiddleware implements NestMiddleware {
   constructor(private readonly userService: UserService) {}
 
   async use(req: IRequestAugmented, res: Response, next: () => void): Promise<any> {
-    const payload = await this.parseJwt(req.headers.authorization);
+    const payload = await this.getPayload(req.headers.authorization);
     const user = await this.getUser(payload);
 
     req.extras = new RequestExtras({ payload, user });
     next();
   }
 
-  async parseJwt(authorization: string | undefined): Promise<JwtUserPayload | undefined> {
+  async getPayload(authorization: string | undefined): Promise<JwtUserPayload | undefined> {
     if (!authorization) {
       return undefined;
     }
