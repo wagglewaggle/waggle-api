@@ -1,7 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { config } from '@lib/config';
 import { IAuthCallbackResult } from '../auth.interface';
-import { CallbackQueryDto } from '../auth.type';
+import { CallbackQueryDto } from '../auth.dto';
 import { ClientRequestException } from '../../app/exceptions/request.exception';
 import ERROR_CODE from '../../app/exceptions/error-code';
 import axios, { AxiosError } from 'axios';
@@ -15,6 +15,7 @@ import { DataSource, QueryRunner } from 'typeorm';
 import { INaverInformationResponse, INaverTokenResponse } from '../auth-platform.interface';
 import { UserTokenService } from '../../user-token/user-token.service';
 import { UserTokenStatus } from '@lib/entity/user-token/user-token.constant';
+import { TokenPayloadEntity } from '../../user-token/entity/token-payload.entity';
 
 @Injectable()
 export class NaverService extends BaseAuthService {
@@ -72,8 +73,8 @@ export class NaverService extends BaseAuthService {
       }
       user.isActivated();
 
-      const payload = { idx: user.idx, type: user.snsType, email: user.email, name: user.name };
-      const accessToken = await jwtAccessTokenSign(payload);
+      const payload = new TokenPayloadEntity(user);
+      const accessToken = await jwtAccessTokenSign(payload.toJson());
       const refreshToken = await jwtRefreshTokenSign({ idx: user.idx });
 
       const existRefreshToken = await this.userTokenService.getActivatedUserTokenByUser(user);
@@ -87,7 +88,7 @@ export class NaverService extends BaseAuthService {
       await this.userTokenService.addUserToken(userToken, manager);
       await queryRunner.commitTransaction();
       return {
-        payload,
+        payload: payload.toJson(),
         accessToken,
         refreshToken,
       };

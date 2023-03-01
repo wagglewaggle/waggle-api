@@ -1,4 +1,4 @@
-import { CallbackQueryDto } from './auth.type';
+import { CallbackQueryDto } from './auth.dto';
 import * as format from 'string-format';
 import { UserEntity } from '../user/entity/user.entity';
 import { SnsType } from '@lib/entity/user/user.constant';

@@ -30,6 +30,7 @@ export class LoggingInterceptor implements NestInterceptor {
       header: req.headers,
       body: req.body,
       error: null,
+      errorStack: null,
       errorCode: null,
       errorMessage: null,
     };
@@ -60,6 +61,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
   getErrorInfo(target, e) {
     target.error = JSON.stringify(e);
+    target.errorStack = e.stack;
 
     if (e instanceof ClientRequestException) {
       target.errorMessage = e.message;

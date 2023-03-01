@@ -40,6 +40,23 @@ export class IsNumber implements ValidatorConstraintInterface {
   }
 }
 
+@ValidatorConstraint({ name: 'isString' })
+@Injectable()
+export class IsString implements ValidatorConstraintInterface {
+  validate(value: any, validationArguments: ValidationArguments): boolean {
+    const property = validationArguments.property;
+    if (!value) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0000009, HttpStatus.BAD_REQUEST, { value: property });
+    }
+
+    if (typeof value === 'string') {
+      return true;
+    }
+
+    throw new ClientRequestException(ERROR_CODE.ERR_0001002, HttpStatus.BAD_REQUEST, { value: property });
+  }
+}
+
 @ValidatorConstraint({ name: 'isPlaceType' })
 @Injectable()
 export class IsPlaceType implements ValidatorConstraintInterface {

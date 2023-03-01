@@ -11,6 +11,7 @@ export interface IErrorCode {
 
   // Validation Check
   ERR_0001001: string;
+  ERR_0001002: string;
 
   // Place
   ERR_0002001: string;
@@ -34,6 +35,8 @@ export interface IErrorCode {
   ERR_0006005: string;
   ERR_0006006: string;
   ERR_0006007: string;
+  ERR_0006008: string;
+  ERR_0006009: string;
 
   // Pin Place
   ERR_0007001: string;

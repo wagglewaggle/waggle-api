@@ -5,7 +5,7 @@ import ERROR_CODE from '../../app/exceptions/error-code';
 import { ClientRequestException } from '../../app/exceptions/request.exception';
 import { GoogleApiUrl } from '../auth.constant';
 import { IAuthCallbackResult } from '../auth.interface';
-import { CallbackQueryDto } from '../auth.type';
+import { CallbackQueryDto } from '../auth.dto';
 import { BaseAuthService } from '../base-auth.service';
 import { UserService } from '../../user/user.service';
 import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
@@ -15,6 +15,7 @@ import { DataSource, QueryRunner } from 'typeorm';
 import { IGoogleInformationResponse, IGoogleTokenResponse } from '../auth-platform.interface';
 import { UserTokenService } from '../../user-token/user-token.service';
 import { UserTokenStatus } from '@lib/entity/user-token/user-token.constant';
+import { TokenPayloadEntity } from '../../user-token/entity/token-payload.entity';
 
 @Injectable()
 export class GoogleService extends BaseAuthService {
@@ -68,8 +69,8 @@ export class GoogleService extends BaseAuthService {
       }
       user.isActivated();
 
-      const payload = { idx: user.idx, type: user.snsType, email: user.email, name: user.name };
-      const accessToken = await jwtAccessTokenSign(payload);
+      const payload = new TokenPayloadEntity(user);
+      const accessToken = await jwtAccessTokenSign(payload.toJson());
       const refreshToken = await jwtRefreshTokenSign({ idx: user.idx });
 
       const existRefreshToken = await this.userTokenService.getActivatedUserTokenByUser(user);
@@ -83,7 +84,7 @@ export class GoogleService extends BaseAuthService {
       await this.userTokenService.addUserToken(userToken, manager);
       await queryRunner.commitTransaction();
       return {
-        payload,
+        payload: payload.toJson(),
         accessToken,
         refreshToken,
       };

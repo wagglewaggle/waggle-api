@@ -1,10 +1,13 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { IRequestAugmented } from '../app/app.interface';
+import { UserGuard } from '../app/guards/user.guard';
 import { ApiPath } from './auth.constant';
 import { IAuthCallbackResult } from './auth.interface';
-import { CallbackQueryDto } from './auth.type';
+import { CallbackQueryDto, ReissueTokenBodyDto } from './auth.dto';
 import { GoogleService } from './services/google.service';
 import { KakaoService } from './services/kakao.service';
 import { NaverService } from './services/naver.service';
+import { UserTokenService } from '../user-token/user-token.service';
 
 @Controller(ApiPath.Root)
 export class AuthController {
@@ -12,6 +15,7 @@ export class AuthController {
     private readonly naverService: NaverService,
     private readonly kakaoService: KakaoService,
     private readonly googleService: GoogleService,
+    private readonly userTokenService: UserTokenService,
   ) {}
 
   @Get(ApiPath.Naver)
@@ -27,5 +31,13 @@ export class AuthController {
   @Get(ApiPath.Google)
   async googleRedirect(@Query() query: CallbackQueryDto): Promise<IAuthCallbackResult> {
     return await this.googleService.callback(query);
+  }
+
+  @Post(ApiPath.Reissue)
+  @UseGuards(UserGuard)
+  async reissueAccessToken(@Req() req: IRequestAugmented, @Body() body: ReissueTokenBodyDto) {
+    const user = req.extras.getUser();
+    const accessToken = await this.userTokenService.reissueAccessToken(user, body.refreshToken);
+    return { accessToken };
   }
 }

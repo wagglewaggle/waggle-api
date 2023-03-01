@@ -4,6 +4,7 @@ export enum ApiPath {
   Naver = 'naver',
   Google = 'google',
   Kakao = 'kakao',
+  Reissue = 'reissue',
 }
 
 export enum NaverApiUrl {
