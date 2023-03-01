@@ -7,7 +7,7 @@ import { JwtUserPayload } from './app.interface';
 
 export const jwtAccessTokenSign = async (payload: string | object | Buffer): Promise<string> => {
   try {
-    return await jwt.sign(payload, config.jwtSecretKey, { expiresIn: '1h' });
+    return await jwt.sign(payload, config.jwtSecretKey, { expiresIn: '30m' });
   } catch (e) {
     throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR);
   }
@@ -38,4 +38,12 @@ export const jwtVerify = async (token: string): Promise<JwtUserPayload | undefin
       }
     }
   }
+};
+
+export const jwtTokenTimeLeft = async (payload: JwtUserPayload): Promise<number> => {
+  if (!payload.exp) {
+    throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  return payload.exp - Date.now() / 1000;
 };

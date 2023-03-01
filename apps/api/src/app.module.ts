@@ -19,6 +19,7 @@ import { UserRoleModule } from './user-role/user-role.module';
 import { AllExceptionFilter } from './app/filters/all-exception.filter';
 import { PinPlaceModule } from './pin-place/pin-place.module';
 import { UserTokenModule } from './user-token/user-token.module';
+import { TokenTimeLeftInterceptor } from './app/interceptors/token-time-left.interceptor';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
@@ -43,6 +44,7 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   ],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
+    { provide: APP_INTERCEPTOR, useClass: TokenTimeLeftInterceptor },
     { provide: APP_FILTER, useClass: AllExceptionFilter },
     // { provide: APP_GUARD, useClass: IpGuard },
   ],
