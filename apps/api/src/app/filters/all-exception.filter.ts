@@ -44,6 +44,10 @@ export class AllExceptionFilter implements ExceptionFilter {
 
   getErrorCode(message: string): string {
     const errorCodes = Object.keys(errorMessage);
-    return errorCodes.find((code) => ERROR_CODE[code] === message);
+    const result = errorCodes.find((code) => ERROR_CODE[code] === message);
+    if (result) {
+      return result;
+    }
+    throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

@@ -21,7 +21,7 @@ export const jwtRefreshTokenSign = async (payload: string | object | Buffer): Pr
   }
 };
 
-export const jwtVerify = async (token: string): Promise<JwtUserPayload> => {
+export const jwtVerify = async (token: string): Promise<JwtUserPayload | undefined> => {
   try {
     return (await jwt.verify(token, config.jwtSecretKey)) as JwtUserPayload;
   } catch (e) {

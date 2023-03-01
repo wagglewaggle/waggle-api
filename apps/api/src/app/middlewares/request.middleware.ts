@@ -27,7 +27,7 @@ export class RequestMiddleware implements NestMiddleware {
     return await jwtVerify(token);
   }
 
-  async getUser(payload: JwtUserPayload | undefined): Promise<UserEntity> {
+  async getUser(payload: JwtUserPayload | undefined): Promise<UserEntity | undefined> {
     if (!payload) {
       return undefined;
     }

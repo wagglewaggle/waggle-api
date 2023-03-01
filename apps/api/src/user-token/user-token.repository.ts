@@ -18,7 +18,10 @@ export class UserTokenRepository {
       options.relations = relations;
     }
     const token = await this.repository.findOne(options);
-    return new UserTokenEntity(token) || undefined;
+    if (!token) {
+      return undefined;
+    }
+    return new UserTokenEntity(token);
   }
 
   async addUserToken(userToken: UserToken, manager?: EntityManager) {

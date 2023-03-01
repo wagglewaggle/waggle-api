@@ -22,7 +22,7 @@ export abstract class BaseAuthService {
   protected abstract getToken(code: string): Promise<Record<string, any>>;
   protected abstract getInformation(token: string, type: string): Promise<Record<string, any>>;
 
-  generateRequestUrl(url: string, data?: Record<string, any>): string {
+  generateRequestUrl(url: string, data: Record<string, any> = {}): string {
     return format(url, data);
   }
 
