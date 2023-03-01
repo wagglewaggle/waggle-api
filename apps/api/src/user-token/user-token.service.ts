@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DeepPartial } from 'typeorm';
+import { DeepPartial, EntityManager } from 'typeorm';
 import { UserToken } from '@lib/entity/user-token/user-token.entity';
 import { UserTokenRepository } from './user-token.repository';
 import { UserTokenStatus } from '@lib/entity/user-token/user-token.constant';
@@ -18,11 +18,11 @@ export class UserTokenService {
     return await this.userTokenRepository.getUserToken({ user: { idx: user.idx }, status: UserTokenStatus.Activated });
   }
 
-  async addUserToken(userToken: UserToken) {
-    await this.userTokenRepository.addUserToken(userToken);
+  async addUserToken(userToken: UserToken, manager?: EntityManager) {
+    await this.userTokenRepository.addUserToken(userToken, manager);
   }
 
-  async modifyUserTokenStatus(idx: number, status: UserTokenStatus) {
-    await this.userTokenRepository.updateUserToken({ idx }, { status, expiredDate: new Date() });
+  async modifyUserTokenStatus(idx: number, status: UserTokenStatus, manager?: EntityManager) {
+    await this.userTokenRepository.updateUserToken({ idx }, { status, expiredDate: new Date() }, manager);
   }
 }

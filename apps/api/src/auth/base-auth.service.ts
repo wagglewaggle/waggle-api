@@ -21,6 +21,7 @@ export abstract class BaseAuthService {
   abstract callback(query: CallbackQueryDto): Promise<IAuthCallbackResult>;
   protected abstract getToken(code: string): Promise<Record<string, any>>;
   protected abstract getInformation(token: string, type: string): Promise<Record<string, any>>;
+  protected abstract createJwtUserToken(id: string): Promise<any>;
 
   generateRequestUrl(url: string, data: Record<string, any> = {}): string {
     return format(url, data);

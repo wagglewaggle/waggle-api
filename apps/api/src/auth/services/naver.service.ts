@@ -11,7 +11,7 @@ import { UserService } from '../../user/user.service';
 import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 import { jwtAccessTokenSign, jwtRefreshTokenSign } from '../../app/app.util';
 import { UserRoleService } from '../../user-role/user-role.service';
-import { DataSource } from 'typeorm';
+import { DataSource, QueryRunner } from 'typeorm';
 import { INaverInformationResponse, INaverTokenResponse } from '../auth-platform.interface';
 import { UserTokenService } from '../../user-token/user-token.service';
 import { UserTokenStatus } from '@lib/entity/user-token/user-token.constant';
@@ -49,22 +49,7 @@ export class NaverService extends BaseAuthService {
       );
     }
 
-    const user = await this.userService.getUserBySnsId(userNaverInformation.response.id, SnsType.Naver);
-    user.isActivated();
-
-    const payload = { idx: user.idx, type: user.snsType, email: user.email, name: user.name };
-    const accessToken = await jwtAccessTokenSign(payload);
-    const refreshToken = await jwtRefreshTokenSign({ idx: user.idx });
-
-    const existRefreshToken = await this.userTokenService.getActivatedUserTokenByUser(user);
-    if (existRefreshToken) {
-      if (existRefreshToken.isActivated()) {
-        await this.userTokenService.modifyUserTokenStatus(existRefreshToken.idx, UserTokenStatus.IntentionalExpired);
-      }
-    }
-
-    const userToken = this.userTokenService.createInstance({ token: refreshToken, status: UserTokenStatus.Activated, user });
-    await this.userTokenService.addUserToken(userToken);
+    const { payload, accessToken, refreshToken } = await this.createJwtUserToken(userNaverInformation.response.id);
 
     return {
       accessToken,
@@ -72,6 +57,48 @@ export class NaverService extends BaseAuthService {
       payload,
       existUser: isDuplicatedUser,
     };
+  }
+
+  protected async createJwtUserToken(id: string): Promise<any> {
+    const connection = this.dataSource;
+    const queryRunner: QueryRunner = connection.createQueryRunner();
+    const manager = queryRunner.manager;
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const user = await this.userService.getUserBySnsId(id, SnsType.Naver);
+      if (!user) {
+        throw new ClientRequestException(ERROR_CODE.ERR_0006001, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+      user.isActivated();
+
+      const payload = { idx: user.idx, type: user.snsType, email: user.email, name: user.name };
+      const accessToken = await jwtAccessTokenSign(payload);
+      const refreshToken = await jwtRefreshTokenSign({ idx: user.idx });
+
+      const existRefreshToken = await this.userTokenService.getActivatedUserTokenByUser(user);
+      if (existRefreshToken) {
+        if (existRefreshToken.isActivated()) {
+          await this.userTokenService.modifyUserTokenStatus(existRefreshToken.idx, UserTokenStatus.IntentionalExpired, manager);
+        }
+      }
+
+      const userToken = this.userTokenService.createInstance({ token: refreshToken, status: UserTokenStatus.Activated, user });
+      await this.userTokenService.addUserToken(userToken, manager);
+      await queryRunner.commitTransaction();
+      return {
+        payload,
+        accessToken,
+        refreshToken,
+      };
+    } catch (e) {
+      if (queryRunner.isTransactionActive) {
+        await queryRunner.rollbackTransaction();
+      }
+      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR, e);
+    } finally {
+      await queryRunner.release();
+    }
   }
 
   protected async getToken(code: string): Promise<Record<string, any>> {

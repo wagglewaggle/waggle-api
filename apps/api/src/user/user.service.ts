@@ -24,10 +24,10 @@ export class UserService {
     return undefined;
   }
 
-  async getUserBySnsId(snsId: string, snsType: SnsType): Promise<UserEntity> {
+  async getUserBySnsId(snsId: string, snsType: SnsType): Promise<UserEntity | undefined> {
     const user = await this.userRepository.getUser({ snsId, snsType }, ['userRole']);
     if (!user) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0006001, HttpStatus.BAD_REQUEST);
+      return undefined;
     }
     return new UserEntity(user);
   }
