@@ -25,7 +25,7 @@ export class KtPlaceResponseDto {
   @Exclude() private readonly _roadTraffic: KtRoadTraffic | undefined;
   @Exclude() private readonly _location: Location | undefined;
 
-  constructor(place: KtPlace, location?: Location) {
+  constructor(place: KtPlace) {
     this._idx = place.idx;
     this._name = place.name;
     this._x = place.x;
@@ -35,7 +35,7 @@ export class KtPlaceResponseDto {
     this._accidents = place.accidents;
     this._cctvs = place.cctvs;
     this._roadTraffic = place.ktRoadTraffic;
-    this._location = location;
+    this._location = place.location;
   }
 
   @Expose()

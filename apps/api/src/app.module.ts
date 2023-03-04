@@ -20,6 +20,7 @@ import { AllExceptionFilter } from './app/filters/all-exception.filter';
 import { PinPlaceModule } from './pin-place/pin-place.module';
 import { UserTokenModule } from './user-token/user-token.module';
 import { TokenTimeLeftInterceptor } from './app/interceptors/token-time-left.interceptor';
+import { PlaceModule } from './place/place.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
@@ -41,6 +42,7 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
     UserRoleModule,
     PinPlaceModule,
     UserTokenModule,
+    PlaceModule,
   ],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },

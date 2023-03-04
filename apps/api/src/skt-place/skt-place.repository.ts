@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 import { SktPlaceListFilterQueryDto } from './skt-place.dto';
+import { PlaceListFilterQueryDto } from '../place/place.dto';
 
 @Injectable()
 export class SktPlaceRepository {
@@ -20,7 +21,7 @@ export class SktPlaceRepository {
     return this.repository.find(options);
   }
 
-  async getSktPlaces(query: SktPlaceListFilterQueryDto): Promise<[SktPlace[], number]> {
+  async getSktPlaces(query: PlaceListFilterQueryDto): Promise<[SktPlace[], number]> {
     const queryBuilder = this.createQueryBuilder()
       .leftJoinAndSelect('sktPlace.population', 'population')
       .leftJoinAndSelect('sktPlace.categories', 'category');
@@ -34,9 +35,9 @@ export class SktPlaceRepository {
     }
 
     if (query.populationSort) {
-      queryBuilder.orderBy('population.level', 'ASC');
-    } else {
       queryBuilder.orderBy('population.level', 'DESC');
+    } else {
+      queryBuilder.orderBy('population.level', 'ASC');
     }
 
     const [places, count] = await queryBuilder.getManyAndCount();
