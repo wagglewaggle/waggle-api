@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
-import { KtPlaceListFilterQueryDto } from './kt-place.dto';
 import { PlaceListFilterQueryDto } from '../place/place.dto';
+import { PopulationLevel } from '../place/place.constant';
 
 @Injectable()
 export class KtPlaceRepository {
@@ -27,6 +27,9 @@ export class KtPlaceRepository {
       .leftJoinAndSelect('ktPlace.categories', 'category');
 
     if (query.level) {
+      if (query.level === PopulationLevel.VeryRelaxation) {
+        return [[], 0];
+      }
       queryBuilder.andWhere('population.level = :level', { level: query.level });
     }
 

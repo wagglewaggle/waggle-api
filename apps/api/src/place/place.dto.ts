@@ -1,7 +1,7 @@
-import { Type } from 'class-transformer';
-import { IsEnum, IsNumber, IsOptional } from 'class-validator';
+import { Validate } from 'class-validator';
 import { PlaceType } from '../app/app.constant';
 import { ListFilterQueryDto } from '../app/app.dto';
+import { IsPlaceType, IsStringNumber } from '../app/validations/common.validation';
 import { PopulationLevel } from './place.constant';
 
 export class PlaceListFilterQueryDto extends ListFilterQueryDto {
@@ -9,10 +9,9 @@ export class PlaceListFilterQueryDto extends ListFilterQueryDto {
 }
 
 export class PlaceParamDto {
-  @Type(() => Number)
-  @IsNumber()
+  @Validate(IsStringNumber)
   idx: number;
 
-  @IsEnum(PlaceType)
+  @Validate(IsPlaceType)
   type: PlaceType;
 }

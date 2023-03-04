@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { KtPlace } from '../../../../libs/entity/src/kt-place/kt-place.entity';
-import { SktPlace } from '../../../../libs/entity/src/skt-place/skt-place.entity';
+import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
+import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 import { PlaceType } from '../app/app.constant';
 import { IListResponse } from '../app/interfaces/common.interface';
 import { KtPlaceResponseDto } from '../kt-place/dtos/kt-place-reponse.dto';
@@ -9,13 +9,14 @@ import { PlaceResponseDto } from './dtos/place-response.dto';
 import { ApiPath } from './place.constant';
 import { PlaceListFilterQueryDto, PlaceParamDto } from './place.dto';
 import { PlaceService } from './place.service';
+import { PlaceListFilterPipe } from './place.pipe';
 
 @Controller(ApiPath.Root)
 export class PlaceController {
   constructor(private readonly placeService: PlaceService) {}
 
   @Get()
-  async getAllTypePlaces(@Query() query: PlaceListFilterQueryDto): Promise<IListResponse<PlaceResponseDto>> {
+  async getAllTypePlaces(@Query(PlaceListFilterPipe) query: PlaceListFilterQueryDto): Promise<IListResponse<PlaceResponseDto>> {
     const places = await this.placeService.getAllTypePlaces(query);
     return { list: places.map((place) => new PlaceResponseDto(place)) };
   }

@@ -1,10 +1,8 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { Location } from '@lib/entity/location/location.entity';
 import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 import ERROR_CODE from '../app/exceptions/error-code';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import { LocationService } from '../location/location.service';
-import { SktPlaceListFilterQueryDto } from './skt-place.dto';
 import { SktPlaceRepository } from './skt-place.repository';
 import { PlaceListFilterQueryDto } from '../place/place.dto';
 

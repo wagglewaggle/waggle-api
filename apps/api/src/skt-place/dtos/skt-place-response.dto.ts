@@ -17,7 +17,7 @@ export class SktPlaceResponseDto {
   @Exclude() private readonly _population: SktPopulation;
   @Exclude() private readonly _location: Location | undefined;
 
-  constructor(place: SktPlace, location?: Location) {
+  constructor(place: SktPlace) {
     this._idx = place.idx;
     this._poiId = place.poiId;
     this._name = place.name;
@@ -25,7 +25,7 @@ export class SktPlaceResponseDto {
     this._y = place.y;
     this._categories = place.categories;
     this._population = place.population;
-    this._location = location;
+    this._location = place.location;
   }
 
   @Expose()

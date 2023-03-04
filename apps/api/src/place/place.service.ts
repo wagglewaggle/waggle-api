@@ -1,15 +1,10 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { KtPlace } from '../../../../libs/entity/src/kt-place/kt-place.entity';
-import { KtPopulationLevel } from '../../../../libs/entity/src/kt-population/kt-population.constant';
-import { SktPlace } from '../../../../libs/entity/src/skt-place/skt-place.entity';
-import { SktPopulationLevel } from '../../../../libs/entity/src/skt-population/skt-population.constant';
+import { Injectable } from '@nestjs/common';
+import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
+import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 import { PlaceType } from '../app/app.constant';
-import ERROR_CODE from '../app/exceptions/error-code';
-import { ClientRequestException } from '../app/exceptions/request.exception';
 import { KtPlaceService } from '../kt-place/kt-place.service';
 import { SktPlaceService } from '../skt-place/skt-place.service';
 import { PlaceEntity } from './entity/place.entity';
-import { PopulationLevel } from './place.constant';
 import { PlaceListFilterQueryDto } from './place.dto';
 
 @Injectable()
