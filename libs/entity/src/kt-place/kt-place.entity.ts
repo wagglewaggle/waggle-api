@@ -22,6 +22,9 @@ export class KtPlace {
   @Column('double')
   y: number;
 
+  @Column('varchar')
+  address: string;
+
   @ManyToOne(() => Province, (province) => province.ktPlaces)
   province: Province;
 

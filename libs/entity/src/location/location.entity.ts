@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { ExtraPlace } from '../extra-place/extra-place.entity';
 import { KtPlace } from '../kt-place/kt-place.entity';
 import { SktPlace } from '../skt-place/skt-place.entity';
 
@@ -15,4 +16,7 @@ export class Location {
 
   @OneToMany(() => SktPlace, (sktPlace) => sktPlace.location, { nullable: true })
   sktPlaces: SktPlace[];
+
+  @OneToMany(() => ExtraPlace, (extraPlace) => extraPlace.location, { nullable: true })
+  extraPlaces: ExtraPlace[];
 }
