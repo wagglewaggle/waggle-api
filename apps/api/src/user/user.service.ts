@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { DeepPartial, EntityManager } from 'typeorm';
 import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 import { UserRepository } from './user.repository';
 import { User } from '@lib/entity/user/user.entity';
 import { UserEntity } from './entity/user.entity';
 import { ModifyUserSettingBodyDto } from './user.interface';
+import { ClientRequestException } from '../app/exceptions/request.exception';
+import ERROR_CODE from '../app/exceptions/error-code';
 
 @Injectable()
 export class UserService {
@@ -24,10 +26,10 @@ export class UserService {
 
   async getUserBySnsId(snsId: string, snsType: SnsType): Promise<UserEntity | undefined> {
     const user = await this.userRepository.getUser({ snsId, snsType }, ['userRole']);
-    if (user) {
-      return new UserEntity(user);
+    if (!user) {
+      return undefined;
     }
-    return undefined;
+    return new UserEntity(user);
   }
 
   async addUser(user: UserEntity, manager?: EntityManager) {

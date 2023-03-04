@@ -1,7 +1,8 @@
 import { SnsType } from '@lib/entity/user/user.constant';
 
 export interface IAuthCallbackResult {
-  token: string;
+  accessToken: string;
+  refreshToken: string;
   payload: {
     type: SnsType;
     email: string;

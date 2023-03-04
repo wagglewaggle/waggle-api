@@ -16,8 +16,8 @@ export interface IRequestLocation {
 }
 
 export interface IRequestExtraData {
-  payload: JwtUserPayload;
-  user: UserEntity;
+  payload?: JwtUserPayload;
+  user?: UserEntity;
 }
 
 export interface JwtUserPayload extends JwtPayload {

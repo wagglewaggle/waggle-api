@@ -67,7 +67,10 @@ export class KtPlaceResponseDto {
   }
 
   @Expose()
-  get population(): KtPopulationResponseDto {
+  get population(): KtPopulationResponseDto | undefined {
+    if (!this._population) {
+      return undefined;
+    }
     return new KtPopulationResponseDto(this._population);
   }
 

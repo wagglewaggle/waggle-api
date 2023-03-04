@@ -1,4 +1,4 @@
-import { CallbackQueryDto } from './auth.type';
+import { CallbackQueryDto } from './auth.dto';
 import * as format from 'string-format';
 import { UserEntity } from '../user/entity/user.entity';
 import { SnsType } from '@lib/entity/user/user.constant';
@@ -21,8 +21,9 @@ export abstract class BaseAuthService {
   abstract callback(query: CallbackQueryDto): Promise<IAuthCallbackResult>;
   protected abstract getToken(code: string): Promise<Record<string, any>>;
   protected abstract getInformation(token: string, type: string): Promise<Record<string, any>>;
+  protected abstract createJwtUserToken(id: string): Promise<any>;
 
-  generateRequestUrl(url: string, data?: Record<string, any>): string {
+  generateRequestUrl(url: string, data: Record<string, any> = {}): string {
     return format(url, data);
   }
 
