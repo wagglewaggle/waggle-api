@@ -11,52 +11,10 @@ import { PlaceListFilterQueryDto } from './place.dto';
 export class PlaceService {
   constructor(private readonly ktPlaceService: KtPlaceService, private readonly sktPlaceService: SktPlaceService) {}
 
-  getRefinedPlaces(ktPlaces: KtPlace[], sktPlaces: SktPlace[], sortType = false) {
-    const places: PlaceEntity[] = [];
-    const ktLength = ktPlaces.length;
-    const sktLength = sktPlaces.length;
-
-    let ktIdx = 0,
-      sktIdx = 0;
-
-    while (ktIdx < ktLength && sktIdx < sktLength) {
-      while (
-        ktIdx < ktLength &&
-        sktIdx < sktLength &&
-        PlaceEntity.getPopulationLevel(ktPlaces[ktIdx].population.level) <=
-          PlaceEntity.getPopulationLevel(undefined, sktPlaces[sktIdx].population.level)
-      ) {
-        if (sortType) {
-          places.push(new PlaceEntity(sktPlaces[sktIdx++]));
-        } else {
-          places.push(new PlaceEntity(ktPlaces[ktIdx++]));
-        }
-      }
-
-      while (
-        ktIdx < ktLength &&
-        sktIdx < sktLength &&
-        PlaceEntity.getPopulationLevel(ktPlaces[ktIdx].population.level) >
-          PlaceEntity.getPopulationLevel(undefined, sktPlaces[sktIdx].population.level)
-      ) {
-        if (sortType) {
-          places.push(new PlaceEntity(ktPlaces[ktIdx++]));
-        } else {
-          places.push(new PlaceEntity(sktPlaces[sktIdx++]));
-        }
-      }
-    }
-
-    while (ktIdx < ktLength) places.push(new PlaceEntity(ktPlaces[ktIdx++]));
-    while (sktIdx < sktLength) places.push(new PlaceEntity(sktPlaces[sktIdx++]));
-
-    return places;
-  }
-
   async getAllTypePlaces(query: PlaceListFilterQueryDto): Promise<PlaceEntity[]> {
     const [ktPlaces] = await this.ktPlaceService.getKtPlaces(query);
     const [sktPlaces] = await this.sktPlaceService.getSktPlaces(query);
-    const places = this.getRefinedPlaces(ktPlaces, sktPlaces, query.populationSort);
+    const places = PlaceEntity.getRefinedPlaces(ktPlaces, sktPlaces, query.populationSort);
     return places;
   }
 

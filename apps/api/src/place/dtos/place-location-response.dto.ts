@@ -1,11 +1,11 @@
+import { Exclude, Expose } from 'class-transformer';
 import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
 import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
-import { Exclude, Expose } from 'class-transformer';
 import { Location } from '@lib/entity/location/location.entity';
-import { PlaceResponseDto } from '../../place/dtos/place-response.dto';
-import { PlaceEntity } from '../../place/entity/place.entity';
+import { PlaceResponseDto } from './place-response.dto';
+import { PlaceEntity } from '../entity/place.entity';
 
-export class LocationResponseDto {
+export class PlaceLocationResponseDto {
   @Exclude() private readonly _idx: number;
   @Exclude() private readonly _name: string;
   @Exclude() private readonly _ktPlaces: KtPlace[];

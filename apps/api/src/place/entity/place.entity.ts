@@ -53,4 +53,44 @@ export class PlaceEntity {
     }
     return result;
   }
+
+  static getRefinedPlaces(ktPlaces: KtPlace[], sktPlaces: SktPlace[], sortType = false) {
+    const places: PlaceEntity[] = [];
+    const ktLength = ktPlaces.length;
+    const sktLength = sktPlaces.length;
+
+    let ktIdx = 0,
+      sktIdx = 0;
+
+    while (ktIdx < ktLength && sktIdx < sktLength) {
+      while (
+        ktIdx < ktLength &&
+        sktIdx < sktLength &&
+        this.getPopulationLevel(ktPlaces[ktIdx].population.level) <= this.getPopulationLevel(undefined, sktPlaces[sktIdx].population.level)
+      ) {
+        if (sortType) {
+          places.push(new PlaceEntity(sktPlaces[sktIdx++]));
+        } else {
+          places.push(new PlaceEntity(ktPlaces[ktIdx++]));
+        }
+      }
+
+      while (
+        ktIdx < ktLength &&
+        sktIdx < sktLength &&
+        this.getPopulationLevel(ktPlaces[ktIdx].population.level) > this.getPopulationLevel(undefined, sktPlaces[sktIdx].population.level)
+      ) {
+        if (sortType) {
+          places.push(new PlaceEntity(ktPlaces[ktIdx++]));
+        } else {
+          places.push(new PlaceEntity(sktPlaces[sktIdx++]));
+        }
+      }
+    }
+
+    while (ktIdx < ktLength) places.push(new PlaceEntity(ktPlaces[ktIdx++]));
+    while (sktIdx < sktLength) places.push(new PlaceEntity(sktPlaces[sktIdx++]));
+
+    return places;
+  }
 }
