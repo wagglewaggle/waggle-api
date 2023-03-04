@@ -1,6 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { PlaceIdxParamDto } from '../app/app.dto';
 import { IListCountResponse } from '../app/interfaces/common.interface';
+import { PlaceListFilterQueryDto } from '../place/place.dto';
 import { SktPlaceResponseDto } from './dtos/skt-place-response.dto';
 import { SktPlaceListFilterQueryDto } from './skt-place.dto';
 import { SktPlaceService } from './skt-place.service';
@@ -10,7 +11,7 @@ export class SktPlaceController {
   constructor(private readonly sktPlaceService: SktPlaceService) {}
 
   @Get()
-  async getSktPlaces(@Query() query: SktPlaceListFilterQueryDto): Promise<IListCountResponse<SktPlaceResponseDto>> {
+  async getSktPlaces(@Query() query: PlaceListFilterQueryDto): Promise<IListCountResponse<SktPlaceResponseDto>> {
     const [places, count] = await this.sktPlaceService.getSktPlaces(query);
     return { list: places.map((place) => new SktPlaceResponseDto(place)), count };
   }

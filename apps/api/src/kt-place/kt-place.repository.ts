@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
 import { KtPlaceListFilterQueryDto } from './kt-place.dto';
+import { PlaceListFilterQueryDto } from '../place/place.dto';
 
 @Injectable()
 export class KtPlaceRepository {
@@ -20,7 +21,7 @@ export class KtPlaceRepository {
     return this.repository.find(options);
   }
 
-  async getKtPlaces(query: KtPlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
+  async getKtPlaces(query: PlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
     const queryBuilder = this.createQueryBuilder()
       .leftJoinAndSelect('ktPlace.population', 'population')
       .leftJoinAndSelect('ktPlace.categories', 'category');

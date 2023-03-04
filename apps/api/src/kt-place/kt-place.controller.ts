@@ -4,13 +4,14 @@ import { KtPlaceResponseDto } from './dtos/kt-place-reponse.dto';
 import { PlaceIdxParamDto } from '../app/app.dto';
 import { KtPlaceListFilterQueryDto } from './kt-place.dto';
 import { IListCountResponse } from '../app/interfaces/common.interface';
+import { PlaceListFilterQueryDto } from '../place/place.dto';
 
 @Controller('kt-place')
 export class KtPlaceController {
   constructor(private readonly ktPlaceService: KtPlaceService) {}
 
   @Get()
-  async getKtPlaces(@Query() query: KtPlaceListFilterQueryDto): Promise<IListCountResponse<KtPlaceResponseDto>> {
+  async getKtPlaces(@Query() query: PlaceListFilterQueryDto): Promise<IListCountResponse<KtPlaceResponseDto>> {
     const [places, count] = await this.ktPlaceService.getKtPlaces(query);
     return { list: places.map((place) => new KtPlaceResponseDto(place)), count };
   }

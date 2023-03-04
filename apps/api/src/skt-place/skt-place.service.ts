@@ -6,12 +6,13 @@ import { ClientRequestException } from '../app/exceptions/request.exception';
 import { LocationService } from '../location/location.service';
 import { SktPlaceListFilterQueryDto } from './skt-place.dto';
 import { SktPlaceRepository } from './skt-place.repository';
+import { PlaceListFilterQueryDto } from '../place/place.dto';
 
 @Injectable()
 export class SktPlaceService {
   constructor(private readonly sktPlaceRepository: SktPlaceRepository, private readonly locationService: LocationService) {}
 
-  async getSktPlaces(query: SktPlaceListFilterQueryDto): Promise<[SktPlace[], number]> {
+  async getSktPlaces(query: PlaceListFilterQueryDto): Promise<[SktPlace[], number]> {
     return await this.sktPlaceRepository.getSktPlaces(query);
   }
 

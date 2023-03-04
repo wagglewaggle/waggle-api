@@ -6,12 +6,13 @@ import { KtPlaceRepository } from './kt-place.repository';
 import { KtPlaceListFilterQueryDto } from './kt-place.dto';
 import { LocationService } from '../location/location.service';
 import { Location } from '@lib/entity/location/location.entity';
+import { PlaceListFilterQueryDto } from '../place/place.dto';
 
 @Injectable()
 export class KtPlaceService {
   constructor(private readonly ktPlaceRepository: KtPlaceRepository, private readonly locationService: LocationService) {}
 
-  async getKtPlaces(query: KtPlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
+  async getKtPlaces(query: PlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
     return await this.ktPlaceRepository.getKtPlaces(query);
   }
 
