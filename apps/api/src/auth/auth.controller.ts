@@ -34,10 +34,8 @@ export class AuthController {
   }
 
   @Post(ApiPath.Reissue)
-  @UseGuards(UserGuard)
-  async reissueAccessToken(@Req() req: IRequestAugmented, @Body() body: ReissueTokenBodyDto) {
-    const user = req.extras.getUser();
-    const accessToken = await this.userTokenService.reissueAccessToken(user, body.refreshToken);
+  async reissueAccessToken(@Body() body: ReissueTokenBodyDto) {
+    const accessToken = await this.userTokenService.reissueAccessToken(body.refreshToken);
     return { accessToken };
   }
 }
