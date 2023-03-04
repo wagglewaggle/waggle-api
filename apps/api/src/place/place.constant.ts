@@ -1,5 +1,7 @@
 export enum ApiPath {
   Root = 'place',
+  GetPlaceType = ':type',
+  GetPlaceIdx = ':idx',
 }
 
 export enum PopulationLevel {

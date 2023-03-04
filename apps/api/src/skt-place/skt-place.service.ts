@@ -25,12 +25,20 @@ export class SktPlaceService {
     return place;
   }
 
-  async getSktPlaceAllInfo(idx: number): Promise<SktPlace | [SktPlace, Location]> {
-    const place = await this.getSktPlaceByIdx(idx, ['population', 'location']);
-    if (!place.location) {
-      return place;
+  async getSktPlaceAllInfo(idx: number): Promise<SktPlace> {
+    const place = await this.getSktPlaceByIdx(idx, [
+      'population',
+      'location',
+      'location.ktPlaces',
+      'location.ktPlaces.population',
+      'location.ktPlaces.categories',
+      'location.sktPlaces',
+      'location.sktPlaces.population',
+      'location.sktPlaces.categories',
+    ]);
+    if (!place) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);
     }
-    const location = await this.locationService.getLocationByName(place.location.name);
-    return [place, location];
+    return place;
   }
 }

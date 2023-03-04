@@ -1,8 +1,13 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
+import { KtPlace } from '../../../../libs/entity/src/kt-place/kt-place.entity';
+import { SktPlace } from '../../../../libs/entity/src/skt-place/skt-place.entity';
+import { PlaceType } from '../app/app.constant';
 import { IListResponse } from '../app/interfaces/common.interface';
+import { KtPlaceResponseDto } from '../kt-place/dtos/kt-place-reponse.dto';
+import { SktPlaceResponseDto } from '../skt-place/dtos/skt-place-response.dto';
 import { PlaceResponseDto } from './dtos/place-response.dto';
 import { ApiPath } from './place.constant';
-import { PlaceListFilterQueryDto } from './place.dto';
+import { PlaceListFilterQueryDto, PlaceParamDto } from './place.dto';
 import { PlaceService } from './place.service';
 
 @Controller(ApiPath.Root)
@@ -13,5 +18,17 @@ export class PlaceController {
   async getAllTypePlaces(@Query() query: PlaceListFilterQueryDto): Promise<IListResponse<PlaceResponseDto>> {
     const places = await this.placeService.getAllTypePlaces(query);
     return { list: places.map((place) => new PlaceResponseDto(place)) };
+  }
+
+  @Get(`${ApiPath.GetPlaceType}/${ApiPath.GetPlaceIdx}`)
+  async getPlace(@Param() param: PlaceParamDto) {
+    const { idx, type } = param;
+    const result = await this.placeService.getPlaceAllInfo(idx, type);
+
+    if (type === PlaceType.Kt) {
+      return new KtPlaceResponseDto(result as KtPlace);
+    } else if (type === PlaceType.Skt) {
+      return new SktPlaceResponseDto(result as SktPlace);
+    }
   }
 }

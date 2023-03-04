@@ -3,6 +3,7 @@ import { KtPlace } from '../../../../libs/entity/src/kt-place/kt-place.entity';
 import { KtPopulationLevel } from '../../../../libs/entity/src/kt-population/kt-population.constant';
 import { SktPlace } from '../../../../libs/entity/src/skt-place/skt-place.entity';
 import { SktPopulationLevel } from '../../../../libs/entity/src/skt-population/skt-population.constant';
+import { PlaceType } from '../app/app.constant';
 import ERROR_CODE from '../app/exceptions/error-code';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import { KtPlaceService } from '../kt-place/kt-place.service';
@@ -62,5 +63,13 @@ export class PlaceService {
     const [sktPlaces] = await this.sktPlaceService.getSktPlaces(query);
     const places = this.getRefinedPlaces(ktPlaces, sktPlaces, query.populationSort);
     return places;
+  }
+
+  async getPlaceAllInfo(idx: number, type: PlaceType) {
+    if (type === PlaceType.Kt) {
+      return await this.ktPlaceService.getKtPlaceAllInfo(idx);
+    } else if (type === PlaceType.Skt) {
+      return await this.sktPlaceService.getSktPlaceAllInfo(idx);
+    }
   }
 }
