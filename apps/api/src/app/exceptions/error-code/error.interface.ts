@@ -13,6 +13,7 @@ export interface IErrorCode {
   ERR_0001001: string;
   ERR_0001002: string;
   ERR_0001003: string;
+  ERR_0001004: string;
 
   // Place
   ERR_0002001: string;

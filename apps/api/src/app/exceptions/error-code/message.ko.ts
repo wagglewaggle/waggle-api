@@ -14,6 +14,7 @@ const errors: IErrorCode = {
   ERR_0001001: '{value}는 정수 타입입니다.',
   ERR_0001002: '{value}는 문자열 타입입니다.',
   ERR_0001003: '잘못된 level 입니다. (enable value: VERY_RELAXATION / RELAXATION / NORMAL / CROWDED / VERY_CROWDED)',
+  ERR_0001004: '잘못된 category 입니다. (enable value: {value})',
 
   ERR_0002001: '해당하는 장소가 없습니다.',
   ERR_0002002: '{value} 장소 타입은 존재하지 않는 타입입니다. (enable value: KT / SKT)',
