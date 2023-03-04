@@ -3,6 +3,7 @@ import { Category } from '../category/category.entity';
 import { Location } from '../location/location.entity';
 import { PinPlace } from '../pin-place/pin-place.entity';
 import { Province } from '../province/province.entity';
+import { ReviewPost } from '../review-post/review-post.entity';
 import { SktPopulation } from '../skt-population/skt-population.entity';
 
 @Entity()
@@ -22,6 +23,9 @@ export class SktPlace {
   @Column('double')
   y: number;
 
+  @Column('varchar')
+  address: string;
+
   @ManyToOne(() => Province, (province) => province.sktPlaces)
   province: Province;
 
@@ -33,6 +37,9 @@ export class SktPlace {
 
   @OneToMany(() => PinPlace, (pinPlace) => pinPlace.sktPlace)
   pinPlaces: PinPlace[];
+
+  @OneToMany(() => ReviewPost, (reviewPost) => reviewPost.sktPlace, { nullable: true })
+  reviewPosts: ReviewPost[];
 
   @OneToOne(() => SktPopulation, (sktPopulation) => sktPopulation.place)
   population: SktPopulation;
