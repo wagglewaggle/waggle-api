@@ -1,19 +1,24 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { Response } from 'express';
 import { IRequestAugmented } from '../app.interface';
 import { ClientRequestException } from '../exceptions/request.exception';
 import * as format from 'string-format';
 import ERROR_CODE from '../exceptions/error-code';
 import errorMessage from '../exceptions/error-code/message.ko';
+import { config } from '@lib/config';
+import { SentryService } from '../sentry/sentry.service';
 
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
+  constructor(private readonly sentryService: SentryService) {}
+
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const req = ctx.getRequest<IRequestAugmented>();
     const res = ctx.getResponse<Response>();
 
     let statusCode = 500;
+    let stack: string | undefined;
     const sendData: any = {
       errorCode: 'ERR_0000001',
       message: ERROR_CODE.ERR_0000001,
@@ -22,6 +27,8 @@ export class AllExceptionFilter implements ExceptionFilter {
 
     if (exception instanceof ClientRequestException) {
       statusCode = exception.getStatus();
+      stack = exception.stack;
+
       sendData.message = exception.getResponse();
       sendData.errorCode = this.getErrorCode(sendData.message);
       sendData.error = exception.value;
@@ -32,17 +39,22 @@ export class AllExceptionFilter implements ExceptionFilter {
       }
     } else if (exception instanceof NotFoundException) {
       statusCode = HttpStatus.NOT_FOUND;
+      stack = exception.stack;
+
       sendData.message = ERROR_CODE.ERR_0000002;
       sendData.errorCode = this.getErrorCode(sendData.message);
-    } else if (exception instanceof InternalServerErrorException) {
-      sendData;
-      // TODO: sentry and slack
     } else if (exception instanceof HttpException) {
       const { message } = exception.getResponse() as any;
 
       statusCode = exception.getStatus();
+      stack = exception.stack;
+
       sendData.message = message[0];
       sendData.errorCode = 'ERR_0000003';
+    }
+
+    if (config.useSentry && statusCode === 500) {
+      this.sentryService.sendError(sendData, stack);
     }
 
     return res.status(statusCode).json(sendData);

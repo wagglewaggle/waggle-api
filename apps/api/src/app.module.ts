@@ -21,6 +21,8 @@ import { PinPlaceModule } from './pin-place/pin-place.module';
 import { UserTokenModule } from './user-token/user-token.module';
 import { TokenTimeLeftInterceptor } from './app/interceptors/token-time-left.interceptor';
 import { PlaceModule } from './place/place.module';
+import { RavenInterceptor, RavenModule } from 'nest-raven';
+import { SentryModule } from './app/sentry/sentry.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
@@ -28,6 +30,7 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
 
 @Module({
   imports: [
+    RavenModule,
     TypeOrmRootModule,
     LoggerModule,
     ProvinceModule,
@@ -43,8 +46,10 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
     PinPlaceModule,
     UserTokenModule,
     PlaceModule,
+    SentryModule,
   ],
   providers: [
+    { provide: APP_INTERCEPTOR, useValue: new RavenInterceptor() },
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
     { provide: APP_INTERCEPTOR, useClass: TokenTimeLeftInterceptor },
     { provide: APP_FILTER, useClass: AllExceptionFilter },
