@@ -23,6 +23,7 @@ import { TokenTimeLeftInterceptor } from './app/interceptors/token-time-left.int
 import { PlaceModule } from './place/place.module';
 import { RavenInterceptor, RavenModule } from 'nest-raven';
 import { SentryModule } from './app/sentry/sentry.module';
+import { ReviewPostModule } from './review-post/review-post.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
@@ -47,6 +48,7 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
     UserTokenModule,
     PlaceModule,
     SentryModule,
+    ReviewPostModule,
   ],
   providers: [
     { provide: APP_INTERCEPTOR, useValue: new RavenInterceptor() },

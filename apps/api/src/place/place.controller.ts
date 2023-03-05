@@ -7,9 +7,10 @@ import { KtPlaceResponseDto } from '../kt-place/dtos/kt-place-reponse.dto';
 import { SktPlaceResponseDto } from '../skt-place/dtos/skt-place-response.dto';
 import { PlaceResponseDto } from './dtos/place-response.dto';
 import { ApiPath } from './place.constant';
-import { PlaceListFilterQueryDto, PlaceParamDto } from './place.dto';
+import { PlaceListFilterQueryDto } from './place.dto';
 import { PlaceService } from './place.service';
 import { PlaceListFilterPipe } from './place.pipe';
+import { PlaceParamDto } from '../app/app.dto';
 
 @Controller(ApiPath.Root)
 export class PlaceController {

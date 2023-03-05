@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
-import { SktPlaceListFilterQueryDto } from './skt-place.dto';
 import { PlaceListFilterQueryDto } from '../place/place.dto';
 
 @Injectable()

@@ -43,4 +43,7 @@ export interface IErrorCode {
   // Pin Place
   ERR_0007001: string;
   ERR_0007002: string;
+
+  // Review Post
+  ERR_0008001: string;
 }

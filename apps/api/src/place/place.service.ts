@@ -1,5 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
+import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
+import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 import { PlaceType } from '../app/app.constant';
+import ERROR_CODE from '../app/exceptions/error-code';
+import { ClientRequestException } from '../app/exceptions/request.exception';
 import { KtPlaceService } from '../kt-place/kt-place.service';
 import { SktPlaceService } from '../skt-place/skt-place.service';
 import { PlaceEntity } from './entity/place.entity';
@@ -21,5 +25,18 @@ export class PlaceService {
     } else if (type === PlaceType.Skt) {
       return await this.sktPlaceService.getSktPlaceAllInfo(idx);
     }
+  }
+
+  async getRefinedPlaceObject(idx: number, type: PlaceType) {
+    const place = await this.getPlaceAllInfo(idx, type);
+    if (!place) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);
+    }
+
+    return {
+      sktPlace: type === PlaceType.Skt ? (place as SktPlace) : undefined,
+      ktPlace: type === PlaceType.Kt ? (place as KtPlace) : undefined,
+      extraPlace: type === PlaceType.Extra ? undefined : undefined, // TODO: implement extra place
+    };
   }
 }

@@ -8,5 +8,6 @@ import { KtPlaceModule } from '../kt-place/kt-place.module';
   imports: [SktPlaceModule, KtPlaceModule],
   providers: [PlaceService],
   controllers: [PlaceController],
+  exports: [PlaceService],
 })
 export class PlaceModule {}

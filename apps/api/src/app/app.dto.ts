@@ -1,20 +1,30 @@
-import { Transform, Type } from 'class-transformer';
-import { IsBoolean, IsNumber, IsOptional, Validate } from 'class-validator';
-import { CategoryType } from '@lib/entity/category/category.constant';
-import { IsCategoryType } from './validations/common.validation';
+import { IsOptional, Validate } from 'class-validator';
+import { PlaceType } from './app.constant';
+import { IsPlaceType, IsString, IsStringNumber } from './validations/common.validation';
 
 export class PlaceIdxParamDto {
-  @Type(() => Number)
-  @IsNumber()
+  @Validate(IsStringNumber)
   idx: number;
 }
 
 export class ListFilterQueryDto {
-  @Transform(({ value }) => value === 'true')
-  @IsBoolean()
-  populationSort: boolean;
+  @IsOptional()
+  @Validate(IsStringNumber)
+  limit?: number;
 
   @IsOptional()
-  @Validate(IsCategoryType)
-  category: CategoryType;
+  @Validate(IsStringNumber)
+  offset?: number;
+
+  @IsOptional()
+  @Validate(IsString)
+  searchTerm?: string;
+}
+
+export class PlaceParamDto {
+  @Validate(IsStringNumber)
+  idx: number;
+
+  @Validate(IsPlaceType)
+  type: PlaceType;
 }

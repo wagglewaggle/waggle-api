@@ -37,6 +37,8 @@ const errors: IErrorCode = {
 
   ERR_0007001: '권한이 없는 핀 장소입니다.',
   ERR_0007002: '해당하는 핀 장소가 없습니다.',
+
+  ERR_0008001: '해당하는 리뷰가 없습니다.',
 };
 
 export default errors;

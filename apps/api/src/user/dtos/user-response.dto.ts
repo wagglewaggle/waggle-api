@@ -11,7 +11,7 @@ export class UserResponseDto {
   @Exclude() private readonly _name: string;
   @Exclude() private readonly _nickname: string;
   @Exclude() private readonly _status: UserStatus;
-  @Exclude() private readonly _userRole: UserRole;
+  @Exclude() private readonly _userRole?: UserRole;
   @Exclude() private readonly _createdDate: Date;
   @Exclude() private readonly _updatedDate: Date;
 
@@ -64,8 +64,10 @@ export class UserResponseDto {
   }
 
   @Expose()
-  get userRole(): UserRole {
-    return this._userRole;
+  get userRole(): UserRole | undefined {
+    if (this._userRole) {
+      return this._userRole;
+    }
   }
 
   @Expose()
