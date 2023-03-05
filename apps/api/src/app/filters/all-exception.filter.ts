@@ -37,6 +37,12 @@ export class AllExceptionFilter implements ExceptionFilter {
     } else if (exception instanceof InternalServerErrorException) {
       sendData;
       // TODO: sentry and slack
+    } else if (exception instanceof HttpException) {
+      const { message } = exception.getResponse() as any;
+
+      statusCode = exception.getStatus();
+      sendData.message = message[0];
+      sendData.errorCode = 'ERR_0000003';
     }
 
     return res.status(statusCode).json(sendData);
