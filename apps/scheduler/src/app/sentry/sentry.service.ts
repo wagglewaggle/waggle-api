@@ -26,12 +26,12 @@ export class SentryService {
   }
 
   private send(jobType: JobType, title: string, value: string) {
-    const webhook = new IncomingWebhook(config.SLACK_SENTRY_SCHEDULER_WEBHOOK);
+    const webhook = new IncomingWebhook(config.slackSentryWebhook);
     webhook.send({
       attachments: [
         {
           color: 'danger',
-          text: `${jobType} Job 버그 발생🚨`,
+          text: `🚨${jobType} Job 버그 발생🚨`,
           fields: [
             {
               title,

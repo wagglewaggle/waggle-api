@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   if (config.useSentry) {
-    Sentry.init({ dsn: config.SENTRY_SCHEDULER_DSN });
+    Sentry.init({ dsn: config.sentryDsn });
   }
 
   await app.listen(config.schedulerPort, config.schedulerHost);

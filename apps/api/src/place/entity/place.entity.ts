@@ -14,6 +14,7 @@ import { PlaceType } from '../../app/app.constant';
 export class PlaceEntity {
   readonly idx: number;
   readonly name: string;
+  readonly address: string;
   readonly x: number;
   readonly y: number;
   readonly categories: Category[];
@@ -23,6 +24,7 @@ export class PlaceEntity {
   constructor(place: KtPlace | SktPlace) {
     this.idx = place.idx;
     this.name = place.name;
+    this.address = place.address;
     this.x = place.x;
     this.y = place.y;
     this.categories = place.categories;

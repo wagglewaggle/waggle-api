@@ -12,6 +12,7 @@ export class PlaceResponseDto {
   @Exclude() private readonly _idx: number;
   @Exclude() private readonly _type: PlaceType;
   @Exclude() private readonly _name: string;
+  @Exclude() private readonly _address: string;
   @Exclude() private readonly _x: number;
   @Exclude() private readonly _y: number;
   @Exclude() private readonly _categories?: Category[];
@@ -21,6 +22,7 @@ export class PlaceResponseDto {
     this._idx = place.idx;
     this._type = place.type;
     this._name = place.name;
+    this._address = place.address;
     this._x = place.x;
     this._y = place.y;
     this._categories = place.categories;
@@ -40,6 +42,11 @@ export class PlaceResponseDto {
   @Expose()
   get name(): string {
     return this._name;
+  }
+
+  @Expose()
+  get address(): string {
+    return this._address;
   }
 
   @Expose()

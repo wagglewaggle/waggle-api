@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
-import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 import { PlaceType } from '../app/app.constant';
 import { KtPlaceService } from '../kt-place/kt-place.service';
 import { SktPlaceService } from '../skt-place/skt-place.service';

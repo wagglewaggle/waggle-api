@@ -16,6 +16,7 @@ import { LocationResponseDto } from '../../location/dtos/location-response.dto';
 export class KtPlaceResponseDto {
   @Exclude() private readonly _idx: number;
   @Exclude() private readonly _name: string;
+  @Exclude() private readonly _address: string;
   @Exclude() private readonly _x: number;
   @Exclude() private readonly _y: number;
   @Exclude() private readonly _categories: Category[] | undefined;
@@ -28,6 +29,7 @@ export class KtPlaceResponseDto {
   constructor(place: KtPlace) {
     this._idx = place.idx;
     this._name = place.name;
+    this._address = place.address;
     this._x = place.x;
     this._y = place.y;
     this._categories = place.categories;
@@ -46,6 +48,11 @@ export class KtPlaceResponseDto {
   @Expose()
   get name(): string {
     return this._name;
+  }
+
+  @Expose()
+  get address(): string {
+    return this._address;
   }
 
   @Expose()

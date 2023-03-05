@@ -3,9 +3,14 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { config } from '@lib/config';
 import helmet from 'helmet';
+import * as Sentry from '@sentry/node';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  if (config.useSentry) {
+    Sentry.init({ dsn: config.sentryDsn });
+  }
 
   app.setGlobalPrefix('api');
 

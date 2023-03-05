@@ -44,8 +44,8 @@ export class ConfigService {
       KT_API_KEY: Joi.string().required(),
       SKT_TMAP_API_KEY: Joi.string().required(),
       SKT_CONGESTION_API_KEY: Joi.string().required(),
-      SLACK_SENTRY_SCHEDULER_WEBHOOK: Joi.string().required(),
-      SENTRY_SCHEDULER_DSN: Joi.string().required(),
+      SLACK_SENTRY_WEBHOOK: Joi.string().required(),
+      SENTRY_DSN: Joi.string().required(),
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(envConfig);
@@ -133,11 +133,11 @@ export class ConfigService {
   get sktCongestionApiKey(): string {
     return this.envConfig.SKT_CONGESTION_API_KEY;
   }
-  get SLACK_SENTRY_SCHEDULER_WEBHOOK(): string {
-    return this.envConfig.SLACK_SENTRY_SCHEDULER_WEBHOOK;
+  get slackSentryWebhook(): string {
+    return this.envConfig.SLACK_SENTRY_WEBHOOK;
   }
-  get SENTRY_SCHEDULER_DSN(): string {
-    return this.envConfig.SENTRY_SCHEDULER_DSN;
+  get sentryDsn(): string {
+    return this.envConfig.SENTRY_DSN;
   }
 }
 
