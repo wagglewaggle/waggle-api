@@ -39,6 +39,8 @@ const errors: IErrorCode = {
   ERR_0007002: '해당하는 핀 장소가 없습니다.',
 
   ERR_0008001: '해당하는 리뷰가 없습니다.',
+
+  ERR_0009001: '해당하는 댓글이 없습니다.',
 };
 
 export default errors;

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeepPartial, EntityManager, Repository } from 'typeorm';
+import { DeepPartial, EntityManager, FindOptionsWhere, Repository } from 'typeorm';
 import { Reply } from '@lib/entity/reply/reply.entity';
 
 @Injectable()
@@ -16,5 +16,21 @@ export class ReplyRepository {
       return manager.save(Reply, reply);
     }
     return this.repository.save(reply);
+  }
+
+  async getReply(where: FindOptionsWhere<Reply>, relations?: string[]): Promise<Reply | undefined> {
+    const options: any = { where };
+    if (Array.isArray(relations)) {
+      options.relations = relations;
+    }
+    const reply = await this.repository.findOne(options);
+    return reply || undefined;
+  }
+
+  async deleteReply(reply: Reply, manager?: EntityManager) {
+    if (manager) {
+      return manager.remove(Reply, reply);
+    }
+    return this.repository.remove(reply);
   }
 }
