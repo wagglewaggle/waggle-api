@@ -4,9 +4,10 @@ import { ReplyController } from './reply.controller';
 import { ReplyRepository } from './reply.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Reply } from '@lib/entity/reply/reply.entity';
+import { ReviewPostModule } from '../review-post/review-post.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Reply])],
+  imports: [TypeOrmModule.forFeature([Reply]), ReviewPostModule],
   providers: [ReplyService, ReplyRepository],
   controllers: [ReplyController],
 })
