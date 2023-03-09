@@ -19,11 +19,14 @@ export class PlaceService {
     return PlaceEntity.getRefinedPlaces(ktPlaces, sktPlaces, query.populationSort);
   }
 
-  async getPlaceAllInfo(idx: number, type: PlaceType) {
-    if (type === PlaceType.Kt) {
-      return await this.ktPlaceService.getKtPlaceAllInfo(idx);
-    } else if (type === PlaceType.Skt) {
-      return await this.sktPlaceService.getSktPlaceAllInfo(idx);
+  async getPlaceAllInfo(idx: number, type: PlaceType): Promise<PlaceEntity> {
+    switch (type) {
+      case PlaceType.Kt:
+        return new PlaceEntity(await this.ktPlaceService.getKtPlaceAllInfo(idx));
+      case PlaceType.Skt:
+        return new PlaceEntity(await this.sktPlaceService.getSktPlaceAllInfo(idx));
+      default:
+        throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -34,8 +37,8 @@ export class PlaceService {
     }
 
     return {
-      sktPlace: type === PlaceType.Skt ? (place as SktPlace) : undefined,
-      ktPlace: type === PlaceType.Kt ? (place as KtPlace) : undefined,
+      sktPlace: type === PlaceType.Skt ? (place.getInstancePlaceType() as SktPlace) : undefined,
+      ktPlace: type === PlaceType.Kt ? (place.getInstancePlaceType() as KtPlace) : undefined,
       extraPlace: type === PlaceType.Extra ? undefined : undefined, // TODO: implement extra place
     };
   }

@@ -7,7 +7,6 @@ import { ReviewPostRepository } from './review-post.repository';
 import { ListFilterQueryDto } from '../app/app.dto';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import ERROR_CODE from '../app/exceptions/error-code';
-import { PlaceEntity } from '../place/entity/place.entity';
 import { ReviewPostEntity } from './entity/review-post.entity';
 
 @Injectable()
@@ -30,11 +29,7 @@ export class ReviewPostService {
 
   async getReviewPostsByPlace(idx: number, placeType: PlaceType, query: ListFilterQueryDto): Promise<[ReviewPostEntity[], number]> {
     const place = await this.placeService.getPlaceAllInfo(idx, placeType);
-    if (!place) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);
-    }
-
-    return await this.reviewPostRepository.getReviewPostsByPlace(placeType, new PlaceEntity(place), query);
+    return await this.reviewPostRepository.getReviewPostsByPlace(placeType, place, query);
   }
 
   async getReviewPost(idx: number, placeType: PlaceType, reviewPostIdx: number): Promise<ReviewPostEntity> {
@@ -57,6 +52,10 @@ export class ReviewPostService {
     if (!reviewPost) {
       throw new ClientRequestException(ERROR_CODE.ERR_0008001, HttpStatus.BAD_REQUEST);
     }
+
+    /**
+     * TODO: place type과 reviewPost의 place가 다를 경우 예외 처리
+     */
 
     return reviewPost;
   }

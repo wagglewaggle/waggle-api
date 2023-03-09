@@ -10,6 +10,11 @@ import ERROR_CODE from '../../app/exceptions/error-code';
 import { ClientRequestException } from '../../app/exceptions/request.exception';
 import { PopulationLevel } from '../place.constant';
 import { PlaceType } from '../../app/app.constant';
+import { plainToInstance } from 'class-transformer';
+import { Province } from '@lib/entity/province/province.entity';
+import { Location } from '@lib/entity/location/location.entity';
+import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
+import { ReviewPost } from '@lib/entity/review-post/review-post.entity';
 
 export class PlaceEntity {
   readonly idx: number;
@@ -17,22 +22,31 @@ export class PlaceEntity {
   readonly address: string;
   readonly x: number;
   readonly y: number;
+  readonly province: Province;
+  readonly location: Location;
   readonly categories: Category[];
+  readonly pinPlaces: PinPlace[];
+  readonly reviewPosts: ReviewPost[];
   readonly population: KtPopulation | SktPopulation;
   readonly type: PlaceType;
 
   constructor(place: KtPlace | SktPlace) {
-    this.idx = place.idx;
-    this.name = place.name;
-    this.address = place.address;
-    this.x = place.x;
-    this.y = place.y;
-    this.categories = place.categories;
-    this.population = place.population;
+    Object.assign(this, place);
     if (place instanceof KtPlace) {
       this.type = PlaceType.Kt;
     } else if (place instanceof SktPlace) {
       this.type = PlaceType.Skt;
+    }
+  }
+
+  getInstancePlaceType() {
+    switch (this.type) {
+      case PlaceType.Kt:
+        return plainToInstance(KtPlace, this);
+      case PlaceType.Skt:
+        return plainToInstance(SktPlace, this);
+      default:
+        throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

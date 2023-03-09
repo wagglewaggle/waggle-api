@@ -1,6 +1,4 @@
 export enum ApiPath {
-  Root = 'review-post',
-  GetPlaceIdx = ':idx',
-  GetPlaceType = ':type',
+  Root = '/:type/:idx/review-post',
   GetReviewPostIdx = ':reviewPostIdx',
 }

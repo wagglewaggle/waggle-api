@@ -17,13 +17,14 @@ export class ReviewPostController {
   constructor(private readonly reviewPostService: ReviewPostService) {}
 
   @Post()
-  async addReviewPost(@Req() req: IRequestAugmented, @Body() body: CreateReviewPostBodyDto) {
+  async addReviewPost(@Req() req: IRequestAugmented, @Param(PlaceParamPipe) param: PlaceParamDto, @Body() body: CreateReviewPostBodyDto) {
     const user = req.extras.getUser();
-    const { placeIdx, placeType, content, imgUrl } = body;
-    await this.reviewPostService.addReviewPost(user, placeIdx, placeType, content, imgUrl);
+    const { idx, type } = param;
+    const { content, imgUrl } = body;
+    await this.reviewPostService.addReviewPost(user, idx, type, content, imgUrl);
   }
 
-  @Get(`${ApiPath.GetPlaceType}/${ApiPath.GetPlaceIdx}`)
+  @Get()
   async getReviewPostsByPlace(
     @Param(PlaceParamPipe) param: PlaceParamDto,
     @Query(ListFilterPipe) query: ListFilterQueryDto,
@@ -32,7 +33,7 @@ export class ReviewPostController {
     return { list: reviewPosts.map((reviewPost) => new ReviewPostListResponseDto(reviewPost)), count };
   }
 
-  @Get(`${ApiPath.GetPlaceType}/${ApiPath.GetPlaceIdx}/${ApiPath.GetReviewPostIdx}`)
+  @Get(ApiPath.GetReviewPostIdx)
   async getReviewPost(@Param(PlaceParamPipe, ReviewPostIdxPipe) param: GetOneReviewPostParamDto): Promise<ReviewPostResponseDto> {
     const { idx, type, reviewPostIdx } = param;
     const reviewPost = await this.reviewPostService.getReviewPost(idx, type, reviewPostIdx);

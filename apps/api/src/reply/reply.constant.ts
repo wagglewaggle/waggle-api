@@ -1,4 +1,4 @@
 export enum ApiPath {
-  Root = 'review-post/:type/:idx/:reviewPostIdx/reply',
+  Root = ':type/:idx/review-post/:reviewPostIdx/reply',
   GetReplyIdx = ':replyIdx',
 }

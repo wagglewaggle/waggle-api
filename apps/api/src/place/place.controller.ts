@@ -28,9 +28,9 @@ export class PlaceController {
     const result = await this.placeService.getPlaceAllInfo(idx, type);
 
     if (type === PlaceType.Kt) {
-      return new KtPlaceResponseDto(result as KtPlace);
+      return new KtPlaceResponseDto(result.getInstancePlaceType() as KtPlace);
     } else if (type === PlaceType.Skt) {
-      return new SktPlaceResponseDto(result as SktPlace);
+      return new SktPlaceResponseDto(result.getInstancePlaceType() as SktPlace);
     }
   }
 }
