@@ -7,9 +7,10 @@ import { KtPlaceResponseDto } from '../kt-place/dtos/kt-place-reponse.dto';
 import { SktPlaceResponseDto } from '../skt-place/dtos/skt-place-response.dto';
 import { PlaceResponseDto } from './dtos/place-response.dto';
 import { ApiPath } from './place.constant';
-import { PlaceListFilterQueryDto, PlaceParamDto } from './place.dto';
+import { PlaceListFilterQueryDto } from './place.dto';
 import { PlaceService } from './place.service';
 import { PlaceListFilterPipe } from './place.pipe';
+import { PlaceParamDto } from '../app/app.dto';
 
 @Controller(ApiPath.Root)
 export class PlaceController {
@@ -27,9 +28,9 @@ export class PlaceController {
     const result = await this.placeService.getPlaceAllInfo(idx, type);
 
     if (type === PlaceType.Kt) {
-      return new KtPlaceResponseDto(result as KtPlace);
+      return new KtPlaceResponseDto(result.getInstancePlaceType() as KtPlace);
     } else if (type === PlaceType.Skt) {
-      return new SktPlaceResponseDto(result as SktPlace);
+      return new SktPlaceResponseDto(result.getInstancePlaceType() as SktPlace);
     }
   }
 }
