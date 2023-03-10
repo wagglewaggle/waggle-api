@@ -59,4 +59,22 @@ export class ReviewPostService {
 
     return reviewPost;
   }
+
+  async deleteReviewPost(user: UserEntity, idx: number, placeType: PlaceType, reviewPostIdx: number) {
+    const reviewPost = await this.getReviewPost(idx, placeType, reviewPostIdx);
+    if (reviewPost.user.idx !== user.idx) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0000005, HttpStatus.FORBIDDEN);
+    }
+
+    await this.reviewPostRepository.updateReviewPost({ idx: reviewPostIdx }, { status: ReviewPostStatus.Deleted });
+  }
+
+  async modifyReviewPost(user: UserEntity, idx: number, placeType: PlaceType, reviewPostIdx: number, content: string) {
+    const reviewPost = await this.getReviewPost(idx, placeType, reviewPostIdx);
+    if (reviewPost.user.idx !== user.idx) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0000005, HttpStatus.FORBIDDEN);
+    }
+
+    await this.reviewPostRepository.updateReviewPost({ idx: reviewPostIdx }, { content });
+  }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { ListFilterQueryDto, PlaceParamDto } from '../app/app.dto';
 import { IRequestAugmented } from '../app/app.interface';
 import { UserGuard } from '../app/guards/user.guard';
@@ -38,5 +38,21 @@ export class ReviewPostController {
     const { idx, type, reviewPostIdx } = param;
     const reviewPost = await this.reviewPostService.getReviewPost(idx, type, reviewPostIdx);
     return new ReviewPostResponseDto(reviewPost);
+  }
+
+  @Delete(ApiPath.GetReviewPostIdx)
+  async deleteReviewPost(@Req() req: IRequestAugmented, @Param(PlaceParamPipe, ReviewPostIdxPipe) param: GetOneReviewPostParamDto) {
+    const user = req.extras.getUser();
+    await this.reviewPostService.deleteReviewPost(user, param.idx, param.type, param.reviewPostIdx);
+  }
+
+  @Put(ApiPath.GetReviewPostIdx)
+  async modifyReviewPost(
+    @Req() req: IRequestAugmented,
+    @Param(PlaceParamPipe, ReviewPostIdxPipe) param: GetOneReviewPostParamDto,
+    @Body() body: CreateReviewPostBodyDto,
+  ) {
+    const user = req.extras.getUser();
+    await this.reviewPostService.modifyReviewPost(user, param.idx, param.type, param.reviewPostIdx, body.content);
   }
 }

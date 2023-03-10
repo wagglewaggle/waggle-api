@@ -1,5 +1,5 @@
 import { Exclude, Expose } from 'class-transformer';
-import { Cctv } from '../../../../../libs/entity/src/cctv/cctv.entity';
+import { Cctv } from '@lib/entity/cctv/cctv.entity';
 
 export class KtCctvResponseDto {
   @Exclude() private readonly _idx;

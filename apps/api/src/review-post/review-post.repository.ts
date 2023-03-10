@@ -6,6 +6,7 @@ import { ReviewPostEntity } from './entity/review-post.entity';
 import { PlaceType } from '../app/app.constant';
 import { ListFilterQueryDto } from '../app/app.dto';
 import { PlaceEntity } from '../place/entity/place.entity';
+import { ReviewPostStatus } from '@lib/entity/review-post/review-post.constant';
 
 @Injectable()
 export class ReviewPostRepository {
@@ -37,6 +38,13 @@ export class ReviewPostRepository {
     }
   }
 
+  async updateReviewPost(where: Partial<ReviewPost>, set: Partial<ReviewPost>, manager?: EntityManager) {
+    if (manager) {
+      return manager.update(ReviewPost, where, set);
+    }
+    return this.repository.update(where, set);
+  }
+
   async getReviewPostsByPlace(placeType: PlaceType, place: PlaceEntity, query: ListFilterQueryDto): Promise<[ReviewPostEntity[], number]> {
     const queryBuilder = this.createQueryBuilder()
       .leftJoinAndSelect('reviewPost.replies', 'reply')
@@ -64,6 +72,7 @@ export class ReviewPostRepository {
       queryBuilder.andWhere(`reviewPost.content LIKE '%${query.searchTerm}%'`);
     }
 
+    queryBuilder.andWhere(`reviewPost.status = :status`, { status: ReviewPostStatus.Activated });
     queryBuilder.orderBy('reviewPost.createdDate', 'DESC');
 
     const [results, count] = await queryBuilder.getManyAndCount();
