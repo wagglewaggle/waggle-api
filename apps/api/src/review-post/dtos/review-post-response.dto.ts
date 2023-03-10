@@ -3,7 +3,6 @@ import { PinReviewPost } from '@lib/entity/pin-review-post/pin-review-post.entit
 import { ReviewPostImage } from '@lib/entity/review-post-image/review-post-image.entity';
 import { ReviewPostEntity } from '../entity/review-post.entity';
 import { ReviewPostListResponseDto } from './review-post-list-response.dto';
-import { ReviewPostReplyResponseDto } from './review-post-reply-response.dto';
 
 export class ReviewPostResponseDto extends ReviewPostListResponseDto {
   constructor(reviewPost: ReviewPostEntity) {
@@ -11,8 +10,15 @@ export class ReviewPostResponseDto extends ReviewPostListResponseDto {
   }
 
   @Expose()
-  get replies(): ReviewPostReplyResponseDto[] {
-    return this._replies.map((reply) => new ReviewPostReplyResponseDto(reply));
+  get replies(): Record<string, any>[] {
+    const mainReplies = this._replies.filter((reply) => reply.level === 0);
+    return mainReplies.map((mainReply) => {
+      const levelReplies = this._replies.filter((reply) => reply.mainReplyIdx === mainReply.idx);
+      return {
+        ...mainReply,
+        levelReplies,
+      };
+    });
   }
 
   @Expose()
