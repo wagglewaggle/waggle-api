@@ -33,4 +33,11 @@ export class ReplyRepository {
     }
     return this.repository.remove(reply);
   }
+
+  async updateReply(where: Partial<Reply>, set: Partial<Reply>, manager?: EntityManager) {
+    if (manager) {
+      return manager.update(Reply, where, set);
+    }
+    return this.repository.update(where, set);
+  }
 }

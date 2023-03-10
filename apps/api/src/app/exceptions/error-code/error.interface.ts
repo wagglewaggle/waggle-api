@@ -50,4 +50,5 @@ export interface IErrorCode {
 
   // Reply
   ERR_0009001: string;
+  ERR_0009002: string;
 }

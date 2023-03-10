@@ -51,11 +51,28 @@ export class ReplyService {
     if (!reply) {
       throw new ClientRequestException(ERROR_CODE.ERR_0009001, HttpStatus.BAD_REQUEST);
     }
-
     if (reply.user.idx !== user.idx) {
       throw new ClientRequestException(ERROR_CODE.ERR_0000005, HttpStatus.FORBIDDEN);
     }
+    if (reply.status !== ReplyStatus.Activated) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0009002, HttpStatus.BAD_REQUEST);
+    }
 
-    await this.replyRepository.deleteReply(reply);
+    await this.replyRepository.updateReply({ idx: replyIdx }, { status: ReplyStatus.Deleted });
+  }
+
+  async modifyContentReply(user: UserEntity, replyIdx: number, content: string) {
+    const reply = await this.replyRepository.getReply({ idx: replyIdx }, ['user']);
+    if (!reply) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0009001, HttpStatus.BAD_REQUEST);
+    }
+    if (reply.user.idx !== user.idx) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0000005, HttpStatus.FORBIDDEN);
+    }
+    if (reply.status !== ReplyStatus.Activated) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0009002, HttpStatus.BAD_REQUEST);
+    }
+
+    await this.replyRepository.updateReply({ idx: replyIdx }, { content });
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { IRequestAugmented } from '../app/app.interface';
 import { UserGuard } from '../app/guards/user.guard';
 import { PlaceParamPipe } from '../app/pipe/common.pipe';
@@ -40,5 +40,12 @@ export class ReplyController {
     const user = req.extras.getUser();
     const { replyIdx } = param;
     await this.replyService.deleteReply(user, replyIdx);
+  }
+
+  @Put(ApiPath.GetReplyIdx)
+  async modifyReply(@Req() req: IRequestAugmented, @Param(ReplyIdxPipe) param: GetReplyIdxParamDto, @Body() body: CreateReplyDto) {
+    const user = req.extras.getUser();
+    const { replyIdx } = param;
+    await this.replyService.modifyContentReply(user, replyIdx, body.content);
   }
 }
