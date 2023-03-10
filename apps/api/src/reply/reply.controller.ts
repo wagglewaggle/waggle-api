@@ -15,14 +15,24 @@ export class ReplyController {
   constructor(private readonly replyService: ReplyService) {}
 
   @Post()
-  async addReply(
+  async addMainReply(
     @Req() req: IRequestAugmented,
     @Param(PlaceParamPipe, ReviewPostIdxPipe) param: GetOneReviewPostParamDto,
     @Body() body: CreateReplyDto,
   ) {
     const user = req.extras.getUser();
     const { idx, type, reviewPostIdx } = param;
-    await this.replyService.addReply(user, idx, type, reviewPostIdx, body.content);
+    await this.replyService.addReply(user, idx, type, reviewPostIdx, body.content, 0, 0);
+  }
+
+  @Post(ApiPath.GetReplyIdx)
+  async addLevelReply(
+    @Req() req: IRequestAugmented,
+    @Param(PlaceParamPipe, ReviewPostIdxPipe, ReplyIdxPipe) param: GetReplyIdxParamDto,
+    @Body() body: CreateReplyDto,
+  ) {
+    const user = req.extras.getUser();
+    await this.replyService.addLevelReply(user, param, body.content);
   }
 
   @Delete(ApiPath.GetReplyIdx)
