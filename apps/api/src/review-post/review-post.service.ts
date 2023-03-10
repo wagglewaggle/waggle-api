@@ -65,6 +65,9 @@ export class ReviewPostService {
     if (reviewPost.user.idx !== user.idx) {
       throw new ClientRequestException(ERROR_CODE.ERR_0000005, HttpStatus.FORBIDDEN);
     }
+    if (reviewPost.status !== ReviewPostStatus.Activated) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0008003, HttpStatus.BAD_REQUEST);
+    }
 
     await this.reviewPostRepository.updateReviewPost({ idx: reviewPostIdx }, { status: ReviewPostStatus.Deleted });
   }

@@ -47,6 +47,7 @@ export interface IErrorCode {
   // Review Post
   ERR_0008001: string;
   ERR_0080002: string;
+  ERR_0008003: string;
 
   // Reply
   ERR_0009001: string;
