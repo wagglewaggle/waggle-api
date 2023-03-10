@@ -23,6 +23,12 @@ export class Reply {
   @Column('int')
   report: number;
 
+  @Column('int')
+  level: number;
+
+  @Column('int')
+  mainReplyIdx: number;
+
   @CreateDateColumn()
   createdDate: Date;
 
