@@ -7,6 +7,9 @@ import { KtPopulationResponseDto } from '../../kt-place/dtos/kt-population-respo
 import { SktPopulationResponseDto } from '../../skt-place/dtos/skt-population-response.dto';
 import { PlaceEntity } from '../entity/place.entity';
 import { PlaceType } from '../../app/app.constant';
+import { Cctv } from '@lib/entity/cctv/cctv.entity';
+import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
+import { ReviewPost } from '@lib/entity/review-post/review-post.entity';
 
 export class PlaceResponseDto {
   @Exclude() private readonly _idx: number;
@@ -17,6 +20,9 @@ export class PlaceResponseDto {
   @Exclude() private readonly _y: number;
   @Exclude() private readonly _categories?: Category[];
   @Exclude() private readonly _population?: KtPopulation | SktPopulation;
+  @Exclude() private readonly _pinPlaces?: PinPlace[];
+  @Exclude() private readonly _reviewPosts?: ReviewPost[];
+  @Exclude() private readonly _cctvs?: Cctv[];
 
   constructor(place: PlaceEntity) {
     this._idx = place.idx;
@@ -27,6 +33,9 @@ export class PlaceResponseDto {
     this._y = place.y;
     this._categories = place.categories;
     this._population = place.population;
+    this._pinPlaces = place.pinPlaces;
+    this._reviewPosts = place.reviewPosts;
+    this._cctvs = place.cctvs;
   }
 
   @Expose()
@@ -57,6 +66,21 @@ export class PlaceResponseDto {
   @Expose()
   get y(): number {
     return this._y;
+  }
+
+  @Expose()
+  get reviewPostCount(): number {
+    return this._reviewPosts ? this._reviewPosts.length : 0;
+  }
+
+  @Expose()
+  get pinPlaceCount(): number {
+    return this._pinPlaces ? this._pinPlaces.length : 0;
+  }
+
+  @Expose()
+  get cctvCount(): number | undefined {
+    return this._cctvs ? this._cctvs.length : undefined;
   }
 
   @Expose()

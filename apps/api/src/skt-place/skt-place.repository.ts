@@ -23,7 +23,9 @@ export class SktPlaceRepository {
   async getSktPlaces(query: PlaceListFilterQueryDto): Promise<[SktPlace[], number]> {
     const queryBuilder = this.createQueryBuilder()
       .leftJoinAndSelect('sktPlace.population', 'population')
-      .leftJoinAndSelect('sktPlace.categories', 'category');
+      .leftJoinAndSelect('sktPlace.categories', 'category')
+      .leftJoinAndSelect('sktPlace.pinPlaces', 'pinPlace')
+      .leftJoinAndSelect('sktPlace.reviewPosts', 'reviewPost');
 
     if (query.level) {
       queryBuilder.andWhere('population.level = :level', { level: query.level });

@@ -15,6 +15,7 @@ import { Province } from '@lib/entity/province/province.entity';
 import { Location } from '@lib/entity/location/location.entity';
 import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
 import { ReviewPost } from '@lib/entity/review-post/review-post.entity';
+import { Cctv } from '@lib/entity/cctv/cctv.entity';
 
 export class PlaceEntity {
   readonly idx: number;
@@ -29,9 +30,11 @@ export class PlaceEntity {
   readonly reviewPosts: ReviewPost[];
   readonly population: KtPopulation | SktPopulation;
   readonly type: PlaceType;
+  readonly cctvs?: Cctv[];
 
   constructor(place: KtPlace | SktPlace) {
     Object.assign(this, place);
+
     if (place instanceof KtPlace) {
       this.type = PlaceType.Kt;
     } else if (place instanceof SktPlace) {
