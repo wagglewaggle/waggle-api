@@ -26,13 +26,20 @@ export class SktPlaceService {
   async getSktPlaceAllInfo(idx: number): Promise<SktPlace> {
     const place = await this.getSktPlaceByIdx(idx, [
       'population',
+      'reviewPosts',
+      'pinPlaces',
       'location',
       'location.ktPlaces',
       'location.ktPlaces.population',
       'location.ktPlaces.categories',
+      'location.ktPlaces.cctvs',
+      'location.ktPlaces.pinPlaces',
+      'location.ktPlaces.reviewPosts',
       'location.sktPlaces',
       'location.sktPlaces.population',
       'location.sktPlaces.categories',
+      'location.sktPlaces.pinPlaces',
+      'location.sktPlaces.reviewPosts',
     ]);
     if (!place) {
       throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);

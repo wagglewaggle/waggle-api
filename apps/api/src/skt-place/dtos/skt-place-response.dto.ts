@@ -6,6 +6,8 @@ import { SktPopulationResponseDto } from './skt-population-response.dto';
 import { CategoryResponseDto } from '../../category/dtos/category-response.dto';
 import { Location } from '@lib/entity/location/location.entity';
 import { LocationResponseDto } from '../../location/dtos/location-response.dto';
+import { ReviewPost } from '@lib/entity/review-post/review-post.entity';
+import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
 
 export class SktPlaceResponseDto {
   @Exclude() private readonly _idx: number;
@@ -14,9 +16,11 @@ export class SktPlaceResponseDto {
   @Exclude() private readonly _address: string;
   @Exclude() private readonly _x: number;
   @Exclude() private readonly _y: number;
-  @Exclude() private readonly _categories: Category[];
+  @Exclude() private readonly _categories?: Category[];
   @Exclude() private readonly _population: SktPopulation;
-  @Exclude() private readonly _location: Location | undefined;
+  @Exclude() private readonly _location?: Location;
+  @Exclude() private readonly _reviewPosts?: ReviewPost[];
+  @Exclude() private readonly _pinPlaces?: PinPlace[];
 
   constructor(place: SktPlace) {
     this._idx = place.idx;
@@ -28,6 +32,8 @@ export class SktPlaceResponseDto {
     this._categories = place.categories;
     this._population = place.population;
     this._location = place.location;
+    this._reviewPosts = place.reviewPosts;
+    this._pinPlaces = place.pinPlaces;
   }
 
   @Expose()
@@ -58,6 +64,16 @@ export class SktPlaceResponseDto {
   @Expose()
   get y(): number {
     return this._y;
+  }
+
+  @Expose()
+  get reviewPostCount(): number {
+    return this._reviewPosts ? this._reviewPosts.length : 0;
+  }
+
+  @Expose()
+  get pinPlaceCount(): number {
+    return this._pinPlaces ? this._pinPlaces.length : 0;
   }
 
   @Expose()

@@ -24,7 +24,10 @@ export class KtPlaceRepository {
   async getKtPlaces(query: PlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
     const queryBuilder = this.createQueryBuilder()
       .leftJoinAndSelect('ktPlace.population', 'population')
-      .leftJoinAndSelect('ktPlace.categories', 'category');
+      .leftJoinAndSelect('ktPlace.categories', 'category')
+      .leftJoinAndSelect('ktPlace.cctvs', 'cctv')
+      .leftJoinAndSelect('ktPlace.pinPlaces', 'pinPlace')
+      .leftJoinAndSelect('ktPlace.reviewPosts', 'reviewPost');
 
     if (query.level) {
       if (query.level === PopulationLevel.VeryRelaxation) {
