@@ -44,6 +44,8 @@ const errors: IErrorCode = {
 
   ERR_0009001: '해당하는 댓글이 없습니다.',
   ERR_0009002: '이미 삭제된 댓글입니다.',
+
+  ERR_0010001: '이미 존재하는 핀입니다.',
 };
 
 export default errors;

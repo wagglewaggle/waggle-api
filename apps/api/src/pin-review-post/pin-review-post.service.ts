@@ -1,0 +1,27 @@
+import { HttpStatus, Injectable } from '@nestjs/common';
+import { PinReviewPost } from '@lib/entity/pin-review-post/pin-review-post.entity';
+import { ReviewPostService } from '../review-post/review-post.service';
+import { UserEntity } from '../user/entity/user.entity';
+import { PinReviewPostRepository } from './pin-review-post.repository';
+import { ClientRequestException } from '../app/exceptions/request.exception';
+import ERROR_CODE from '../app/exceptions/error-code';
+
+@Injectable()
+export class PinReviewPostService {
+  constructor(private readonly pinReviewPostRepository: PinReviewPostRepository, private readonly reviewPostService: ReviewPostService) {}
+
+  async addPinReviewPost(user: UserEntity, reviewPostIdx: number) {
+    const reviewPost = await this.reviewPostService.getReviewPostByIdx(reviewPostIdx);
+    const existPinReviewPost = await this.pinReviewPostRepository.getPinReviewPost({ user: { idx: user.idx }, reviewPost: { idx: reviewPostIdx } });
+    if (existPinReviewPost) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0010001, HttpStatus.BAD_REQUEST);
+    }
+
+    const pinReviewPost = this.pinReviewPostRepository.createInstance({ user, reviewPost });
+    await this.pinReviewPostRepository.addPinReviewPost(pinReviewPost);
+  }
+
+  async getPinReviewPostsByUser(user: UserEntity): Promise<[PinReviewPost[], number]> {
+    return await this.pinReviewPostRepository.getPinReviewPosts(user);
+  }
+}

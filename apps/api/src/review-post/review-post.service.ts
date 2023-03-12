@@ -32,6 +32,14 @@ export class ReviewPostService {
     return await this.reviewPostRepository.getReviewPostsByPlace(placeType, place, query);
   }
 
+  async getReviewPostByIdx(idx: number): Promise<ReviewPostEntity> {
+    const reviewPost = await this.reviewPostRepository.getReviewPost({ idx });
+    if (!reviewPost) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0008001, HttpStatus.BAD_REQUEST);
+    }
+    return reviewPost;
+  }
+
   async getReviewPost(idx: number, placeType: PlaceType, reviewPostIdx: number): Promise<ReviewPostEntity> {
     const place = await this.placeService.getPlaceAllInfo(idx, placeType);
     if (!place) {
