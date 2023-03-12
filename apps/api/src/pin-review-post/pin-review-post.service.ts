@@ -24,4 +24,16 @@ export class PinReviewPostService {
   async getPinReviewPostsByUser(user: UserEntity): Promise<[PinReviewPost[], number]> {
     return await this.pinReviewPostRepository.getPinReviewPosts(user);
   }
+
+  async deletePinReviewPost(user: UserEntity, pinReviewPostIdx: number) {
+    const pinReviewPost = await this.pinReviewPostRepository.getPinReviewPost({ idx: pinReviewPostIdx }, ['user']);
+    if (!pinReviewPost) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0010002, HttpStatus.BAD_REQUEST);
+    }
+    if (pinReviewPost.user.idx !== user.idx) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0000005, HttpStatus.FORBIDDEN);
+    }
+
+    await this.pinReviewPostRepository.deletePinReviewPost(pinReviewPost);
+  }
 }

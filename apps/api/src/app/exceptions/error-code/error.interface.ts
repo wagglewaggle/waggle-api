@@ -55,4 +55,5 @@ export interface IErrorCode {
 
   // Pin Review Post
   ERR_0010001: string;
+  ERR_0010002: string;
 }

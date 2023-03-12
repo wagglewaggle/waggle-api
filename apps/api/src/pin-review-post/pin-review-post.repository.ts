@@ -32,6 +32,13 @@ export class PinReviewPostRepository {
     return result || undefined;
   }
 
+  async deletePinReviewPost(pinReviewPost: PinReviewPost, manager?: EntityManager) {
+    if (manager) {
+      return manager.remove(PinReviewPost, pinReviewPost);
+    }
+    return this.repository.remove(pinReviewPost);
+  }
+
   async getPinReviewPosts(user: UserEntity): Promise<[PinReviewPost[], number]> {
     const queryBuilder = this.createQueryBuilder()
       .leftJoinAndSelect('pinReviewPost.reviewPost', 'reviewPost')
