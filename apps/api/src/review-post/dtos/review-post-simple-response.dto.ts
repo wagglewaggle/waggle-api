@@ -13,7 +13,7 @@ import { UserResponseDto } from '../../user/dtos/user-response.dto';
 import { UserEntity } from '../../user/entity/user.entity';
 import { ReviewPostEntity } from '../entity/review-post.entity';
 
-export class ReviewPostListResponseDto {
+export class ReviewPostSimpleResponseDto {
   @Exclude() protected readonly _idx: number;
   @Exclude() protected readonly _content: string;
   @Exclude() protected readonly _view: number;
@@ -24,12 +24,13 @@ export class ReviewPostListResponseDto {
   @Exclude() protected readonly _replies: Reply[];
   @Exclude() protected readonly _reviewPostImages: ReviewPostImage[];
   @Exclude() protected readonly _pinReviewPosts: PinReviewPost[];
+  @Exclude() protected readonly _isPin?: boolean;
   @Exclude() protected readonly _user?: User;
   @Exclude() protected readonly _sktPlace?: SktPlace;
   @Exclude() protected readonly _ktPlace?: KtPlace;
   @Exclude() protected readonly _extraPlace?: ExtraPlace;
 
-  constructor(reviewPost: ReviewPostEntity) {
+  constructor(reviewPost: ReviewPostEntity, pinReviewPostMap?: Map<number, boolean>) {
     this._idx = reviewPost.idx;
     this._content = reviewPost.content;
     this._view = reviewPost.view;
@@ -40,6 +41,9 @@ export class ReviewPostListResponseDto {
     this._replies = reviewPost.replies;
     this._reviewPostImages = reviewPost.reviewPostImages;
     this._pinReviewPosts = reviewPost.pinReviewPosts;
+    if (pinReviewPostMap) {
+      this._isPin = pinReviewPostMap.get(reviewPost.idx) || false;
+    }
     this._user = reviewPost.user;
     this._sktPlace = reviewPost.sktPlace;
     this._ktPlace = reviewPost.ktPlace;
@@ -89,6 +93,11 @@ export class ReviewPostListResponseDto {
   @Expose()
   get pinReviewPostCount(): number {
     return this._pinReviewPosts.length;
+  }
+
+  @Expose()
+  get isPin(): boolean | undefined {
+    return this._isPin;
   }
 
   @Expose()

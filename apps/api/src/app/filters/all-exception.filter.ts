@@ -49,7 +49,12 @@ export class AllExceptionFilter implements ExceptionFilter {
       statusCode = exception.getStatus();
       stack = exception.stack;
 
-      sendData.message = message[0];
+      if (Array.isArray(message)) {
+        sendData.message = message[0];
+      } else {
+        sendData.message = message;
+      }
+
       sendData.errorCode = 'ERR_0000003';
     }
 

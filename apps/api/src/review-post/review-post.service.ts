@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { forwardRef, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ReviewPostStatus } from '@lib/entity/review-post/review-post.constant';
 import { PlaceType } from '../app/app.constant';
 import { PlaceService } from '../place/place.service';
@@ -8,6 +8,7 @@ import { ListFilterQueryDto } from '../app/app.dto';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import ERROR_CODE from '../app/exceptions/error-code';
 import { ReviewPostEntity } from './entity/review-post.entity';
+import { PinReviewPostService } from '../pin-review-post/pin-review-post.service';
 
 @Injectable()
 export class ReviewPostService {
@@ -30,6 +31,14 @@ export class ReviewPostService {
   async getReviewPostsByPlace(idx: number, placeType: PlaceType, query: ListFilterQueryDto): Promise<[ReviewPostEntity[], number]> {
     const place = await this.placeService.getPlaceAllInfo(idx, placeType);
     return await this.reviewPostRepository.getReviewPostsByPlace(placeType, place, query);
+  }
+
+  async getReviewPostByIdx(idx: number): Promise<ReviewPostEntity> {
+    const reviewPost = await this.reviewPostRepository.getReviewPost({ idx });
+    if (!reviewPost) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0008001, HttpStatus.BAD_REQUEST);
+    }
+    return reviewPost;
   }
 
   async getReviewPost(idx: number, placeType: PlaceType, reviewPostIdx: number): Promise<ReviewPostEntity> {
