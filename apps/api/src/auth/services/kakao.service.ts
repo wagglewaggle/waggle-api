@@ -92,7 +92,7 @@ export class KakaoService extends BaseAuthService {
       if (queryRunner.isTransactionActive) {
         await queryRunner.rollbackTransaction();
       }
-      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR, e);
+      throw e;
     } finally {
       await queryRunner.release();
     }
@@ -111,7 +111,7 @@ export class KakaoService extends BaseAuthService {
       if (e instanceof AxiosError) {
         throw new ClientRequestException(ERROR_CODE.ERR_0005002, HttpStatus.UNAUTHORIZED);
       }
-      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR, e);
+      throw e;
     }
   }
 
@@ -131,7 +131,7 @@ export class KakaoService extends BaseAuthService {
       if (e instanceof AxiosError) {
         throw new ClientRequestException(ERROR_CODE.ERR_0005002, HttpStatus.UNAUTHORIZED);
       }
-      throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR, e);
+      throw e;
     }
   }
 }
