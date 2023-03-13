@@ -43,8 +43,13 @@ export class PinPlaceRepository {
       .leftJoinAndSelect('pinPlace.user', 'user')
       .leftJoinAndSelect('pinPlace.sktPlace', 'sktPlace')
       .leftJoinAndSelect('sktPlace.population', 'sktPopulation')
+      .leftJoinAndSelect('sktPlace.reviewPosts', 'sktReviewPost')
+      .leftJoinAndSelect('sktPlace.pinPlaces', 'sktPinPlace')
       .leftJoinAndSelect('pinPlace.ktPlace', 'ktPlace')
       .leftJoinAndSelect('ktPlace.population', 'ktPopulation')
+      .leftJoinAndSelect('ktPlace.cctvs', 'cctv')
+      .leftJoinAndSelect('ktPlace.reviewPosts', 'ktReviewPost')
+      .leftJoinAndSelect('ktPlace.pinPlaces', 'ktPinPlace')
       .where('user.idx = :userIdx', { userIdx: user.idx })
       .orderBy('pinPlace.createdDate', 'DESC');
     // .addOrderBy('sktPlace.idx', 'ASC');

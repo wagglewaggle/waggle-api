@@ -42,9 +42,10 @@ export class PinReviewPostRepository {
   async getPinReviewPosts(user: UserEntity): Promise<[PinReviewPost[], number]> {
     const queryBuilder = this.createQueryBuilder()
       .leftJoinAndSelect('pinReviewPost.reviewPost', 'reviewPost')
+      .leftJoinAndSelect('pinReviewPost.user', 'user')
       .leftJoinAndSelect('reviewPost.replies', 'reply')
       .leftJoinAndSelect('reviewPost.pinReviewPosts', 'prr')
-      .leftJoinAndSelect('reviewPost.user', 'user')
+      .leftJoinAndSelect('reviewPost.user', 'writer')
       .leftJoinAndSelect('reviewPost.sktPlace', 'sktPlace')
       .leftJoinAndSelect('reviewPost.ktPlace', 'ktPlace')
       .leftJoinAndSelect('reviewPost.extraPlace', 'extraPlace')

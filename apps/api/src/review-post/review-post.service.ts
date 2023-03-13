@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { forwardRef, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ReviewPostStatus } from '@lib/entity/review-post/review-post.constant';
 import { PlaceType } from '../app/app.constant';
 import { PlaceService } from '../place/place.service';
@@ -8,6 +8,7 @@ import { ListFilterQueryDto } from '../app/app.dto';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import ERROR_CODE from '../app/exceptions/error-code';
 import { ReviewPostEntity } from './entity/review-post.entity';
+import { PinReviewPostService } from '../pin-review-post/pin-review-post.service';
 
 @Injectable()
 export class ReviewPostService {

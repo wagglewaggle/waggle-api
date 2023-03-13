@@ -23,8 +23,9 @@ export class PinReviewPostController {
   @HttpCode(HttpStatus.OK)
   async getPinReviewPostByUser(@Req() req: IRequestAugmented): Promise<IListCountResponse<PinReviewPostResponseDto>> {
     const user = req.extras.getUser();
+    const pinReviewPostIdxMap = await this.pinReviewPostService.getMapPinReviewPostIdx(user);
     const [pinReviewPosts, count] = await this.pinReviewPostService.getPinReviewPostsByUser(user);
-    return { list: pinReviewPosts.map((pinReviewPost) => new PinReviewPostResponseDto(pinReviewPost)), count };
+    return { list: pinReviewPosts.map((pinReviewPost) => new PinReviewPostResponseDto(pinReviewPost, pinReviewPostIdxMap)), count };
   }
 
   @Delete()

@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { forwardRef, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { PinReviewPost } from '@lib/entity/pin-review-post/pin-review-post.entity';
 import { ReviewPostService } from '../review-post/review-post.service';
 import { UserEntity } from '../user/entity/user.entity';
@@ -8,7 +8,10 @@ import ERROR_CODE from '../app/exceptions/error-code';
 
 @Injectable()
 export class PinReviewPostService {
-  constructor(private readonly pinReviewPostRepository: PinReviewPostRepository, private readonly reviewPostService: ReviewPostService) {}
+  constructor(
+    private readonly pinReviewPostRepository: PinReviewPostRepository,
+    @Inject(forwardRef(() => ReviewPostService)) private readonly reviewPostService: ReviewPostService,
+  ) {}
 
   async addPinReviewPost(user: UserEntity, reviewPostIdx: number) {
     const reviewPost = await this.reviewPostService.getReviewPostByIdx(reviewPostIdx);
@@ -23,6 +26,11 @@ export class PinReviewPostService {
 
   async getPinReviewPostsByUser(user: UserEntity): Promise<[PinReviewPost[], number]> {
     return await this.pinReviewPostRepository.getPinReviewPosts(user);
+  }
+
+  async getMapPinReviewPostIdx(user: UserEntity): Promise<Map<number, boolean>> {
+    const [pinReviewPosts] = await this.getPinReviewPostsByUser(user);
+    return new Map(pinReviewPosts.map(({ reviewPost }) => [reviewPost.idx, true]));
   }
 
   async deletePinReviewPost(user: UserEntity, pinReviewPostIdx: number) {
