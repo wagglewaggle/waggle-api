@@ -1,5 +1,4 @@
 import { Expose } from 'class-transformer';
-import { PinReviewPost } from '@lib/entity/pin-review-post/pin-review-post.entity';
 import { ReviewPostImage } from '@lib/entity/review-post-image/review-post-image.entity';
 import { ReviewPostEntity } from '../entity/review-post.entity';
 import { ReviewPostSimpleResponseDto } from './review-post-simple-response.dto';
@@ -24,10 +23,5 @@ export class ReviewPostResponseDto extends ReviewPostSimpleResponseDto {
   @Expose()
   get images(): ReviewPostImage[] {
     return this._reviewPostImages;
-  }
-
-  @Expose()
-  get pinReviewPosts(): PinReviewPost[] {
-    return this._pinReviewPosts;
   }
 }
