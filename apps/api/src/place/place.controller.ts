@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
 import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 import { PlaceType } from '../app/app.constant';
@@ -11,8 +11,10 @@ import { PlaceListFilterQueryDto } from './place.dto';
 import { PlaceService } from './place.service';
 import { PlaceListFilterPipe } from './place.pipe';
 import { PlaceParamDto } from '../app/app.dto';
+import { UserGuard } from '../app/guards/user.guard';
 
 @Controller(ApiPath.Root)
+@UseGuards(UserGuard)
 export class PlaceController {
   constructor(private readonly placeService: PlaceService) {}
 
