@@ -18,11 +18,4 @@ export class PinPlaceEntity extends PinPlace {
     this.ktPlace = pinPlace.ktPlace;
     this.createdDate = pinPlace.createdDate;
   }
-
-  static getPinPlaceByOnePlaceType(pinPlaces: PinPlace[]) {
-    return {
-      sktPlaces: pinPlaces.filter(({ sktPlace }) => sktPlace !== null),
-      ktPlaces: pinPlaces.filter(({ ktPlace }) => ktPlace !== null),
-    };
-  }
 }
