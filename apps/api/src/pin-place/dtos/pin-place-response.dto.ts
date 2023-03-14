@@ -1,49 +1,24 @@
 import { Exclude, Expose } from 'class-transformer';
-import { SktPlaceResponseDto } from '../../skt-place/dtos/skt-place-response.dto';
-import { KtPlaceResponseDto } from '../../kt-place/dtos/kt-place-reponse.dto';
 import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
+import { PlaceResponseDto } from '../../place/dtos/place-response.dto';
+import { PlaceEntity } from '../../place/entity/place.entity';
 
 export class PinPlaceResponseDto {
-  @Exclude() private readonly _sktPlaces: PinPlace[];
-  @Exclude() private readonly _ktPlaces: PinPlace[];
+  @Exclude() private readonly _pinPlaces: PinPlace[];
 
-  constructor(sktPlaces: PinPlace[], ktPlaces: PinPlace[]) {
-    this._sktPlaces = sktPlaces;
-    this._ktPlaces = ktPlaces;
+  constructor(pinPlaces: PinPlace[]) {
+    this._pinPlaces = pinPlaces;
   }
 
   @Expose()
-  get sktPlaces(): ISktPinPlaceResponse[] {
-    return this._sktPlaces.map(({ idx, sktPlace, createdDate }) => {
+  get places() {
+    return this._pinPlaces.map(({ idx, sktPlace, ktPlace, createdDate }) => {
+      const place = new PlaceEntity(sktPlace || ktPlace);
       return {
         idx,
-        place: new SktPlaceResponseDto(sktPlace),
+        place: new PlaceResponseDto(place),
         createdDate,
       };
     });
   }
-
-  @Expose()
-  get ktPlaces(): IKtPinPlaceResponse[] {
-    return this._ktPlaces.map(({ idx, ktPlace, createdDate }) => {
-      return {
-        idx,
-        place: new KtPlaceResponseDto(ktPlace),
-        createdDate,
-      };
-    });
-  }
-}
-
-export interface IPinPlaceResponse {
-  idx: number;
-  createdDate: Date;
-}
-
-export interface ISktPinPlaceResponse extends IPinPlaceResponse {
-  place: SktPlaceResponseDto;
-}
-
-export interface IKtPinPlaceResponse extends IPinPlaceResponse {
-  place: KtPlaceResponseDto;
 }

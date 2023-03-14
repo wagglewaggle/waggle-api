@@ -7,9 +7,9 @@ import { ClientRequestException } from '../app/exceptions/request.exception';
 import { KtPlaceService } from '../kt-place/kt-place.service';
 import { SktPlaceService } from '../skt-place/skt-place.service';
 import { UserEntity } from '../user/entity/user.entity';
-import { AddPinPlaceBodyDto } from './pin-place.dto';
 import { PinPlaceRepository } from './pin-place.repository';
 import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
+import { PinPlaceBodyDto } from './pin-place.dto';
 
 @Injectable()
 export class PinPlaceService {
@@ -43,7 +43,7 @@ export class PinPlaceService {
     return pinPlace;
   }
 
-  async addPinPlace(user: UserEntity, body: AddPinPlaceBodyDto) {
+  async addPinPlace(user: UserEntity, body: PinPlaceBodyDto) {
     const place = await this.getPlace(body.idx, body.type);
     if (!place) {
       throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);
@@ -70,7 +70,21 @@ export class PinPlaceService {
     return await this.pinPlaceRepository.getPinPlaces(user);
   }
 
-  async deletePinPlace(pinPlace: PinPlace): Promise<void> {
+  async deletePinPlace(user: UserEntity, body: PinPlaceBodyDto): Promise<void> {
+    const place = await this.getPlace(body.idx, body.type);
+    if (!place) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);
+    }
+
+    const [pinPlace] = await this.pinPlaceRepository.getPinPlace({
+      user: { idx: user.idx },
+      sktPlace: { idx: place instanceof SktPlace ? place.idx : undefined },
+      ktPlace: { idx: place instanceof KtPlace ? place.idx : undefined },
+    });
+    if (!pinPlace) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0007002, HttpStatus.BAD_REQUEST);
+    }
+
     await this.pinPlaceRepository.deletePinPlace(pinPlace);
   }
 }
