@@ -22,6 +22,25 @@ export class ExtraPlaceService {
   }
 
   async getPlaceAllInfo(idx: number): Promise<ExtraPlace> {
-    return this.getPlaceByIdx(idx, ['pinPlaces', 'reviewPosts', 'location']);
+    return this.getPlaceByIdx(idx, [
+      'pinPlaces',
+      'reviewPosts',
+      'location',
+      'location.ktPlaces',
+      'location.ktPlaces.population',
+      'location.ktPlaces.categories',
+      'location.ktPlaces.cctvs',
+      'location.ktPlaces.pinPlaces',
+      'location.ktPlaces.reviewPosts',
+      'location.sktPlaces',
+      'location.sktPlaces.population',
+      'location.sktPlaces.categories',
+      'location.sktPlaces.pinPlaces',
+      'location.sktPlaces.reviewPosts',
+      'location.extraPlaces',
+      'location.extraPlaces.categories',
+      'location.extraPlaces.pinPlaces',
+      'location.extraPlaces.reviewPosts',
+    ]);
   }
 }
