@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from '../category/category.entity';
 import { Location } from '../location/location.entity';
 import { PinPlace } from '../pin-place/pin-place.entity';
 import { Province } from '../province/province.entity';
@@ -36,6 +37,9 @@ export class ExtraPlace {
 
   @OneToMany(() => ReviewPost, (reviewPost) => reviewPost.extraPlace, { nullable: true })
   reviewPosts: ReviewPost[];
+
+  @OneToMany(() => Category, (category) => category.extraPlace)
+  categories: Category[];
 
   @CreateDateColumn()
   createdDate: Date;

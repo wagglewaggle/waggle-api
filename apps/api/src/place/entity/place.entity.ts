@@ -16,6 +16,7 @@ import { Location } from '@lib/entity/location/location.entity';
 import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
 import { ReviewPost } from '@lib/entity/review-post/review-post.entity';
 import { Cctv } from '@lib/entity/cctv/cctv.entity';
+import { ExtraPlace } from '@lib/entity/extra-place/extra-place.entity';
 
 export class PlaceEntity {
   readonly idx: number;
@@ -32,13 +33,15 @@ export class PlaceEntity {
   readonly type: PlaceType;
   readonly cctvs?: Cctv[];
 
-  constructor(place: KtPlace | SktPlace) {
+  constructor(place: KtPlace | SktPlace | ExtraPlace) {
     Object.assign(this, place);
 
     if (place instanceof KtPlace) {
       this.type = PlaceType.Kt;
     } else if (place instanceof SktPlace) {
       this.type = PlaceType.Skt;
+    } else {
+      this.type = PlaceType.Extra;
     }
   }
 
@@ -48,6 +51,8 @@ export class PlaceEntity {
         return plainToInstance(KtPlace, this);
       case PlaceType.Skt:
         return plainToInstance(SktPlace, this);
+      case PlaceType.Extra:
+        return plainToInstance(ExtraPlace, this);
       default:
         throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR);
     }

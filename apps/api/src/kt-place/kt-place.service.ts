@@ -24,7 +24,7 @@ export class KtPlaceService {
   }
 
   async getKtPlaceAllInfo(idx: number): Promise<KtPlace> {
-    const place = await this.getKtPlaceByIdx(idx, [
+    return await this.getKtPlaceByIdx(idx, [
       'population',
       'accidents',
       'cctvs',
@@ -44,9 +44,5 @@ export class KtPlaceService {
       'location.sktPlaces.pinPlaces',
       'location.sktPlaces.reviewPosts',
     ]);
-    if (!place) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);
-    }
-    return place;
   }
 }

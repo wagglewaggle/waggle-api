@@ -26,6 +26,7 @@ import { SentryModule } from './app/sentry/sentry.module';
 import { ReviewPostModule } from './review-post/review-post.module';
 import { ReplyModule } from './reply/reply.module';
 import { PinReviewPostModule } from './pin-review-post/pin-review-post.module';
+import { ExtraPlaceModule } from './extra-place/extra-place.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
@@ -53,6 +54,7 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
     ReviewPostModule,
     ReplyModule,
     PinReviewPostModule,
+    ExtraPlaceModule,
   ],
   providers: [
     { provide: APP_INTERCEPTOR, useValue: new RavenInterceptor() },

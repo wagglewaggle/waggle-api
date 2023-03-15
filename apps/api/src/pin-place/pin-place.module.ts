@@ -6,11 +6,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
 import { SktPlaceModule } from '../skt-place/skt-place.module';
 import { KtPlaceModule } from '../kt-place/kt-place.module';
+import { ExtraPlaceModule } from '../extra-place/extra-place.module';
 
 const typeOrmModule = TypeOrmModule.forFeature([PinPlace]);
 
 @Module({
-  imports: [typeOrmModule, SktPlaceModule, KtPlaceModule],
+  imports: [typeOrmModule, SktPlaceModule, KtPlaceModule, ExtraPlaceModule],
   providers: [PinPlaceService, PinPlaceRepository],
   controllers: [PinPlaceController],
   exports: [typeOrmModule, PinPlaceService],
