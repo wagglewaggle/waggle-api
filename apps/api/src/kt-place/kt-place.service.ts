@@ -43,6 +43,10 @@ export class KtPlaceService {
       'location.sktPlaces.categories',
       'location.sktPlaces.pinPlaces',
       'location.sktPlaces.reviewPosts',
+      'location.extraPlaces',
+      'location.extraPlaces.categories',
+      'location.extraPlaces.pinPlaces',
+      'location.extraPlaces.reviewPosts',
     ]);
   }
 }

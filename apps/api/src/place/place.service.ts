@@ -22,7 +22,8 @@ export class PlaceService {
   async getAllTypePlaces(query: PlaceListFilterQueryDto): Promise<PlaceEntity[]> {
     const [ktPlaces] = await this.ktPlaceService.getKtPlaces(query);
     const [sktPlaces] = await this.sktPlaceService.getSktPlaces(query);
-    return PlaceEntity.getRefinedPlaces(ktPlaces, sktPlaces, query.populationSort);
+    const [extraPlaces] = await this.extraPlaceService.getPlaces(query);
+    return PlaceEntity.getRefinedPlaces(ktPlaces, sktPlaces, extraPlaces, query.populationSort);
   }
 
   async getPlaceAllInfo(idx: number, type: PlaceType): Promise<PlaceEntity> {

@@ -78,7 +78,7 @@ export class PlaceEntity {
     return result;
   }
 
-  static getRefinedPlaces(ktPlaces: KtPlace[], sktPlaces: SktPlace[], sortType = false) {
+  static getRefinedPlaces(ktPlaces: KtPlace[], sktPlaces: SktPlace[], extraPlaces: ExtraPlace[], sortType = false) {
     const places: PlaceEntity[] = [];
     const ktLength = ktPlaces.length;
     const sktLength = sktPlaces.length;
@@ -114,6 +114,8 @@ export class PlaceEntity {
 
     while (ktIdx < ktLength) places.push(new PlaceEntity(ktPlaces[ktIdx++]));
     while (sktIdx < sktLength) places.push(new PlaceEntity(sktPlaces[sktIdx++]));
+
+    extraPlaces.forEach((place) => places.push(new PlaceEntity(place)));
 
     return places;
   }
