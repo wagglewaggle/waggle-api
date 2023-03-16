@@ -40,6 +40,10 @@ export class SktPlaceService {
       'location.sktPlaces.categories',
       'location.sktPlaces.pinPlaces',
       'location.sktPlaces.reviewPosts',
+      'location.extraPlaces',
+      'location.extraPlaces.categories',
+      'location.extraPlaces.pinPlaces',
+      'location.extraPlaces.reviewPosts',
     ]);
     if (!place) {
       throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);

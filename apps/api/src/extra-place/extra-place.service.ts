@@ -1,34 +1,28 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
+import { ExtraPlace } from '@lib/entity/extra-place/extra-place.entity';
 import ERROR_CODE from '../app/exceptions/error-code';
 import { ClientRequestException } from '../app/exceptions/request.exception';
-import { KtPlaceRepository } from './kt-place.repository';
-import { LocationService } from '../location/location.service';
+import { ExtraPlaceRepository } from './extra-place.repository';
 import { PlaceListFilterQueryDto } from '../place/place.dto';
 
 @Injectable()
-export class KtPlaceService {
-  constructor(private readonly ktPlaceRepository: KtPlaceRepository, private readonly locationService: LocationService) {}
+export class ExtraPlaceService {
+  constructor(private readonly extraPlaceRepository: ExtraPlaceRepository) {}
 
-  async getKtPlaces(query: PlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
-    return await this.ktPlaceRepository.getKtPlaces(query);
+  async getPlaces(query: PlaceListFilterQueryDto): Promise<[ExtraPlace[], number]> {
+    return await this.extraPlaceRepository.getPlaces(query);
   }
 
-  async getKtPlaceByIdx(idx: number, relation?: string[]): Promise<KtPlace> {
-    const [place] = await this.ktPlaceRepository.getKtPlace({ idx }, relation);
+  async getPlaceByIdx(idx: number, relations?: string[]): Promise<ExtraPlace> {
+    const place = await this.extraPlaceRepository.getPlace({ idx }, relations);
     if (!place) {
       throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);
     }
-
     return place;
   }
 
-  async getKtPlaceAllInfo(idx: number): Promise<KtPlace> {
-    return await this.getKtPlaceByIdx(idx, [
-      'population',
-      'accidents',
-      'cctvs',
-      'ktRoadTraffic',
+  async getPlaceAllInfo(idx: number): Promise<ExtraPlace> {
+    return this.getPlaceByIdx(idx, [
       'pinPlaces',
       'reviewPosts',
       'location',

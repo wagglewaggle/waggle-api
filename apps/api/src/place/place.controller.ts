@@ -12,6 +12,8 @@ import { PlaceService } from './place.service';
 import { PlaceListFilterPipe } from './place.pipe';
 import { PlaceParamDto } from '../app/app.dto';
 import { UserGuard } from '../app/guards/user.guard';
+import { ExtraPlaceResponseDto } from '../extra-place/dtos/extra-place-response.dto';
+import { ExtraPlace } from '@lib/entity/extra-place/extra-place.entity';
 
 @Controller(ApiPath.Root)
 @UseGuards(UserGuard)
@@ -33,6 +35,8 @@ export class PlaceController {
       return new KtPlaceResponseDto(result.getInstancePlaceType() as KtPlace);
     } else if (type === PlaceType.Skt) {
       return new SktPlaceResponseDto(result.getInstancePlaceType() as SktPlace);
+    } else {
+      return new ExtraPlaceResponseDto(result.getInstancePlaceType() as ExtraPlace);
     }
   }
 }

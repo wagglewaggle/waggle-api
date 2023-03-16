@@ -20,6 +20,8 @@ export class LocationService {
       'sktPlaces',
       'sktPlaces.population',
       'sktPlaces.categories',
+      'extraPlaces',
+      'extraPlaces.categories',
     ]);
     if (!location) {
       throw new ClientRequestException(ERROR_CODE.ERR_0004001, HttpStatus.BAD_REQUEST);

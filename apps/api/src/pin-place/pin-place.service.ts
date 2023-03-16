@@ -10,6 +10,8 @@ import { UserEntity } from '../user/entity/user.entity';
 import { PinPlaceRepository } from './pin-place.repository';
 import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
 import { PinPlaceBodyDto } from './pin-place.dto';
+import { ExtraPlaceService } from '../extra-place/extra-place.service';
+import { ExtraPlace } from '@lib/entity/extra-place/extra-place.entity';
 
 @Injectable()
 export class PinPlaceService {
@@ -17,6 +19,7 @@ export class PinPlaceService {
     private readonly pinPlaceRepository: PinPlaceRepository,
     private readonly sktPlaceService: SktPlaceService,
     private readonly ktPlaceService: KtPlaceService,
+    private readonly extraPlaceService: ExtraPlaceService,
   ) {}
 
   private async getPlace(idx: number, type: PlaceType) {
@@ -25,6 +28,8 @@ export class PinPlaceService {
         return await this.ktPlaceService.getKtPlaceByIdx(idx);
       case PlaceType.Skt:
         return await this.sktPlaceService.getSktPlaceByIdx(idx);
+      case PlaceType.Extra:
+        return await this.extraPlaceService.getPlaceByIdx(idx);
       default:
         throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -45,9 +50,6 @@ export class PinPlaceService {
 
   async addPinPlace(user: UserEntity, body: PinPlaceBodyDto) {
     const place = await this.getPlace(body.idx, body.type);
-    if (!place) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0002001, HttpStatus.BAD_REQUEST);
-    }
 
     if (place instanceof SktPlace) {
       await this.pinPlaceRepository.addPinPlace(
@@ -61,6 +63,13 @@ export class PinPlaceService {
         this.pinPlaceRepository.createInstance({
           user,
           ktPlace: place,
+        }),
+      );
+    } else {
+      await this.pinPlaceRepository.addPinPlace(
+        this.pinPlaceRepository.createInstance({
+          user,
+          extraPlace: place,
         }),
       );
     }
@@ -80,6 +89,7 @@ export class PinPlaceService {
       user: { idx: user.idx },
       sktPlace: { idx: place instanceof SktPlace ? place.idx : undefined },
       ktPlace: { idx: place instanceof KtPlace ? place.idx : undefined },
+      extraPlace: { idx: place instanceof ExtraPlace ? place.idx : undefined },
     });
     if (!pinPlace) {
       throw new ClientRequestException(ERROR_CODE.ERR_0007002, HttpStatus.BAD_REQUEST);

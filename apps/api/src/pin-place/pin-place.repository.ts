@@ -50,6 +50,9 @@ export class PinPlaceRepository {
       .leftJoinAndSelect('ktPlace.cctvs', 'cctv')
       .leftJoinAndSelect('ktPlace.reviewPosts', 'ktReviewPost')
       .leftJoinAndSelect('ktPlace.pinPlaces', 'ktPinPlace')
+      .leftJoinAndSelect('pinPlace.extraPlace', 'extraPlace')
+      .leftJoinAndSelect('extraPlace.reviewPosts', 'extraReviewPost')
+      .leftJoinAndSelect('extraPlace.pinPlaces', 'extraPinPlace')
       .where('user.idx = :userIdx', { userIdx: user.idx })
       .orderBy('pinPlace.createdDate', 'DESC');
     // .addOrderBy('sktPlace.idx', 'ASC');
