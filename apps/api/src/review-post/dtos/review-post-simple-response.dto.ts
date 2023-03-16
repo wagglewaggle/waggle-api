@@ -114,6 +114,8 @@ export class ReviewPostSimpleResponseDto {
       place = new PlaceEntity(this._sktPlace);
     } else if (this._ktPlace) {
       place = new PlaceEntity(this._ktPlace);
+    } else if (this._extraPlace) {
+      place = new PlaceEntity(this._extraPlace);
     }
 
     return new PlaceResponseDto(place);

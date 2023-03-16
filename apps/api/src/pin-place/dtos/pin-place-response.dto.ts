@@ -12,8 +12,8 @@ export class PinPlaceResponseDto {
 
   @Expose()
   get places() {
-    return this._pinPlaces.map(({ idx, sktPlace, ktPlace, createdDate }) => {
-      const place = new PlaceEntity(sktPlace || ktPlace);
+    return this._pinPlaces.map(({ idx, sktPlace, ktPlace, extraPlace, createdDate }) => {
+      const place = new PlaceEntity(sktPlace || ktPlace || extraPlace);
       return {
         idx,
         place: new PlaceResponseDto(place),
