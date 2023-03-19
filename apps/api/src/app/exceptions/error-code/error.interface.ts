@@ -39,6 +39,7 @@ export interface IErrorCode {
   ERR_0006007: string;
   ERR_0006008: string;
   ERR_0006009: string;
+  ERR_0006010: string;
 
   // Pin Place
   ERR_0007001: string;

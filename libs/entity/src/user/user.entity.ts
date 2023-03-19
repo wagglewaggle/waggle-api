@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { PinPlace } from '../pin-place/pin-place.entity';
 import { PinReviewPost } from '../pin-review-post/pin-review-post.entity';
 import { Reply } from '../reply/reply.entity';
@@ -8,6 +8,7 @@ import { UserToken } from '../user-token/user-token.entity';
 import { SnsType, UserStatus } from './user.constant';
 
 @Entity()
+@Index(['nickname'])
 export class User {
   @PrimaryGeneratedColumn()
   idx: number;

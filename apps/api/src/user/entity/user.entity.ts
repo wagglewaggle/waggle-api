@@ -32,4 +32,8 @@ export class UserEntity extends User {
       throw new ClientRequestException(ERROR_CODE.ERR_0006002, HttpStatus.UNAUTHORIZED);
     }
   }
+
+  modifyNickname(nickname: string) {
+    Object.assign(this, { nickname });
+  }
 }

@@ -34,16 +34,17 @@ export class KakaoService extends BaseAuthService {
 
     const isDuplicatedUser = await this.checkDuplicatedUser(String(userInformation.id), SnsType.Kakao);
     if (!isDuplicatedUser) {
-      await this.addNewUser(
-        this.userService.createInstance({
-          snsId: String(userInformation.id),
-          snsType: SnsType.Kakao,
-          email: userInformation.kakao_account.email,
-          name: userInformation.kakao_account.profile.nickname,
-          nickname: userInformation.kakao_account.profile.nickname,
-          status: UserStatus.Activated,
-        }),
-      );
+      const newUser = this.userService.createInstance({
+        snsId: String(userInformation.id),
+        snsType: SnsType.Kakao,
+        email: userInformation.kakao_account.email,
+        name: userInformation.kakao_account.profile.nickname,
+        nickname: userInformation.kakao_account.profile.nickname,
+        status: UserStatus.Activated,
+      });
+
+      await this.checkDuplicateNickname(newUser);
+      await this.addNewUser(newUser);
     }
 
     const { payload, accessToken, refreshToken } = await this.createJwtUserToken(String(userInformation.id));
