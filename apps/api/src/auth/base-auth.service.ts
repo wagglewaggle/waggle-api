@@ -37,7 +37,13 @@ export abstract class BaseAuthService {
   async checkDuplicateNickname(newUser: UserEntity): Promise<UserEntity> {
     const isDuplicate = await this.userService.getUserByNickname(newUser.nickname);
     if (isDuplicate) {
-      newUser.modifyNickname(`${newUser.nickname}_${new Date().toISOString()}`);
+      const date = new Date();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const hour = date.getHours();
+      const minute = date.getMinutes();
+      const second = date.getSeconds();
+      newUser.modifyNickname(`${newUser.nickname}_${month}${day}${hour}${minute}${second}`);
     }
     return newUser;
   }
