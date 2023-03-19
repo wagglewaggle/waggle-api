@@ -32,6 +32,14 @@ export class UserService {
     return new UserEntity(user);
   }
 
+  async getUserByNickname(nickname: string): Promise<UserEntity | undefined> {
+    const user = await this.userRepository.getUser({ nickname }, ['userRole']);
+    if (!user) {
+      return undefined;
+    }
+    return new UserEntity(user);
+  }
+
   async addUser(user: UserEntity, manager?: EntityManager) {
     return await this.userRepository.addUser(user, manager);
   }

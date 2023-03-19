@@ -34,16 +34,17 @@ export class GoogleService extends BaseAuthService {
 
     const isDuplicatedUser = await this.checkDuplicatedUser(userGoogleInformation.id, SnsType.Google);
     if (!isDuplicatedUser) {
-      await this.addNewUser(
-        this.userService.createInstance({
-          snsId: userGoogleInformation.id,
-          snsType: SnsType.Google,
-          email: userGoogleInformation.email,
-          name: userGoogleInformation.name,
-          nickname: userGoogleInformation.name,
-          status: UserStatus.Activated,
-        }),
-      );
+      const newUser = this.userService.createInstance({
+        snsId: userGoogleInformation.id,
+        snsType: SnsType.Google,
+        email: userGoogleInformation.email,
+        name: userGoogleInformation.name,
+        nickname: userGoogleInformation.name,
+        status: UserStatus.Activated,
+      });
+
+      await this.checkDuplicateNickname(newUser);
+      await this.addNewUser(newUser);
     }
 
     const { payload, accessToken, refreshToken } = await this.createJwtUserToken(userGoogleInformation.id);

@@ -34,6 +34,14 @@ export abstract class BaseAuthService {
     return false;
   }
 
+  async checkDuplicateNickname(newUser: UserEntity): Promise<UserEntity> {
+    const isDuplicate = await this.userService.getUserByNickname(newUser.nickname);
+    if (isDuplicate) {
+      newUser.modifyNickname(`${newUser.nickname}_${new Date().toISOString()}`);
+    }
+    return newUser;
+  }
+
   async addNewUser(userEntity: UserEntity, manager?: EntityManager): Promise<void> {
     const user = await this.userService.addUser(userEntity, manager);
     await this.userRoleService.addUserRole(new UserRoleEntity({ user, role: UserRoleType.Normal }), manager);

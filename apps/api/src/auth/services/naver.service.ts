@@ -38,16 +38,17 @@ export class NaverService extends BaseAuthService {
 
     const isDuplicatedUser = await this.checkDuplicatedUser(userNaverInformation.response.id, SnsType.Naver);
     if (!isDuplicatedUser) {
-      await this.addNewUser(
-        this.userService.createInstance({
-          snsId: userNaverInformation.response.id,
-          snsType: SnsType.Naver,
-          email: userNaverInformation.response.email,
-          name: userNaverInformation.response.name,
-          nickname: userNaverInformation.response.nickname,
-          status: UserStatus.Activated,
-        }),
-      );
+      const newUser = this.userService.createInstance({
+        snsId: userNaverInformation.response.id,
+        snsType: SnsType.Naver,
+        email: userNaverInformation.response.email,
+        name: userNaverInformation.response.name,
+        nickname: userNaverInformation.response.nickname,
+        status: UserStatus.Activated,
+      });
+
+      await this.checkDuplicateNickname(newUser);
+      await this.addNewUser(newUser);
     }
 
     const { payload, accessToken, refreshToken } = await this.createJwtUserToken(userNaverInformation.response.id);
