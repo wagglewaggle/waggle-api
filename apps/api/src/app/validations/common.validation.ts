@@ -5,7 +5,7 @@ import { PlaceType } from '../app.constant';
 import ERROR_CODE from '../exceptions/error-code';
 import { ClientRequestException } from '../exceptions/request.exception';
 
-const USERNAME_RULE = /^[가-힣a-zA-Z0-9\s]{1,9}$/;
+export const USERNAME_RULE = /^[가-힣a-zA-Z0-9\s]{1,9}$/;
 
 @ValidatorConstraint({ name: 'isUsername' })
 @Injectable()
