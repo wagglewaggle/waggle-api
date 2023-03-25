@@ -1,6 +1,6 @@
-import { forwardRef, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { ReviewPostStatus } from '@lib/entity/review-post/review-post.constant';
-import { PlaceType } from '../app/app.constant';
+import { DEFAULT_REPORT_COUNT, PlaceType } from '../app/app.constant';
 import { PlaceService } from '../place/place.service';
 import { UserEntity } from '../user/entity/user.entity';
 import { ReviewPostRepository } from './review-post.repository';
@@ -8,7 +8,6 @@ import { ListFilterQueryDto } from '../app/app.dto';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import ERROR_CODE from '../app/exceptions/error-code';
 import { ReviewPostEntity } from './entity/review-post.entity';
-import { PinReviewPostService } from '../pin-review-post/pin-review-post.service';
 
 @Injectable()
 export class ReviewPostService {
@@ -88,5 +87,25 @@ export class ReviewPostService {
     }
 
     await this.reviewPostRepository.updateReviewPost({ idx: reviewPostIdx }, { content });
+  }
+
+  async reportReviewPost(reviewPostIdx: number) {
+    const reviewPost = await this.reviewPostRepository.getReviewPost({ idx: reviewPostIdx });
+    if (!reviewPost) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0008001, HttpStatus.BAD_REQUEST);
+    }
+    if (reviewPost.status !== ReviewPostStatus.Activated) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0008003, HttpStatus.BAD_REQUEST);
+    }
+
+    if (reviewPost.report + 1 >= DEFAULT_REPORT_COUNT) {
+      await this.reviewPostRepository.updateReviewPost(
+        { idx: reviewPostIdx },
+        { status: ReviewPostStatus.ReportDeleted, report: reviewPost.report + 1 },
+      );
+      return;
+    }
+
+    await this.reviewPostRepository.updateReviewPost({ idx: reviewPostIdx }, { report: reviewPost.report + 1 });
   }
 }

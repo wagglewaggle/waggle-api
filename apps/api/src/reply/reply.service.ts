@@ -2,7 +2,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { ReplyStatus } from '@lib/entity/reply/reply.constant';
 import { UserEntity } from '../user/entity/user.entity';
 import { ReplyRepository } from './reply.repository';
-import { PlaceType } from '../app/app.constant';
+import { DEFAULT_REPORT_COUNT, PlaceType } from '../app/app.constant';
 import { ReviewPostService } from '../review-post/review-post.service';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import ERROR_CODE from '../app/exceptions/error-code';
@@ -71,5 +71,21 @@ export class ReplyService {
     }
 
     await this.replyRepository.updateReply({ idx: replyIdx }, { content });
+  }
+
+  async reportReply(replyIdx: number) {
+    const reply = await this.replyRepository.getReply({ idx: replyIdx });
+    if (!reply) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0009001, HttpStatus.BAD_REQUEST);
+    }
+    if (reply.status !== ReplyStatus.Activated) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0009002, HttpStatus.BAD_REQUEST);
+    }
+
+    if (reply.report + 1 >= DEFAULT_REPORT_COUNT) {
+      await this.replyRepository.updateReply({ idx: replyIdx }, { status: ReplyStatus.ReportDeleted, report: reply.report + 1 });
+      return;
+    }
+    await this.replyRepository.updateReply({ idx: replyIdx }, { report: reply.report + 1 });
   }
 }

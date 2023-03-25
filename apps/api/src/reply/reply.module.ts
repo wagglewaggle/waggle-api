@@ -10,5 +10,6 @@ import { ReviewPostModule } from '../review-post/review-post.module';
   imports: [TypeOrmModule.forFeature([Reply]), ReviewPostModule],
   providers: [ReplyService, ReplyRepository],
   controllers: [ReplyController],
+  exports: [TypeOrmModule, ReplyService],
 })
 export class ReplyModule {}
