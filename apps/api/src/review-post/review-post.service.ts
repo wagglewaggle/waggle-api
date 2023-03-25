@@ -8,10 +8,15 @@ import { ListFilterQueryDto } from '../app/app.dto';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import ERROR_CODE from '../app/exceptions/error-code';
 import { ReviewPostEntity } from './entity/review-post.entity';
+import { SlackService } from '../app/slack/slack.service';
 
 @Injectable()
 export class ReviewPostService {
-  constructor(private readonly reviewPostRepository: ReviewPostRepository, private readonly placeService: PlaceService) {}
+  constructor(
+    private readonly reviewPostRepository: ReviewPostRepository,
+    private readonly placeService: PlaceService,
+    private readonly slackService: SlackService,
+  ) {}
 
   async addReviewPost(user: UserEntity, placeIdx: number, placeType: PlaceType, content: string, imgUrl?: string) {
     const placeObject = await this.placeService.getRefinedPlaceObject(placeIdx, placeType);
@@ -90,7 +95,7 @@ export class ReviewPostService {
   }
 
   async reportReviewPost(reviewPostIdx: number) {
-    const reviewPost = await this.reviewPostRepository.getReviewPost({ idx: reviewPostIdx });
+    const reviewPost = await this.reviewPostRepository.getReviewPost({ idx: reviewPostIdx }, ['user', 'ktPlace', 'sktPlace', 'extraPlace']);
     if (!reviewPost) {
       throw new ClientRequestException(ERROR_CODE.ERR_0008001, HttpStatus.BAD_REQUEST);
     }
@@ -103,6 +108,7 @@ export class ReviewPostService {
         { idx: reviewPostIdx },
         { status: ReviewPostStatus.ReportDeleted, report: reviewPost.report + 1 },
       );
+      this.slackService.reportReviewPost(reviewPost);
       return;
     }
 

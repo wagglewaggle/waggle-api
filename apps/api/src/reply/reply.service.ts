@@ -7,10 +7,15 @@ import { ReviewPostService } from '../review-post/review-post.service';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import ERROR_CODE from '../app/exceptions/error-code';
 import { GetReplyIdxParamDto } from './reply.dto';
+import { SlackService } from '../app/slack/slack.service';
 
 @Injectable()
 export class ReplyService {
-  constructor(private readonly replyRepository: ReplyRepository, private readonly reviewPostService: ReviewPostService) {}
+  constructor(
+    private readonly replyRepository: ReplyRepository,
+    private readonly reviewPostService: ReviewPostService,
+    private readonly slackService: SlackService,
+  ) {}
 
   async addReply(
     user: UserEntity,
@@ -74,7 +79,13 @@ export class ReplyService {
   }
 
   async reportReply(replyIdx: number) {
-    const reply = await this.replyRepository.getReply({ idx: replyIdx });
+    const reply = await this.replyRepository.getReply({ idx: replyIdx }, [
+      'user',
+      'reviewPost',
+      'reviewPost.ktPlace',
+      'reviewPost.sktPlace',
+      'reviewPost.extraPlace',
+    ]);
     if (!reply) {
       throw new ClientRequestException(ERROR_CODE.ERR_0009001, HttpStatus.BAD_REQUEST);
     }
@@ -84,6 +95,7 @@ export class ReplyService {
 
     if (reply.report + 1 >= DEFAULT_REPORT_COUNT) {
       await this.replyRepository.updateReply({ idx: replyIdx }, { status: ReplyStatus.ReportDeleted, report: reply.report + 1 });
+      this.slackService.reportReply(reply);
       return;
     }
     await this.replyRepository.updateReply({ idx: replyIdx }, { report: reply.report + 1 });
