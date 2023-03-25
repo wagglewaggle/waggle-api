@@ -4,6 +4,7 @@ import { KtPlace } from '../kt-place/kt-place.entity';
 import { PinReviewPost } from '../pin-review-post/pin-review-post.entity';
 import { Reply } from '../reply/reply.entity';
 import { ReviewPostImage } from '../review-post-image/review-post-image.entity';
+import { ReviewPostReport } from '../review-post-report/review-post-report.entity';
 import { SktPlace } from '../skt-place/skt-place.entity';
 import { User } from '../user/user.entity';
 import { ReviewPostStatus } from './review-post.constant';
@@ -18,9 +19,6 @@ export class ReviewPost {
 
   @Column('int')
   view: number;
-
-  @Column('int')
-  report: number;
 
   @Column('enum', { enum: ReviewPostStatus })
   status: ReviewPostStatus;
@@ -39,6 +37,9 @@ export class ReviewPost {
 
   @OneToMany(() => PinReviewPost, (pinReviewPost) => pinReviewPost.reviewPost)
   pinReviewPosts: PinReviewPost[];
+
+  @OneToMany(() => ReviewPostReport, (reviewPostReport) => reviewPostReport.reviewPost)
+  reports: ReviewPostReport[];
 
   @ManyToOne(() => User, (user) => user.reviewPosts)
   user: User;
