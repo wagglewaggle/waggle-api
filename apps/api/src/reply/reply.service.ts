@@ -39,9 +39,6 @@ export class ReplyService {
     if (!reply) {
       throw new ClientRequestException(ERROR_CODE.ERR_0009001, HttpStatus.BAD_REQUEST);
     }
-    if (reply.user.idx !== user.idx) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0000005, HttpStatus.FORBIDDEN);
-    }
 
     await this.addReply(user, param.idx, param.type, param.reviewPostIdx, content, reply.level + 1, reply.idx);
   }
