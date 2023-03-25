@@ -5,3 +5,5 @@ export class ModifyUserSettingBodyDto {
   @Validate(IsUsername)
   nickname: string;
 }
+
+export class NicknameValidationCheckQueryDto extends ModifyUserSettingBodyDto {}
