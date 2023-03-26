@@ -44,7 +44,8 @@ export class ConfigService {
       KT_API_KEY: Joi.string().required(),
       SKT_TMAP_API_KEY: Joi.string().required(),
       SKT_CONGESTION_API_KEY: Joi.string().required(),
-      SLACK_SENTRY_WEBHOOK: Joi.string().required(),
+      SLACK_API_SERVER: Joi.string().required(),
+      SLACK_REPORT: Joi.string().required(),
       SENTRY_DSN: Joi.string().required(),
     });
 
@@ -133,8 +134,11 @@ export class ConfigService {
   get sktCongestionApiKey(): string {
     return this.envConfig.SKT_CONGESTION_API_KEY;
   }
-  get slackSentryWebhook(): string {
-    return this.envConfig.SLACK_SENTRY_WEBHOOK;
+  get slackApiServer(): string {
+    return this.envConfig.SLACK_API_SERVER;
+  }
+  get slackReport(): string {
+    return this.envConfig.SLACK_REPORT;
   }
   get sentryDsn(): string {
     return this.envConfig.SENTRY_DSN;

@@ -3,3 +3,5 @@ export enum PlaceType {
   Skt = 'SKT',
   Extra = 'EXTRA',
 }
+
+export const DEFAULT_REPORT_COUNT = 3;

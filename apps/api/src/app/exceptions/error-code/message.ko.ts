@@ -48,6 +48,9 @@ const errors: IErrorCode = {
 
   ERR_0010001: '이미 존재하는 핀입니다.',
   ERR_0010002: '해당하는 핀이 없습니다.',
+
+  ERR_0011001: '이미 신고한 리뷰입니다.',
+  ERR_0011002: '이미 신고한 댓글입니다.',
 };
 
 export default errors;

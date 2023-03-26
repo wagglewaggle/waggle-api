@@ -12,7 +12,7 @@ export class SentryService {
   }
 
   private send(title: string, value = '') {
-    const webhook = new IncomingWebhook(config.slackSentryWebhook);
+    const webhook = new IncomingWebhook(config.slackApiServer);
     webhook.send({
       attachments: [
         {

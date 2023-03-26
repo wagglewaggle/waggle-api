@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { ReplyReport } from '../reply-report/reply-report.entity';
 import { ReviewPost } from '../review-post/review-post.entity';
 import { User } from '../user/user.entity';
 import { ReplyStatus } from './reply.constant';
@@ -21,9 +22,6 @@ export class Reply {
   status: ReplyStatus;
 
   @Column('int')
-  report: number;
-
-  @Column('int')
   level: number;
 
   @Column('int')
@@ -34,4 +32,7 @@ export class Reply {
 
   @UpdateDateColumn()
   updatedDate: Date;
+
+  @OneToMany(() => ReplyReport, (replyReport) => replyReport.reply)
+  reports: ReplyReport[];
 }

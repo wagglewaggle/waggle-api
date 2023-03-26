@@ -8,10 +8,9 @@ import { HealthModule } from './health/health.module';
 import { LocationModule } from './location/location.module';
 import { SktPlaceModule } from './skt-place/skt-place.module';
 import { CategoryModule } from './category/category.module';
-import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './app/interceptors/logging.interceptor';
 import { LoggerModule } from './app/logger/logger.module';
-import { IpGuard } from './app/guards/ip.guard';
 import { IpModule } from './ip/ip.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
@@ -27,6 +26,9 @@ import { ReviewPostModule } from './review-post/review-post.module';
 import { ReplyModule } from './reply/reply.module';
 import { PinReviewPostModule } from './pin-review-post/pin-review-post.module';
 import { ExtraPlaceModule } from './extra-place/extra-place.module';
+import { ReportModule } from './report/report.module';
+import { ReviewPostReportModule } from './review-post-report/review-post-report.module';
+import { ReplyReportModule } from './reply-report/reply-report.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
@@ -55,6 +57,9 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
     ReplyModule,
     PinReviewPostModule,
     ExtraPlaceModule,
+    ReportModule,
+    ReviewPostReportModule,
+    ReplyReportModule,
   ],
   providers: [
     { provide: APP_INTERCEPTOR, useValue: new RavenInterceptor() },
