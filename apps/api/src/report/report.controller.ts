@@ -1,4 +1,5 @@
-import { Controller, HttpCode, HttpStatus, Param, Put, UseGuards } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Param, Put, Req, UseGuards } from '@nestjs/common';
+import { IRequestAugmented } from '../app/app.interface';
 import { UserGuard } from '../app/guards/user.guard';
 import { ReplyIdxPipe } from '../reply/reply.pipe';
 import { ReviewPostIdxPipe } from '../review-post/review-post.pipe';
@@ -13,8 +14,9 @@ export class ReportController {
 
   @Put(ApiPath.ReviewPost)
   @HttpCode(HttpStatus.OK)
-  async reportReviewPost(@Param(ReviewPostIdxPipe) param: ReviewPostIdxParamDto) {
-    await this.reportService.reportReviewPost(param.reviewPostIdx);
+  async reportReviewPost(@Req() req: IRequestAugmented, @Param(ReviewPostIdxPipe) param: ReviewPostIdxParamDto) {
+    const user = req.extras.getUser();
+    await this.reportService.reportReviewPost(user, param.reviewPostIdx);
   }
 
   @Put(ApiPath.Reply)

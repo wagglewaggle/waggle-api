@@ -9,13 +9,17 @@ import { ClientRequestException } from '../app/exceptions/request.exception';
 import ERROR_CODE from '../app/exceptions/error-code';
 import { ReviewPostEntity } from './entity/review-post.entity';
 import { SlackService } from '../app/slack/slack.service';
+import { ReviewPostReportService } from '../review-post-report/review-post-report.service';
+import { DataSource, QueryRunner } from 'typeorm';
 
 @Injectable()
 export class ReviewPostService {
   constructor(
     private readonly reviewPostRepository: ReviewPostRepository,
+    private readonly reviewPostReportService: ReviewPostReportService,
     private readonly placeService: PlaceService,
     private readonly slackService: SlackService,
+    private readonly dataSource: DataSource,
   ) {}
 
   async addReviewPost(user: UserEntity, placeIdx: number, placeType: PlaceType, content: string, imgUrl?: string) {
@@ -24,7 +28,6 @@ export class ReviewPostService {
     const reviewPost = this.reviewPostRepository.createInstance({
       content,
       view: 0,
-      report: 0,
       status: ReviewPostStatus.Activated,
       user,
       ...placeObject,
@@ -94,24 +97,42 @@ export class ReviewPostService {
     await this.reviewPostRepository.updateReviewPost({ idx: reviewPostIdx }, { content });
   }
 
-  async reportReviewPost(reviewPostIdx: number) {
-    const reviewPost = await this.reviewPostRepository.getReviewPost({ idx: reviewPostIdx }, ['user', 'ktPlace', 'sktPlace', 'extraPlace']);
-    if (!reviewPost) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0008001, HttpStatus.BAD_REQUEST);
-    }
-    if (reviewPost.status !== ReviewPostStatus.Activated) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0008003, HttpStatus.BAD_REQUEST);
-    }
+  async reportReviewPost(user: UserEntity, reviewPostIdx: number) {
+    const connection = this.dataSource;
+    const queryRunner: QueryRunner = connection.createQueryRunner();
+    const manager = queryRunner.manager;
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const reviewPost = await this.reviewPostRepository.getReviewPost({ idx: reviewPostIdx }, ['user', 'ktPlace', 'sktPlace', 'extraPlace']);
+      if (!reviewPost) {
+        throw new ClientRequestException(ERROR_CODE.ERR_0008001, HttpStatus.BAD_REQUEST);
+      }
+      if (reviewPost.status !== ReviewPostStatus.Activated) {
+        throw new ClientRequestException(ERROR_CODE.ERR_0008003, HttpStatus.BAD_REQUEST);
+      }
 
-    if (reviewPost.report + 1 >= DEFAULT_REPORT_COUNT) {
-      await this.reviewPostRepository.updateReviewPost(
-        { idx: reviewPostIdx },
-        { status: ReviewPostStatus.ReportDeleted, report: reviewPost.report + 1 },
-      );
-      this.slackService.reportReviewPost(reviewPost);
-      return;
-    }
+      const reviewPostReports = await this.reviewPostReportService.getReviewPostReport(reviewPost);
+      if (reviewPostReports.find((report) => report.user.idx === user.idx)) {
+        throw new ClientRequestException(ERROR_CODE.ERR_0011001, HttpStatus.BAD_REQUEST);
+      }
 
-    await this.reviewPostRepository.updateReviewPost({ idx: reviewPostIdx }, { report: reviewPost.report + 1 });
+      if (reviewPostReports.length + 1 >= DEFAULT_REPORT_COUNT) {
+        await this.reviewPostReportService.addReviewPostReport(user, reviewPost, manager);
+        await this.reviewPostRepository.updateReviewPost({ idx: reviewPostIdx }, { status: ReviewPostStatus.ReportDeleted }, manager);
+        this.slackService.reportReviewPost(reviewPost);
+        return;
+      }
+
+      await this.reviewPostReportService.addReviewPostReport(user, reviewPost, manager);
+      await queryRunner.commitTransaction();
+    } catch (e) {
+      if (queryRunner.isTransactionActive) {
+        await queryRunner.rollbackTransaction();
+      }
+      throw e;
+    } finally {
+      await queryRunner.release();
+    }
   }
 }

@@ -27,6 +27,7 @@ import { ReplyModule } from './reply/reply.module';
 import { PinReviewPostModule } from './pin-review-post/pin-review-post.module';
 import { ExtraPlaceModule } from './extra-place/extra-place.module';
 import { ReportModule } from './report/report.module';
+import { ReviewPostReportModule } from './review-post-report/review-post-report.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
@@ -56,6 +57,7 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
     PinReviewPostModule,
     ExtraPlaceModule,
     ReportModule,
+    ReviewPostReportModule,
   ],
   providers: [
     { provide: APP_INTERCEPTOR, useValue: new RavenInterceptor() },

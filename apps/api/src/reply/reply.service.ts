@@ -32,7 +32,6 @@ export class ReplyService {
       reviewPost,
       content,
       status: ReplyStatus.Activated,
-      report: 0,
       level: replyLevel,
       mainReplyIdx,
     });
@@ -93,11 +92,11 @@ export class ReplyService {
       throw new ClientRequestException(ERROR_CODE.ERR_0009002, HttpStatus.BAD_REQUEST);
     }
 
-    if (reply.report + 1 >= DEFAULT_REPORT_COUNT) {
-      await this.replyRepository.updateReply({ idx: replyIdx }, { status: ReplyStatus.ReportDeleted, report: reply.report + 1 });
-      this.slackService.reportReply(reply);
-      return;
-    }
-    await this.replyRepository.updateReply({ idx: replyIdx }, { report: reply.report + 1 });
+    // if (reply.report + 1 >= DEFAULT_REPORT_COUNT) {
+    //   await this.replyRepository.updateReply({ idx: replyIdx }, { status: ReplyStatus.ReportDeleted, report: reply.report + 1 });
+    //   this.slackService.reportReply(reply);
+    //   return;
+    // }
+    // await this.replyRepository.updateReply({ idx: replyIdx }, { report: reply.report + 1 });
   }
 }

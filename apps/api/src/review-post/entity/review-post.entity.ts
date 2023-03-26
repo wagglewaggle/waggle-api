@@ -7,18 +7,19 @@ import { ReviewPostStatus } from '@lib/entity/review-post/review-post.constant';
 import { ReviewPost } from '@lib/entity/review-post/review-post.entity';
 import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 import { User } from '@lib/entity/user/user.entity';
+import { ReviewPostReport } from '@lib/entity/review-post-report/review-post-report.entity';
 
 export class ReviewPostEntity extends ReviewPost {
   readonly idx: number;
   readonly content: string;
   readonly view: number;
-  readonly report: number;
   readonly status: ReviewPostStatus;
   readonly createdDate: Date;
   readonly updatedDate: Date;
   readonly replies: Reply[];
   readonly reviewPostImages: ReviewPostImage[];
   readonly pinReviewPosts: PinReviewPost[];
+  readonly reports: ReviewPostReport[];
   readonly user: User;
   readonly sktPlace: SktPlace;
   readonly ktPlace: KtPlace;

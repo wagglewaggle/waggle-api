@@ -17,7 +17,6 @@ export class ReviewPostSimpleResponseDto {
   @Exclude() protected readonly _idx: number;
   @Exclude() protected readonly _content: string;
   @Exclude() protected readonly _view: number;
-  @Exclude() protected readonly _report: number;
   @Exclude() protected readonly _status: ReviewPostStatus;
   @Exclude() protected readonly _createdDate: Date;
   @Exclude() protected readonly _updatedDate: Date;
@@ -34,7 +33,6 @@ export class ReviewPostSimpleResponseDto {
     this._idx = reviewPost.idx;
     this._content = reviewPost.content;
     this._view = reviewPost.view;
-    this._report = reviewPost.report;
     this._status = reviewPost.status;
     this._createdDate = reviewPost.createdDate;
     this._updatedDate = reviewPost.updatedDate;
@@ -63,11 +61,6 @@ export class ReviewPostSimpleResponseDto {
   @Expose()
   get view(): number {
     return this._view;
-  }
-
-  @Expose()
-  get report(): number {
-    return this._report;
   }
 
   @Expose()
