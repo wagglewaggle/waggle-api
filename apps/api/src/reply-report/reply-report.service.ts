@@ -9,12 +9,12 @@ import { ReplyReportRepository } from './reply-report.repository';
 export class ReplyReportService {
   constructor(private readonly replyReportRepository: ReplyReportRepository) {}
 
-  async addReviewPostReport(user: UserEntity, reply: Reply, manager?: EntityManager) {
-    const reviewPostReport = this.replyReportRepository.createInstance(user, reply);
-    await this.replyReportRepository.addReplyReport(reviewPostReport, manager);
+  async addReplyReport(user: UserEntity, reply: Reply, manager?: EntityManager) {
+    const replyReport = this.replyReportRepository.createInstance(user, reply);
+    await this.replyReportRepository.addReplyReport(replyReport, manager);
   }
 
-  async getReviewPostReport(reply: Reply): Promise<ReplyReport[]> {
+  async getReplyReport(reply: Reply): Promise<ReplyReport[]> {
     return await this.replyReportRepository.getReplyReport(reply);
   }
 }

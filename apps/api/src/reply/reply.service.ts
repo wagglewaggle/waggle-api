@@ -102,12 +102,12 @@ export class ReplyService {
         throw new ClientRequestException(ERROR_CODE.ERR_0009002, HttpStatus.BAD_REQUEST);
       }
 
-      const replyReports = await this.replyReportService.getReviewPostReport(reply);
+      const replyReports = await this.replyReportService.getReplyReport(reply);
       if (replyReports.find((report) => report.user.idx === user.idx)) {
         throw new ClientRequestException(ERROR_CODE.ERR_0011002, HttpStatus.BAD_REQUEST);
       }
 
-      await this.replyReportService.addReviewPostReport(user, reply, manager);
+      await this.replyReportService.addReplyReport(user, reply, manager);
 
       if (replyReports.length + 1 >= DEFAULT_REPORT_COUNT) {
         await this.replyRepository.updateReply({ idx: replyIdx }, { status: ReplyStatus.ReportDeleted }, manager);
