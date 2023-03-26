@@ -117,14 +117,13 @@ export class ReviewPostService {
         throw new ClientRequestException(ERROR_CODE.ERR_0011001, HttpStatus.BAD_REQUEST);
       }
 
+      await this.reviewPostReportService.addReviewPostReport(user, reviewPost, manager);
+
       if (reviewPostReports.length + 1 >= DEFAULT_REPORT_COUNT) {
-        await this.reviewPostReportService.addReviewPostReport(user, reviewPost, manager);
         await this.reviewPostRepository.updateReviewPost({ idx: reviewPostIdx }, { status: ReviewPostStatus.ReportDeleted }, manager);
         this.slackService.reportReviewPost(reviewPost);
-        return;
       }
 
-      await this.reviewPostReportService.addReviewPostReport(user, reviewPost, manager);
       await queryRunner.commitTransaction();
     } catch (e) {
       if (queryRunner.isTransactionActive) {

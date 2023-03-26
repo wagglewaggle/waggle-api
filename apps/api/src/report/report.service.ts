@@ -11,7 +11,7 @@ export class ReportService {
     await this.reviewPostService.reportReviewPost(user, idx);
   }
 
-  async reportReply(idx: number) {
-    await this.replyService.reportReply(idx);
+  async reportReply(user: UserEntity, idx: number) {
+    await this.replyService.reportReply(user, idx);
   }
 }

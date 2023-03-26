@@ -21,7 +21,8 @@ export class ReportController {
 
   @Put(ApiPath.Reply)
   @HttpCode(HttpStatus.OK)
-  async reportReply(@Param(ReplyIdxPipe) param: ReplyIdxParamDto) {
-    await this.reportService.reportReply(param.replyIdx);
+  async reportReply(@Req() req: IRequestAugmented, @Param(ReplyIdxPipe) param: ReplyIdxParamDto) {
+    const user = req.extras.getUser();
+    await this.reportService.reportReply(user, param.replyIdx);
   }
 }
