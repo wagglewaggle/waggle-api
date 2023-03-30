@@ -1,4 +1,4 @@
-import { Controller, HttpCode, HttpStatus, Param, Put, Req, UseGuards } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { IRequestAugmented } from '../app/app.interface';
 import { UserGuard } from '../app/guards/user.guard';
 import { ReplyIdxPipe } from '../reply/reply.pipe';
@@ -12,14 +12,14 @@ import { ReportService } from './report.service';
 export class ReportController {
   constructor(private readonly reportService: ReportService) {}
 
-  @Put(ApiPath.ReviewPost)
+  @Post(ApiPath.ReviewPost)
   @HttpCode(HttpStatus.OK)
   async reportReviewPost(@Req() req: IRequestAugmented, @Param(ReviewPostIdxPipe) param: ReviewPostIdxParamDto) {
     const user = req.extras.getUser();
     await this.reportService.reportReviewPost(user, param.reviewPostIdx);
   }
 
-  @Put(ApiPath.Reply)
+  @Post(ApiPath.Reply)
   @HttpCode(HttpStatus.OK)
   async reportReply(@Req() req: IRequestAugmented, @Param(ReplyIdxPipe) param: ReplyIdxParamDto) {
     const user = req.extras.getUser();
