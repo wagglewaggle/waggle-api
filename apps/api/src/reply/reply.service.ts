@@ -10,6 +10,8 @@ import { GetReplyIdxParamDto } from './reply.dto';
 import { SlackService } from '../app/slack/slack.service';
 import { ReplyReportService } from '../reply-report/reply-report.service';
 import { DataSource, QueryRunner } from 'typeorm';
+import { Reply } from '@lib/entity/reply/reply.entity';
+import { ListFilterQueryDto } from '../app/app.dto';
 
 @Injectable()
 export class ReplyService {
@@ -49,6 +51,10 @@ export class ReplyService {
     }
 
     await this.addReply(user, param.idx, param.type, param.reviewPostIdx, content, reply.level + 1, reply.idx);
+  }
+
+  async getRepliesByUser(user: UserEntity, query?: ListFilterQueryDto): Promise<[Reply[], number]> {
+    return await this.replyRepository.getRepliesByUser(user, query);
   }
 
   async deleteReply(user: UserEntity, replyIdx: number) {

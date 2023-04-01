@@ -16,6 +16,8 @@ import { IListCountResponse } from '../app/interfaces/common.interface';
 import { ReviewPostSimpleResponseDto } from '../review-post/dtos/review-post-simple-response.dto';
 import { PinReviewPostService } from '../pin-review-post/pin-review-post.service';
 import { ListFilterPipe } from '../app/pipe/common.pipe';
+import { ReplyService } from '../reply/reply.service';
+import { UserRepliesResponseDto } from './dtos/user-replies-response.dto';
 
 @Controller(ApiPath.Root)
 @UseGuards(UserGuard)
@@ -24,6 +26,7 @@ export class UserController {
     private readonly userService: UserService,
     private readonly reviewPostService: ReviewPostService,
     private readonly pinReviewPostService: PinReviewPostService,
+    private readonly replyService: ReplyService,
   ) {}
 
   @Get(ApiPath.Setting)
@@ -65,5 +68,16 @@ export class UserController {
     const pinReviewPostIdxMap = await this.pinReviewPostService.getMapPinReviewPostIdx(user);
     const [reviewPosts, count] = await this.reviewPostService.getReviewPostsByUser(user, query);
     return { list: reviewPosts.map((reviewPost) => new ReviewPostSimpleResponseDto(reviewPost, pinReviewPostIdxMap)), count };
+  }
+
+  @Get(ApiPath.Reply)
+  @HttpCode(HttpStatus.OK)
+  async getRepliesByUser(
+    @Req() req: IRequestAugmented,
+    @Query(ListFilterPipe) query: ListFilterQueryDto,
+  ): Promise<IListCountResponse<UserRepliesResponseDto>> {
+    const user = req.extras.getUser();
+    const [replies, count] = await this.replyService.getRepliesByUser(user, query);
+    return { list: replies.map((reply) => new UserRepliesResponseDto(reply)), count };
   }
 }
