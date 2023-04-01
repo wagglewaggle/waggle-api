@@ -7,6 +7,7 @@ import { PlaceType } from '../app/app.constant';
 import { ListFilterQueryDto } from '../app/app.dto';
 import { PlaceEntity } from '../place/entity/place.entity';
 import { ReviewPostStatus } from '@lib/entity/review-post/review-post.constant';
+import { UserEntity } from '../user/entity/user.entity';
 
 @Injectable()
 export class ReviewPostRepository {
@@ -73,6 +74,34 @@ export class ReviewPostRepository {
     }
 
     queryBuilder.andWhere(`reviewPost.status = :status`, { status: ReviewPostStatus.Activated });
+    queryBuilder.orderBy('reviewPost.createdDate', 'DESC');
+
+    const [results, count] = await queryBuilder.getManyAndCount();
+    return [results.map((result) => new ReviewPostEntity(result)), count];
+  }
+
+  async getReviewPostsByUser(user: UserEntity, query: ListFilterQueryDto = {}): Promise<[ReviewPostEntity[], number]> {
+    const queryBuilder = this.createQueryBuilder()
+      .leftJoinAndSelect('reviewPost.replies', 'reply')
+      .leftJoinAndSelect('reviewPost.reviewPostImages', 'reviewPostImage')
+      .leftJoinAndSelect('reviewPost.pinReviewPosts', 'pinReviewPost')
+      .leftJoinAndSelect('reviewPost.ktPlace', 'ktPlace')
+      .leftJoinAndSelect('reviewPost.sktPlace', 'sktPlace')
+      .leftJoinAndSelect('reviewPost.extraPlace', 'extraPlace')
+      .where('reviewPost.userIdx = :userIdx', { userIdx: user.idx });
+
+    if (query.limit) {
+      queryBuilder.take(query.limit);
+    }
+
+    if (query.offset) {
+      queryBuilder.skip(query.offset);
+    }
+
+    if (query.searchTerm) {
+      queryBuilder.andWhere(`reviewPost.content LIKE '%${query.searchTerm}%'`);
+    }
+
     queryBuilder.orderBy('reviewPost.createdDate', 'DESC');
 
     const [results, count] = await queryBuilder.getManyAndCount();
