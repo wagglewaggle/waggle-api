@@ -35,6 +35,10 @@ export class ReviewPostService {
     await this.reviewPostRepository.addReviewPost(reviewPost);
   }
 
+  async getReviewPostsByUser(user: UserEntity, query?: ListFilterQueryDto): Promise<[ReviewPostEntity[], number]> {
+    return await this.reviewPostRepository.getReviewPostsByUser(user, query);
+  }
+
   async getReviewPostsByPlace(idx: number, placeType: PlaceType, query: ListFilterQueryDto): Promise<[ReviewPostEntity[], number]> {
     const place = await this.placeService.getPlaceAllInfo(idx, placeType);
     return await this.reviewPostRepository.getReviewPostsByPlace(placeType, place, query);

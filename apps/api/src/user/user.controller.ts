@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Body, Controller, Get, HttpCode, HttpStatus, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { UserStatus } from '@lib/entity/user/user.constant';
 import { IRequestAugmented } from '../app/app.interface';
@@ -9,11 +10,21 @@ import { UserService } from './user.service';
 import ERROR_CODE from '../app/exceptions/error-code';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import { USERNAME_RULE } from '../app/validations/common.validation';
+import { ReviewPostService } from '../review-post/review-post.service';
+import { ListFilterQueryDto } from '../app/app.dto';
+import { IListCountResponse } from '../app/interfaces/common.interface';
+import { ReviewPostSimpleResponseDto } from '../review-post/dtos/review-post-simple-response.dto';
+import { PinReviewPostService } from '../pin-review-post/pin-review-post.service';
+import { ListFilterPipe } from '../app/pipe/common.pipe';
 
 @Controller(ApiPath.Root)
 @UseGuards(UserGuard)
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly reviewPostService: ReviewPostService,
+    private readonly pinReviewPostService: PinReviewPostService,
+  ) {}
 
   @Get(ApiPath.Setting)
   async getUserSetting(@Req() req: IRequestAugmented): Promise<UserResponseDto> {
@@ -42,5 +53,17 @@ export class UserController {
     if (!USERNAME_RULE.test(query.nickname)) {
       throw new ClientRequestException(ERROR_CODE.ERR_0006007, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @Get(ApiPath.ReviewPost)
+  @HttpCode(HttpStatus.OK)
+  async getReviewPostsByUser(
+    @Req() req: IRequestAugmented,
+    @Query(ListFilterPipe) query: ListFilterQueryDto,
+  ): Promise<IListCountResponse<ReviewPostSimpleResponseDto>> {
+    const user = req.extras.getUser();
+    const pinReviewPostIdxMap = await this.pinReviewPostService.getMapPinReviewPostIdx(user);
+    const [reviewPosts, count] = await this.reviewPostService.getReviewPostsByUser(user, query);
+    return { list: reviewPosts.map((reviewPost) => new ReviewPostSimpleResponseDto(reviewPost, pinReviewPostIdxMap)), count };
   }
 }

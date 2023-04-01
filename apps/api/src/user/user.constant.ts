@@ -4,4 +4,5 @@ export enum ApiPath {
   Deactivate = 'deactivate',
   Validate = 'validate',
   Nickname = 'nickname',
+  ReviewPost = 'review-post',
 }
