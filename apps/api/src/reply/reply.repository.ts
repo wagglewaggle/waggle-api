@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, EntityManager, FindOptionsWhere, Repository } from 'typeorm';
 import { Reply } from '@lib/entity/reply/reply.entity';
+import { UserEntity } from '../user/entity/user.entity';
+import { ListFilterQueryDto } from '../app/app.dto';
+import { ReplyStatus } from '@lib/entity/reply/reply.constant';
 
 @Injectable()
 export class ReplyRepository {
@@ -9,6 +12,10 @@ export class ReplyRepository {
 
   createInstance(reply: DeepPartial<Reply>): Reply {
     return this.repository.create(reply);
+  }
+
+  createQueryBuilder(alias = 'reply') {
+    return this.repository.createQueryBuilder(alias);
   }
 
   async addReply(reply: Reply, manager?: EntityManager) {
@@ -25,6 +32,32 @@ export class ReplyRepository {
     }
     const reply = await this.repository.findOne(options);
     return reply || undefined;
+  }
+
+  async getRepliesByUser(user: UserEntity, query: ListFilterQueryDto = {}): Promise<[Reply[], number]> {
+    const queryBuilder = this.createQueryBuilder()
+      .leftJoinAndSelect('reply.reviewPost', 'reviewPost')
+      .leftJoinAndSelect('reviewPost.ktPlace', 'ktPlace')
+      .leftJoinAndSelect('reviewPost.sktPlace', 'sktPlace')
+      .leftJoinAndSelect('reviewPost.extraPlace', 'extraPlace')
+      .where('reply.userIdx = :userIdx', { userIdx: user.idx });
+
+    if (query.limit) {
+      queryBuilder.take(query.limit);
+    }
+
+    if (query.offset) {
+      queryBuilder.skip(query.offset);
+    }
+
+    if (query.searchTerm) {
+      queryBuilder.andWhere(`reply.content LIKE '%${query.searchTerm}%'`);
+    }
+
+    queryBuilder.andWhere('reply.status = :status', { status: ReplyStatus.Activated });
+    queryBuilder.orderBy('reply.createdDate', 'DESC');
+
+    return queryBuilder.getManyAndCount();
   }
 
   async deleteReply(reply: Reply, manager?: EntityManager) {

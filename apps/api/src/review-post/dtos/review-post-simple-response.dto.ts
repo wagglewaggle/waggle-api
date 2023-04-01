@@ -20,9 +20,9 @@ export class ReviewPostSimpleResponseDto {
   @Exclude() protected readonly _status: ReviewPostStatus;
   @Exclude() protected readonly _createdDate: Date;
   @Exclude() protected readonly _updatedDate: Date;
-  @Exclude() protected readonly _replies: Reply[];
+  @Exclude() protected readonly _replies?: Reply[];
   @Exclude() protected readonly _reviewPostImages: ReviewPostImage[];
-  @Exclude() protected readonly _pinReviewPosts: PinReviewPost[];
+  @Exclude() protected readonly _pinReviewPosts?: PinReviewPost[];
   @Exclude() protected readonly _isPin?: boolean;
   @Exclude() protected readonly _user?: User;
   @Exclude() protected readonly _sktPlace?: SktPlace;
@@ -79,13 +79,17 @@ export class ReviewPostSimpleResponseDto {
   }
 
   @Expose()
-  get replyCount(): number {
-    return this._replies.length;
+  get replyCount(): number | undefined {
+    if (this._replies) {
+      return this._replies.length;
+    }
   }
 
   @Expose()
-  get pinReviewPostCount(): number {
-    return this._pinReviewPosts.length;
+  get pinReviewPostCount(): number | undefined {
+    if (this._pinReviewPosts) {
+      return this._pinReviewPosts.length;
+    }
   }
 
   @Expose()

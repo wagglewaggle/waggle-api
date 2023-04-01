@@ -5,4 +5,5 @@ export enum ApiPath {
   Validate = 'validate',
   Nickname = 'nickname',
   ReviewPost = 'review-post',
+  Reply = 'reply',
 }

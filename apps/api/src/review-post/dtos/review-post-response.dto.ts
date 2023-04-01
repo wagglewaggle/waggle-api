@@ -10,8 +10,11 @@ export class ReviewPostResponseDto extends ReviewPostSimpleResponseDto {
 
   @Expose()
   get replies(): Record<string, any>[] {
+    if (!this._replies) return [];
+
     const mainReplies = this._replies.filter((reply) => reply.level === 0);
     return mainReplies.map((mainReply) => {
+      if (!this._replies) return [];
       const levelReplies = this._replies.filter((reply) => reply.mainReplyIdx === mainReply.idx);
       return {
         ...mainReply,
