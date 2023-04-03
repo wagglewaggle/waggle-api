@@ -8,4 +8,6 @@ export enum CategoryType {
   Village = '마을',
   Christmas = '크리스마스 핫플',
   Hangang = '한강',
+  Riverside = '강변',
+  Beach = '해변',
 }
