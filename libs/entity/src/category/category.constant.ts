@@ -10,4 +10,6 @@ export enum CategoryType {
   Hangang = '한강',
   Riverside = '강변',
   Beach = '해변',
+  Spring = '봄 나들이',
+  Extra = '기타 지역',
 }
