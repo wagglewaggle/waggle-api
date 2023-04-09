@@ -11,11 +11,12 @@ export class LocationRepository {
     return this.repository.findAndCount();
   }
 
-  async getLocation(where: FindOptionsWhere<Location>, relation?: string[]): Promise<Location> {
+  async getLocation(where: FindOptionsWhere<Location>, relation?: string[]): Promise<Location | undefined> {
     const options: any = { where };
     if (Array.isArray(relation)) {
       options.relations = relation;
     }
-    return this.repository.findOne(options);
+    const result = await this.repository.findOne(options);
+    return result || undefined;
   }
 }

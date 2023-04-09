@@ -5,7 +5,9 @@ import { KtAccident } from '../kt-accident/kt-accident.entity';
 import { KtPopulation } from '../kt-population/kt-population.entity';
 import { KtRoadTraffic } from '../kt-road-traffic/kt-road-traffic.entity';
 import { Location } from '../location/location.entity';
+import { PinPlace } from '../pin-place/pin-place.entity';
 import { Province } from '../province/province.entity';
+import { ReviewPost } from '../review-post/review-post.entity';
 
 @Entity()
 export class KtPlace {
@@ -21,8 +23,8 @@ export class KtPlace {
   @Column('double')
   y: number;
 
-  @OneToOne(() => KtRoadTraffic, (roadTraffic) => roadTraffic.ktPlace)
-  ktRoadTraffic: KtRoadTraffic;
+  @Column('varchar')
+  address: string;
 
   @ManyToOne(() => Province, (province) => province.ktPlaces)
   province: Province;
@@ -33,11 +35,20 @@ export class KtPlace {
   @OneToMany(() => Category, (category) => category.ktPlace)
   categories: Category[];
 
-  @OneToMany(() => KtPopulation, (population) => population.place)
-  populations: KtPopulation[];
+  @OneToOne(() => KtPopulation, (population) => population.place)
+  population: KtPopulation;
+
+  @OneToOne(() => KtRoadTraffic, (roadTraffic) => roadTraffic.ktPlace)
+  ktRoadTraffic: KtRoadTraffic;
 
   @OneToMany(() => KtAccident, (accident) => accident.place)
   accidents: KtAccident[];
+
+  @OneToMany(() => PinPlace, (pinPlace) => pinPlace.ktPlace)
+  pinPlaces: PinPlace[];
+
+  @OneToMany(() => ReviewPost, (reviewPost) => reviewPost.ktPlace, { nullable: true })
+  reviewPosts: ReviewPost[];
 
   @OneToMany(() => Cctv, (cctv) => cctv.place)
   cctvs: Cctv[];

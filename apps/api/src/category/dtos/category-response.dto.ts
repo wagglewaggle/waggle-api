@@ -3,8 +3,8 @@ import { CategoryType } from '@lib/entity/category/category.constant';
 import { Category } from '@lib/entity/category/category.entity';
 
 export class CategoryResponseDto {
-  @Exclude() private readonly _idx;
-  @Exclude() private readonly _type;
+  @Exclude() private readonly _idx: number;
+  @Exclude() private readonly _type: CategoryType;
 
   constructor(category: Category) {
     this._idx = category.idx;

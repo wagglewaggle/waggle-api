@@ -12,30 +12,38 @@ import { KtRoadTraffic } from '@lib/entity/kt-road-traffic/kt-road-traffic.entit
 import { KtRoadTrafficResponseDto } from './kt-road-traffic-response.dto';
 import { Location } from '@lib/entity/location/location.entity';
 import { LocationResponseDto } from '../../location/dtos/location-response.dto';
+import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
+import { ReviewPost } from '@lib/entity/review-post/review-post.entity';
 
 export class KtPlaceResponseDto {
   @Exclude() private readonly _idx: number;
   @Exclude() private readonly _name: string;
+  @Exclude() private readonly _address: string;
   @Exclude() private readonly _x: number;
   @Exclude() private readonly _y: number;
-  @Exclude() private readonly _categories: Category[] | undefined;
-  @Exclude() private readonly _populations: KtPopulation[] | undefined;
-  @Exclude() private readonly _accidents: KtAccident[] | undefined;
-  @Exclude() private readonly _cctvs: Cctv[] | undefined;
-  @Exclude() private readonly _roadTraffic: KtRoadTraffic | undefined;
-  @Exclude() private readonly _location: Location | undefined;
+  @Exclude() private readonly _categories?: Category[];
+  @Exclude() private readonly _population?: KtPopulation;
+  @Exclude() private readonly _accidents?: KtAccident[];
+  @Exclude() private readonly _cctvs?: Cctv[];
+  @Exclude() private readonly _roadTraffic?: KtRoadTraffic;
+  @Exclude() private readonly _location?: Location;
+  @Exclude() private readonly _reviewPosts?: ReviewPost[];
+  @Exclude() private readonly _pinPlaces?: PinPlace[];
 
-  constructor(place: KtPlace, location?: Location) {
+  constructor(place: KtPlace) {
     this._idx = place.idx;
     this._name = place.name;
+    this._address = place.address;
     this._x = place.x;
     this._y = place.y;
     this._categories = place.categories;
-    this._populations = place.populations;
+    this._population = place.population;
     this._accidents = place.accidents;
     this._cctvs = place.cctvs;
     this._roadTraffic = place.ktRoadTraffic;
-    this._location = location;
+    this._location = place.location;
+    this._reviewPosts = place.reviewPosts;
+    this._pinPlaces = place.pinPlaces;
   }
 
   @Expose()
@@ -49,6 +57,11 @@ export class KtPlaceResponseDto {
   }
 
   @Expose()
+  get address(): string {
+    return this._address;
+  }
+
+  @Expose()
   get x(): number {
     return this._x;
   }
@@ -56,6 +69,21 @@ export class KtPlaceResponseDto {
   @Expose()
   get y(): number {
     return this._y;
+  }
+
+  @Expose()
+  get reviewPostCount(): number {
+    return this._reviewPosts ? this._reviewPosts.length : 0;
+  }
+
+  @Expose()
+  get pinPlaceCount(): number {
+    return this._pinPlaces ? this._pinPlaces.length : 0;
+  }
+
+  @Expose()
+  get cctvCount(): number {
+    return this._cctvs ? this._cctvs.length : 0;
   }
 
   @Expose()
@@ -67,11 +95,11 @@ export class KtPlaceResponseDto {
   }
 
   @Expose()
-  get populations(): KtPopulationResponseDto[] | undefined {
-    if (!this._populations) {
+  get population(): KtPopulationResponseDto | undefined {
+    if (!this._population) {
       return undefined;
     }
-    return this._populations.map((population) => new KtPopulationResponseDto(population));
+    return new KtPopulationResponseDto(this._population);
   }
 
   @Expose()

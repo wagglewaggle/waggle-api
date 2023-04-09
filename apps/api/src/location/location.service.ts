@@ -15,11 +15,13 @@ export class LocationService {
   async getLocationByName(name: string): Promise<Location> {
     const location = await this.locationRepository.getLocation({ name }, [
       'ktPlaces',
-      'ktPlaces.populations',
+      'ktPlaces.population',
       'ktPlaces.categories',
       'sktPlaces',
-      'sktPlaces.populations',
+      'sktPlaces.population',
       'sktPlaces.categories',
+      'extraPlaces',
+      'extraPlaces.categories',
     ]);
     if (!location) {
       throw new ClientRequestException(ERROR_CODE.ERR_0004001, HttpStatus.BAD_REQUEST);

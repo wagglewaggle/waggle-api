@@ -6,7 +6,7 @@ import { KtJobModule } from './kt/kt-job/kt-job.module';
 import { KtPlaceModule } from './kt/kt-place/kt-place.module';
 import { KtPopulationModule } from './kt/kt-population/kt-population.module';
 import { KtAccidentModule } from './kt/kt-accident/kt-accident.module';
-import { MysqlConfigService } from '../../../libs/entity/src/mysql-config.service';
+import { MysqlConfigService } from '@lib/entity/mysql-config.service';
 import { KtRoadTrafficModule } from './kt/kt-road-traffic/kt-road-traffic.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RavenInterceptor, RavenModule } from 'nest-raven';

@@ -33,11 +33,20 @@ export class ConfigService {
       MYSQL_DATABASE: Joi.string().required(),
       MYSQL_USERNAME: Joi.string().required(),
       MYSQL_PASSWORD: Joi.string(),
+      JWT_SECRET_KEY: Joi.string().required(),
+      NAVER_CLIENT_ID: Joi.string().required(),
+      NAVER_CLIENT_SECRET: Joi.string().required(),
+      KAKAO_CLIENT_ID: Joi.string().required(),
+      KAKAO_REDIRECT_URL: Joi.string().required(),
+      GOOGLE_CLIENT_ID: Joi.string().required(),
+      GOOGLE_CLIENT_SECRET: Joi.string().required(),
+      GOOGLE_REDIRECT_URL: Joi.string().required(),
       KT_API_KEY: Joi.string().required(),
       SKT_TMAP_API_KEY: Joi.string().required(),
       SKT_CONGESTION_API_KEY: Joi.string().required(),
-      SLACK_SENTRY_SCHEDULER_WEBHOOK: Joi.string().required(),
-      SENTRY_SCHEDULER_DSN: Joi.string().required(),
+      SLACK_API_SERVER: Joi.string().required(),
+      SLACK_REPORT: Joi.string().required(),
+      SENTRY_DSN: Joi.string().required(),
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(envConfig);
@@ -92,6 +101,30 @@ export class ConfigService {
   get mysqlPassword(): string {
     return this.envConfig.MYSQL_PASSWORD;
   }
+  get jwtSecretKey(): string {
+    return this.envConfig.JWT_SECRET_KEY;
+  }
+  get naverClientId(): string {
+    return this.envConfig.NAVER_CLIENT_ID;
+  }
+  get naverClientSecret(): string {
+    return this.envConfig.NAVER_CLIENT_SECRET;
+  }
+  get kakaoClientId(): string {
+    return this.envConfig.KAKAO_CLIENT_ID;
+  }
+  get kakaoRedirectUrl(): string {
+    return this.envConfig.KAKAO_REDIRECT_URL;
+  }
+  get googleClientId(): string {
+    return this.envConfig.GOOGLE_CLIENT_ID;
+  }
+  get googleClientSecret(): string {
+    return this.envConfig.GOOGLE_CLIENT_SECRET;
+  }
+  get googleRedirectUrl(): string {
+    return this.envConfig.GOOGLE_REDIRECT_URL;
+  }
   get ktApiKey(): string {
     return this.envConfig.KT_API_KEY;
   }
@@ -101,11 +134,14 @@ export class ConfigService {
   get sktCongestionApiKey(): string {
     return this.envConfig.SKT_CONGESTION_API_KEY;
   }
-  get SLACK_SENTRY_SCHEDULER_WEBHOOK(): string {
-    return this.envConfig.SLACK_SENTRY_SCHEDULER_WEBHOOK;
+  get slackApiServer(): string {
+    return this.envConfig.SLACK_API_SERVER;
   }
-  get SENTRY_SCHEDULER_DSN(): string {
-    return this.envConfig.SENTRY_SCHEDULER_DSN;
+  get slackReport(): string {
+    return this.envConfig.SLACK_REPORT;
+  }
+  get sentryDsn(): string {
+    return this.envConfig.SENTRY_DSN;
   }
 }
 

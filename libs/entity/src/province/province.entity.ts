@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ExtraPlace } from '../extra-place/extra-place.entity';
 import { KtPlace } from '../kt-place/kt-place.entity';
 import { SktPlace } from '../skt-place/skt-place.entity';
 
@@ -13,6 +14,9 @@ export class Province {
   @OneToMany(() => KtPlace, (place) => place.province)
   ktPlaces: KtPlace[];
 
-  @OneToMany(() => SktPlace, (sktPlace) => sktPlace)
+  @OneToMany(() => SktPlace, (sktPlace) => sktPlace.province)
   sktPlaces: SktPlace[];
+
+  @OneToMany(() => ExtraPlace, (extraPlace) => extraPlace.province)
+  extraPlaces: ExtraPlace[];
 }
