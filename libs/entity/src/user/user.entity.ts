@@ -22,12 +22,6 @@ export class User {
   snsType: SnsType;
 
   @Column('varchar')
-  email: string;
-
-  @Column('varchar')
-  name: string;
-
-  @Column('varchar')
   nickname: string;
 
   @Column('enum', { enum: UserStatus })
