@@ -37,8 +37,6 @@ export class KakaoService extends BaseAuthService {
       const newUser = this.userService.createInstance({
         snsId: String(userInformation.id),
         snsType: SnsType.Kakao,
-        email: userInformation.kakao_account.email,
-        name: userInformation.kakao_account.profile.nickname,
         nickname: userInformation.kakao_account.profile.nickname,
         status: UserStatus.Activated,
       });
