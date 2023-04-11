@@ -105,8 +105,11 @@ export class KtJobService {
     await queryRunner.connect();
     await queryRunner.startTransaction();
     try {
-      const { accidents } = await this.ktPlaceService.getKtPlaceAndAccidents(place.idx);
-      await Promise.all(accidents.map((accident) => this.ktAccidentService.deleteKtAccident(accident, manager)));
+      const placeAccidents = await this.ktPlaceService.getKtPlaceAndAccidents(place.idx);
+      if (!placeAccidents) {
+        throw new Error(`not found kt place : ${place.idx}`);
+      }
+      await Promise.all(placeAccidents.accidents.map((accident) => this.ktAccidentService.deleteKtAccident(accident, manager)));
       await queryRunner.commitTransaction();
     } catch (e) {
       if (queryRunner.isTransactionActive) {
