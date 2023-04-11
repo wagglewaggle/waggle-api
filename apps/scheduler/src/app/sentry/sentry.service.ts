@@ -26,7 +26,7 @@ export class SentryService {
   }
 
   private send(jobType: JobType, title: string, value: string) {
-    const webhook = new IncomingWebhook(config.slackSentryWebhook);
+    const webhook = new IncomingWebhook(config.slackApiServer);
     webhook.send({
       attachments: [
         {
