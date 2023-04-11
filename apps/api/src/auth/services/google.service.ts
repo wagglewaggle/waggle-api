@@ -37,8 +37,6 @@ export class GoogleService extends BaseAuthService {
       const newUser = this.userService.createInstance({
         snsId: userGoogleInformation.id,
         snsType: SnsType.Google,
-        email: userGoogleInformation.email,
-        name: userGoogleInformation.name,
         nickname: userGoogleInformation.name,
         status: UserStatus.Activated,
       });

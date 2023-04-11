@@ -28,8 +28,11 @@ export class UserEntity extends User {
   }
 
   isActivated() {
-    if ([UserStatus.Deactivated, UserStatus.Locked].includes(this.status)) {
-      throw new ClientRequestException(ERROR_CODE.ERR_0006002, HttpStatus.UNAUTHORIZED);
+    if (this.status === UserStatus.Deactivated) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0006002, HttpStatus.FORBIDDEN);
+    }
+    if (this.status === UserStatus.Locked) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0006011, HttpStatus.FORBIDDEN);
     }
   }
 

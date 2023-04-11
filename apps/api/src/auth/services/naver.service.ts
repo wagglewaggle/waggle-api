@@ -41,8 +41,6 @@ export class NaverService extends BaseAuthService {
       const newUser = this.userService.createInstance({
         snsId: userNaverInformation.response.id,
         snsType: SnsType.Naver,
-        email: userNaverInformation.response.email,
-        name: userNaverInformation.response.name,
         nickname: userNaverInformation.response.nickname,
         status: UserStatus.Activated,
       });
