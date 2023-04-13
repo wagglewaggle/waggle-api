@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule';
 import axios, { AxiosResponse } from 'axios';
 import { config } from '@lib/config';
 import { SktPlaceService } from '../skt-place/skt-place.service';
@@ -27,7 +27,7 @@ export class SktJobService {
     this.url = `${SktDefaultInfo.API_HOST}/${SktDefaultInfo.API_URI}`;
   }
 
-  @Cron(CronExpression.EVERY_30_MINUTES)
+  @Cron('0 */1 * * *')
   async run() {
     try {
       const places = await this.sktPlaceService.getSktPlaces();
