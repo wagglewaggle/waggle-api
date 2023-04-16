@@ -1,3 +1,5 @@
+import { JwtPayload } from 'jsonwebtoken';
+
 export interface INaverTokenResponse {
   access_token: string;
   refresh_token: string;
@@ -89,4 +91,20 @@ export interface IGoogleInformationResponse {
   family_name: string;
   picture: string;
   locale: string;
+}
+
+export interface IAppleTokenResponse {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  refresh_token: string;
+  id_token: string;
+}
+
+export interface IAppleJwtPayload extends JwtPayload {
+  at_hash: string;
+  email: string;
+  email_verified: string;
+  auth_time: number;
+  nonce_supported: boolean;
 }

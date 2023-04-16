@@ -18,8 +18,6 @@ export class TokenPayloadEntity {
     return {
       idx: this.idx,
       type: this.type,
-      email: this.email,
-      name: this.name,
     };
   }
 }

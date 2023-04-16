@@ -8,4 +8,5 @@ export enum SnsType {
   Naver = 'NAVER',
   Kakao = 'KAKAO',
   Google = 'GOOGLE',
+  Apple = 'APPLE',
 }

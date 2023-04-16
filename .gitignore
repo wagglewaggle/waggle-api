@@ -47,3 +47,6 @@ ormconfig.json
 
 # apidoc output
 apidocDist/**/*
+
+# apple key file
+AuthKey_*.p8
