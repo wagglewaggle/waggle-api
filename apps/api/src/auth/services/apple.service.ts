@@ -1,5 +1,5 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { DataSource, QueryRunner } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { ClientRequestException } from '../../app/exceptions/request.exception';
 import { UserRoleService } from '../../user-role/user-role.service';
 import { UserTokenService } from '../../user-token/user-token.service';
@@ -13,9 +13,6 @@ import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 import { config } from '@lib/config';
 import { IAppleJwtPayload, IAppleTokenResponse } from '../auth-platform.interface';
 import ERROR_CODE from '../../app/exceptions/error-code';
-import { TokenPayloadEntity } from '../../user-token/entity/token-payload.entity';
-import { jwtAccessTokenSign, jwtRefreshTokenSign } from '../../app/app.util';
-import { UserTokenStatus } from '@lib/entity/user-token/user-token.constant';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const AppleAuth = require('apple-auth');
 
@@ -27,7 +24,7 @@ export class AppleService extends BaseAuthService {
     readonly userTokenService: UserTokenService,
     readonly dataSource: DataSource,
   ) {
-    super(userService, userRoleService);
+    super(userService, userRoleService, userTokenService, dataSource);
   }
 
   async callback(query: CallbackQueryDto): Promise<IAuthCallbackResult> {
@@ -40,7 +37,7 @@ export class AppleService extends BaseAuthService {
       const newUser = this.userService.createInstance({
         snsId: sub,
         snsType: SnsType.Apple,
-        nickname: email.split('@')[0],
+        nickname: email.split('@')[0], // TODO: 이름으로 변경
         status: UserStatus.Activated,
       });
 
@@ -48,7 +45,7 @@ export class AppleService extends BaseAuthService {
       await this.addNewUser(newUser);
     }
 
-    const { payload, accessToken, refreshToken } = await this.createJwtUserToken(sub as string);
+    const { payload, accessToken, refreshToken } = await this.createJwtUserToken(sub as string, SnsType.Apple);
 
     return {
       accessToken,
@@ -56,48 +53,6 @@ export class AppleService extends BaseAuthService {
       payload,
       existUser: isDuplicatedUser,
     };
-  }
-
-  protected async createJwtUserToken(id: string): Promise<any> {
-    const connection = this.dataSource;
-    const queryRunner: QueryRunner = connection.createQueryRunner();
-    const manager = queryRunner.manager;
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-    try {
-      const user = await this.userService.getUserBySnsId(id, SnsType.Apple);
-      if (!user) {
-        throw new ClientRequestException(ERROR_CODE.ERR_0006001, HttpStatus.INTERNAL_SERVER_ERROR);
-      }
-      user.isActivated();
-
-      const payload = new TokenPayloadEntity(user);
-      const accessToken = await jwtAccessTokenSign(payload.toJson());
-      const refreshToken = await jwtRefreshTokenSign({ idx: user.idx });
-
-      const existRefreshToken = await this.userTokenService.getActivatedUserTokenByUser(user);
-      if (existRefreshToken) {
-        if (existRefreshToken.isActivated()) {
-          await this.userTokenService.modifyUserTokenStatus(existRefreshToken.idx, UserTokenStatus.IntentionalExpired, manager);
-        }
-      }
-
-      const userToken = this.userTokenService.createInstance({ token: refreshToken, status: UserTokenStatus.Activated, user });
-      await this.userTokenService.addUserToken(userToken, manager);
-      await queryRunner.commitTransaction();
-      return {
-        payload: payload.toJson(),
-        accessToken,
-        refreshToken,
-      };
-    } catch (e) {
-      if (queryRunner.isTransactionActive) {
-        await queryRunner.rollbackTransaction();
-      }
-      throw e;
-    } finally {
-      await queryRunner.release();
-    }
   }
 
   protected async getToken(code: string): Promise<IAppleTokenResponse> {
@@ -116,11 +71,11 @@ export class AppleService extends BaseAuthService {
 
       return await appleAuth.accessToken(code);
     } catch (e) {
-      throw e;
+      throw new ClientRequestException(ERROR_CODE.ERR_0005004, HttpStatus.UNAUTHORIZED, e);
     }
   }
 
-  protected getInformation(token: string, type: string): Promise<Record<string, any>> {
+  protected getInformation(): Promise<Record<string, any>> {
     throw new ClientRequestException(ERROR_CODE.ERR_0000001, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

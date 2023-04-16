@@ -28,6 +28,7 @@ export interface IErrorCode {
   ERR_0005001: string;
   ERR_0005002: string;
   ERR_0005003: string;
+  ERR_0005004: string;
 
   // User
   ERR_0006001: string;

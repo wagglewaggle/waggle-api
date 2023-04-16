@@ -9,13 +9,10 @@ import { CallbackQueryDto } from '../auth.dto';
 import { BaseAuthService } from '../base-auth.service';
 import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 import { UserService } from '../../user/user.service';
-import { jwtAccessTokenSign, jwtRefreshTokenSign } from '../../app/app.util';
 import { UserRoleService } from '../../user-role/user-role.service';
-import { DataSource, QueryRunner } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { IKakaoInformationResponse, IKakaoTokenResponse } from '../auth-platform.interface';
 import { UserTokenService } from '../../user-token/user-token.service';
-import { UserTokenStatus } from '@lib/entity/user-token/user-token.constant';
-import { TokenPayloadEntity } from '../../user-token/entity/token-payload.entity';
 
 @Injectable()
 export class KakaoService extends BaseAuthService {
@@ -25,7 +22,7 @@ export class KakaoService extends BaseAuthService {
     readonly userTokenService: UserTokenService,
     readonly dataSource: DataSource,
   ) {
-    super(userService, userRoleService);
+    super(userService, userRoleService, userTokenService, dataSource);
   }
 
   async callback(query: CallbackQueryDto): Promise<IAuthCallbackResult> {
@@ -45,7 +42,7 @@ export class KakaoService extends BaseAuthService {
       await this.addNewUser(newUser);
     }
 
-    const { payload, accessToken, refreshToken } = await this.createJwtUserToken(String(userInformation.id));
+    const { payload, accessToken, refreshToken } = await this.createJwtUserToken(String(userInformation.id), SnsType.Kakao);
 
     return {
       accessToken,
@@ -53,48 +50,6 @@ export class KakaoService extends BaseAuthService {
       payload,
       existUser: isDuplicatedUser,
     };
-  }
-
-  protected async createJwtUserToken(id: string): Promise<any> {
-    const connection = this.dataSource;
-    const queryRunner: QueryRunner = connection.createQueryRunner();
-    const manager = queryRunner.manager;
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-    try {
-      const user = await this.userService.getUserBySnsId(String(id), SnsType.Kakao);
-      if (!user) {
-        throw new ClientRequestException(ERROR_CODE.ERR_0006001, HttpStatus.INTERNAL_SERVER_ERROR);
-      }
-      user.isActivated();
-
-      const payload = new TokenPayloadEntity(user);
-      const accessToken = await jwtAccessTokenSign(payload.toJson());
-      const refreshToken = await jwtRefreshTokenSign({ idx: user.idx });
-
-      const existRefreshToken = await this.userTokenService.getActivatedUserTokenByUser(user);
-      if (existRefreshToken) {
-        if (existRefreshToken.isActivated()) {
-          await this.userTokenService.modifyUserTokenStatus(existRefreshToken.idx, UserTokenStatus.IntentionalExpired, manager);
-        }
-      }
-
-      const userToken = this.userTokenService.createInstance({ token: refreshToken, status: UserTokenStatus.Activated, user });
-      await this.userTokenService.addUserToken(userToken, manager);
-      await queryRunner.commitTransaction();
-      return {
-        payload: payload.toJson(),
-        accessToken,
-        refreshToken,
-      };
-    } catch (e) {
-      if (queryRunner.isTransactionActive) {
-        await queryRunner.rollbackTransaction();
-      }
-      throw e;
-    } finally {
-      await queryRunner.release();
-    }
   }
 
   protected async getToken(code: string): Promise<Record<string, any>> {
