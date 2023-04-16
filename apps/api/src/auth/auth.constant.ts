@@ -4,6 +4,7 @@ export enum ApiPath {
   Naver = 'naver',
   Google = 'google',
   Kakao = 'kakao',
+  Apple = 'apple',
   Reissue = 'reissue',
 }
 
@@ -20,4 +21,8 @@ export enum KakaoApiUrl {
 export enum GoogleApiUrl {
   Token = 'https://oauth2.googleapis.com/token?code={code}&client_id={client_id}&client_secret={client_secret}&redirect_uri={redirect_uri}&grant_type=authorization_code',
   Information = 'https://www.googleapis.com/oauth2/v2/userinfo',
+}
+
+export enum AppleApiUrl {
+  Token = `https://appleid.apple.com/auth/token`,
 }

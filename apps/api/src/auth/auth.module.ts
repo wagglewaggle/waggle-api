@@ -3,13 +3,14 @@ import { UserRoleModule } from '../user-role/user-role.module';
 import { UserTokenModule } from '../user-token/user-token.module';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
+import { AppleService } from './services/apple.service';
 import { GoogleService } from './services/google.service';
 import { KakaoService } from './services/kakao.service';
 import { NaverService } from './services/naver.service';
 
 @Module({
   imports: [UserModule, UserRoleModule, UserTokenModule],
-  providers: [NaverService, KakaoService, GoogleService],
+  providers: [NaverService, KakaoService, GoogleService, AppleService],
   controllers: [AuthController],
 })
 export class AuthModule {}

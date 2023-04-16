@@ -2342,6 +2342,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"apple-auth@npm:^1.0.9":
+  version: 1.0.9
+  resolution: "apple-auth@npm:1.0.9"
+  dependencies:
+    axios: ^0.21.1
+    express: ^4.17.1
+    jsonwebtoken: ^9.0.0
+  checksum: 2dd051949654cd887f9526c8f898dae79ca8dacf1298a119c7bf852fbc24dc3452c40c20645c320eb76550c7982f91844c6ec4c9e40175d880ab94fe7b521fa3
+  languageName: node
+  linkType: hard
+
 "aproba@npm:^1.0.3 || ^2.0.0":
   version: 2.0.0
   resolution: "aproba@npm:2.0.0"
@@ -2435,7 +2446,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.21.4":
+"axios@npm:^0.21.1, axios@npm:^0.21.4":
   version: 0.21.4
   resolution: "axios@npm:0.21.4"
   dependencies:
@@ -3881,7 +3892,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:4.18.2":
+"express@npm:4.18.2, express@npm:^4.17.1":
   version: 4.18.2
   resolution: "express@npm:4.18.2"
   dependencies:
@@ -8246,6 +8257,7 @@ __metadata:
     "@types/supertest": ^2.0.11
     "@typescript-eslint/eslint-plugin": ^5.0.0
     "@typescript-eslint/parser": ^5.0.0
+    apple-auth: ^1.0.9
     axios: ^1.2.1
     class-transformer: ^0.5.1
     class-validator: ^0.14.0

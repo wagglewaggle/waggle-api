@@ -41,6 +41,11 @@ export class ConfigService {
       GOOGLE_CLIENT_ID: Joi.string().required(),
       GOOGLE_CLIENT_SECRET: Joi.string().required(),
       GOOGLE_REDIRECT_URL: Joi.string().required(),
+      APPLE_CLIENT_ID: Joi.string().required(),
+      APPLE_TEAM_ID: Joi.string().required(),
+      APPLE_KEY_ID: Joi.string().required(),
+      APPLE_REDIRECT_URI: Joi.string().required(),
+      APPLE_PRIVATE_KEY_FILE: Joi.string().required(),
       KT_API_KEY: Joi.string().required(),
       SKT_TMAP_API_KEY: Joi.string().required(),
       SKT_CONGESTION_API_KEY: Joi.string().required(),
@@ -124,6 +129,21 @@ export class ConfigService {
   }
   get googleRedirectUrl(): string {
     return this.envConfig.GOOGLE_REDIRECT_URL;
+  }
+  get appleClientId(): string {
+    return this.envConfig.APPLE_CLIENT_ID;
+  }
+  get appleTeamId(): string {
+    return this.envConfig.APPLE_TEAM_ID;
+  }
+  get appleKeyId(): string {
+    return this.envConfig.APPLE_KEY_ID;
+  }
+  get appleRedirectUri(): string {
+    return this.envConfig.APPLE_REDIRECT_URI;
+  }
+  get applePrivateKeyFile(): string {
+    return this.envConfig.APPLE_PRIVATE_KEY_FILE;
   }
   get ktApiKey(): string {
     return this.envConfig.KT_API_KEY;
