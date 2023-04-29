@@ -1,12 +1,10 @@
 import { CallbackQueryDto } from './auth.dto';
 import * as format from 'string-format';
 import { UserEntity } from '../user/entity/user.entity';
-import { SnsType } from '@lib/entity/user/user.constant';
 import { UserService } from '../user/user.service';
 import { UserRoleService } from '../user-role/user-role.service';
 import { DataSource, EntityManager, QueryRunner } from 'typeorm';
 import { UserRoleEntity } from '../user-role/entity/user-role.entity';
-import { UserRoleType } from '@lib/entity/user-role/user-role.constant';
 import { IAuthCallbackResult } from './auth.interface';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import ERROR_CODE from '../app/exceptions/error-code';
@@ -14,7 +12,9 @@ import { HttpStatus } from '@nestjs/common';
 import { TokenPayloadEntity } from '../user-token/entity/token-payload.entity';
 import { jwtAccessTokenSign, jwtRefreshTokenSign } from '../app/app.util';
 import { UserTokenService } from '../user-token/user-token.service';
-import { UserTokenStatus } from '@lib/entity/user-token/user-token.constant';
+import { SnsType } from 'waggle-entity/dist/user/user.constant';
+import { UserTokenStatus } from 'waggle-entity/dist/user-token/user-token.constant';
+import { UserRoleType } from 'waggle-entity/dist/user-role/user-role.constant';
 
 export abstract class BaseAuthService {
   readonly userService: UserService;

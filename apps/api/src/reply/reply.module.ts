@@ -3,7 +3,7 @@ import { ReplyService } from './reply.service';
 import { ReplyController } from './reply.controller';
 import { ReplyRepository } from './reply.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Reply } from '@lib/entity/reply/reply.entity';
+import { Reply } from 'waggle-entity/dist/reply/reply.entity';
 import { ReviewPostModule } from '../review-post/review-post.module';
 import { SlackModule } from '../app/slack/slack.module';
 import { ReplyReportModule } from '../reply-report/reply-report.module';

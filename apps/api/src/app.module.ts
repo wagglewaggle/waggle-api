@@ -1,7 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RequestMiddleware } from './app/middlewares/request.middleware';
-import { MysqlConfigService } from '@lib/entity/mysql-config.service';
 import { ProvinceModule } from './province/province.module';
 import { KtPlaceModule } from './kt-place/kt-place.module';
 import { HealthModule } from './health/health.module';
@@ -29,6 +28,7 @@ import { ExtraPlaceModule } from './extra-place/extra-place.module';
 import { ReportModule } from './report/report.module';
 import { ReviewPostReportModule } from './review-post-report/review-post-report.module';
 import { ReplyReportModule } from './reply-report/reply-report.module';
+import { MysqlConfigService } from './app/mysql/mysql-config.service';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,

@@ -1,10 +1,10 @@
 import { Exclude, Expose } from 'class-transformer';
-import { Category } from '@lib/entity/category/category.entity';
-import { ExtraPlaceStatus } from '@lib/entity/extra-place/extra-place.constant';
-import { Location } from '@lib/entity/location/location.entity';
-import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
-import { ReviewPost } from '@lib/entity/review-post/review-post.entity';
-import { ExtraPlace } from '@lib/entity/extra-place/extra-place.entity';
+import { Category } from 'waggle-entity/dist/category/category.entity';
+import { ExtraPlaceStatus } from 'waggle-entity/dist/extra-place/extra-place.constant';
+import { Location } from 'waggle-entity/dist/location/location.entity';
+import { PinPlace } from 'waggle-entity/dist/pin-place/pin-place.entity';
+import { ReviewPost } from 'waggle-entity/dist/review-post/review-post.entity';
+import { ExtraPlace } from 'waggle-entity/dist/extra-place/extra-place.entity';
 import { CategoryResponseDto } from '../../category/dtos/category-response.dto';
 import { LocationResponseDto } from '../../location/dtos/location-response.dto';
 

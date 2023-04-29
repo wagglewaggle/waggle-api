@@ -1,4 +1,4 @@
-import { SnsType } from '@lib/entity/user/user.constant';
+import { SnsType } from 'waggle-entity/dist/user/user.constant';
 import { UserEntity } from '../../user/entity/user.entity';
 
 export class TokenPayloadEntity {

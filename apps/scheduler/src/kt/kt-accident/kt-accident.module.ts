@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { KtAccident } from '@lib/entity/kt-accident/kt-accident.entity';
+import { KtAccident } from 'waggle-entity/dist/kt-accident/kt-accident.entity';
 import { KtAccidentRepository } from './kt-accident.repository';
 import { KtAccidentService } from './kt-accident.service';
 

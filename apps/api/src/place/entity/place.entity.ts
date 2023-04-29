@@ -1,22 +1,22 @@
-import { Category } from '@lib/entity/category/category.entity';
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
-import { KtPopulation } from '@lib/entity/kt-population/kt-population.entity';
-import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
-import { SktPopulation } from '@lib/entity/skt-population/skt-population.entity';
+import { Category } from 'waggle-entity/dist/category/category.entity';
+import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
+import { KtPopulation } from 'waggle-entity/dist/kt-population/kt-population.entity';
+import { SktPlace } from 'waggle-entity/dist/skt-place/skt-place.entity';
+import { SktPopulation } from 'waggle-entity/dist/skt-population/skt-population.entity';
 import { HttpStatus } from '@nestjs/common';
-import { KtPopulationLevel } from '@lib/entity/kt-population/kt-population.constant';
-import { SktPopulationLevel } from '@lib/entity/skt-population/skt-population.constant';
+import { KtPopulationLevel } from 'waggle-entity/dist/kt-population/kt-population.constant';
+import { SktPopulationLevel } from 'waggle-entity/dist/skt-population/skt-population.constant';
 import ERROR_CODE from '../../app/exceptions/error-code';
 import { ClientRequestException } from '../../app/exceptions/request.exception';
 import { PopulationLevel } from '../place.constant';
 import { PlaceType } from '../../app/app.constant';
 import { plainToInstance } from 'class-transformer';
-import { Province } from '@lib/entity/province/province.entity';
-import { Location } from '@lib/entity/location/location.entity';
-import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
-import { ReviewPost } from '@lib/entity/review-post/review-post.entity';
-import { Cctv } from '@lib/entity/cctv/cctv.entity';
-import { ExtraPlace } from '@lib/entity/extra-place/extra-place.entity';
+import { Province } from 'waggle-entity/dist/province/province.entity';
+import { Location } from 'waggle-entity/dist/location/location.entity';
+import { PinPlace } from 'waggle-entity/dist/pin-place/pin-place.entity';
+import { ReviewPost } from 'waggle-entity/dist/review-post/review-post.entity';
+import { Cctv } from 'waggle-entity/dist/cctv/cctv.entity';
+import { ExtraPlace } from 'waggle-entity/dist/extra-place/extra-place.entity';
 
 export class PlaceEntity {
   readonly idx: number;

@@ -1,5 +1,5 @@
 import { forwardRef, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { PinReviewPost } from '@lib/entity/pin-review-post/pin-review-post.entity';
+import { PinReviewPost } from 'waggle-entity/dist/pin-review-post/pin-review-post.entity';
 import { ReviewPostService } from '../review-post/review-post.service';
 import { UserEntity } from '../user/entity/user.entity';
 import { PinReviewPostRepository } from './pin-review-post.repository';

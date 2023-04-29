@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
+import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
 import { PlaceListFilterQueryDto } from '../place/place.dto';
 import { PopulationLevel } from '../place/place.constant';
-import { ReviewPostStatus } from '@lib/entity/review-post/review-post.constant';
+import { ReviewPostStatus } from 'waggle-entity/dist/review-post/review-post.constant';
 
 @Injectable()
 export class KtPlaceRepository {

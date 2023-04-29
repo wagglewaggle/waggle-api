@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
-import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
+import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
+import { SktPlace } from 'waggle-entity/dist/skt-place/skt-place.entity';
 import { PlaceType } from '../app/app.constant';
 import { IListResponse } from '../app/interfaces/common.interface';
 import { KtPlaceResponseDto } from '../kt-place/dtos/kt-place-reponse.dto';
@@ -13,7 +13,7 @@ import { PlaceListFilterPipe } from './place.pipe';
 import { PlaceParamDto } from '../app/app.dto';
 import { UserGuard } from '../app/guards/user.guard';
 import { ExtraPlaceResponseDto } from '../extra-place/dtos/extra-place-response.dto';
-import { ExtraPlace } from '@lib/entity/extra-place/extra-place.entity';
+import { ExtraPlace } from 'waggle-entity/dist/extra-place/extra-place.entity';
 
 @Controller(ApiPath.Root)
 @UseGuards(UserGuard)

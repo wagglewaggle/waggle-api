@@ -1,5 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { Location } from '@lib/entity/location/location.entity';
+import { Location } from 'waggle-entity/dist/location/location.entity';
 import { GetLocationNameParamDto } from './location.dto';
 import { LocationService } from './location.service';
 

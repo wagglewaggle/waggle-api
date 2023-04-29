@@ -8,7 +8,7 @@ import axios, { AxiosError } from 'axios';
 import { NaverApiUrl } from '../auth.constant';
 import { BaseAuthService } from '../base-auth.service';
 import { UserService } from '../../user/user.service';
-import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
+import { SnsType, UserStatus } from 'waggle-entity/dist/user/user.constant';
 import { UserRoleService } from '../../user-role/user-role.service';
 import { DataSource } from 'typeorm';
 import { INaverInformationResponse, INaverTokenResponse } from '../auth-platform.interface';

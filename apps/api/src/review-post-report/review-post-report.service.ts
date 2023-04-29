@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ReviewPostReport } from '@lib/entity/review-post-report/review-post-report.entity';
+import { ReviewPostReport } from 'waggle-entity/dist/review-post-report/review-post-report.entity';
 import { ReviewPostEntity } from '../review-post/entity/review-post.entity';
 import { UserEntity } from '../user/entity/user.entity';
 import { ReviewPostReportRepository } from './review-post-report.repository';

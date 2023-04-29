@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
-import { UserRole } from '@lib/entity/user-role/user-role.entity';
 import { UserRoleEntity } from './entity/user-role.entity';
+import { UserRole } from 'waggle-entity/dist/user-role/user-role.entity';
 
 @Injectable()
 export class UserRoleRepository {

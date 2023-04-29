@@ -1,5 +1,5 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
+import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
 import ERROR_CODE from '../app/exceptions/error-code';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import { KtPlaceRepository } from './kt-place.repository';

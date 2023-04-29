@@ -8,11 +8,12 @@ import { IAuthCallbackResult } from '../auth.interface';
 import { CallbackQueryDto } from '../auth.dto';
 import { BaseAuthService } from '../base-auth.service';
 import { UserService } from '../../user/user.service';
-import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 import { UserRoleService } from '../../user-role/user-role.service';
 import { DataSource } from 'typeorm';
 import { IGoogleInformationResponse, IGoogleTokenResponse } from '../auth-platform.interface';
 import { UserTokenService } from '../../user-token/user-token.service';
+import { UserStatus } from 'waggle-entity/dist/user/user.constant';
+import { SnsType } from 'waggle-entity/dist/user/user.constant';
 
 @Injectable()
 export class GoogleService extends BaseAuthService {

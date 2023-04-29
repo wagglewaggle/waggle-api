@@ -1,10 +1,9 @@
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import * as path from 'path';
-import { config } from '../../config/src/config.service';
+import { config } from '@lib/config';
 
 export class MysqlConfigService implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    const entityPath = path.join(__dirname, './**/*.entity.{ts,js}');
     return {
       type: 'mysql',
       host: config.mysqlHost,
@@ -12,7 +11,7 @@ export class MysqlConfigService implements TypeOrmOptionsFactory {
       username: config.mysqlUsername,
       password: config.mysqlPassword,
       database: config.mysqlDatabase,
-      entities: [entityPath],
+      entities: ['./.yarn/cache/waggle-entity-*/node_modules/waggle-entity/dist/**/*.entity.js'],
       timezone: 'Z',
       logging: false,
       synchronize: false,

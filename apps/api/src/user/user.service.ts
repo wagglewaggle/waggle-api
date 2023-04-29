@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { DeepPartial, EntityManager } from 'typeorm';
-import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 import { UserRepository } from './user.repository';
-import { User } from '@lib/entity/user/user.entity';
 import { UserEntity } from './entity/user.entity';
 import { ModifyUserSettingBodyDto } from './user.interface';
+import { User } from 'waggle-entity/dist/user/user.entity';
+import { SnsType, UserStatus } from 'waggle-entity/dist/user/user.constant';
 
 @Injectable()
 export class UserService {

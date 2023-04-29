@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { ReviewPostImage } from '@lib/entity/review-post-image/review-post-image.entity';
+import { ReviewPostImage } from 'waggle-entity/dist/review-post-image/review-post-image.entity';
 import { ReviewPostEntity } from '../entity/review-post.entity';
 import { ReviewPostSimpleResponseDto } from './review-post-simple-response.dto';
 

@@ -1,6 +1,6 @@
 import { Exclude, Expose } from 'class-transformer';
-import { SktPopulationLevel } from '@lib/entity/skt-population/skt-population.constant';
-import { SktPopulation } from '@lib/entity/skt-population/skt-population.entity';
+import { SktPopulationLevel } from 'waggle-entity/dist/skt-population/skt-population.constant';
+import { SktPopulation } from 'waggle-entity/dist/skt-population/skt-population.entity';
 
 export class SktPopulationResponseDto {
   @Exclude() private readonly _idx: number;

@@ -1,14 +1,14 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { DeepPartial, EntityManager } from 'typeorm';
-import { UserToken } from '@lib/entity/user-token/user-token.entity';
 import { UserTokenRepository } from './user-token.repository';
-import { UserTokenStatus } from '@lib/entity/user-token/user-token.constant';
 import { UserTokenEntity } from './entity/user-token.entity';
 import { UserEntity } from '../user/entity/user.entity';
 import { ClientRequestException } from '../app/exceptions/request.exception';
 import ERROR_CODE from '../app/exceptions/error-code';
 import { TokenPayloadEntity } from './entity/token-payload.entity';
 import { jwtAccessTokenSign, jwtVerify } from '../app/app.util';
+import { UserToken } from 'waggle-entity/dist/user-token/user-token.entity';
+import { UserTokenStatus } from 'waggle-entity/dist/user-token/user-token.constant';
 
 @Injectable()
 export class UserTokenService {

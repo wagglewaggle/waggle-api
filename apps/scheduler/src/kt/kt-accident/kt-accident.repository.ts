@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, FindManyOptions, FindOptionsWhere, Repository } from 'typeorm';
-import { KtAccident } from '@lib/entity/kt-accident/kt-accident.entity';
+import { KtAccident } from 'waggle-entity/dist/kt-accident/kt-accident.entity';
 
 @Injectable()
 export class KtAccidentRepository {

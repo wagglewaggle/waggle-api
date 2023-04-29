@@ -1,8 +1,8 @@
 import { Request } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
-import { SnsType } from '@lib/entity/user/user.constant';
 import { RequestExtras } from './interceptors/request-extras';
 import { UserEntity } from '../user/entity/user.entity';
+import { SnsType } from 'waggle-entity/dist/user/user.constant';
 
 export interface IRequestAugmented extends Request {
   extras: RequestExtras;

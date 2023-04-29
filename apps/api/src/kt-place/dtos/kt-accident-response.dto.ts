@@ -1,6 +1,6 @@
 import { Exclude, Expose } from 'class-transformer';
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
-import { KtAccident } from '@lib/entity/kt-accident/kt-accident.entity';
+import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
+import { KtAccident } from 'waggle-entity/dist/kt-accident/kt-accident.entity';
 
 export class KtAccidentResponseDto {
   @Exclude() private readonly _idx: number;

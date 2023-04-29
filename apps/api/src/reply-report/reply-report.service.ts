@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { ReplyReport } from '@lib/entity/reply-report/reply-report.entity';
-import { Reply } from '@lib/entity/reply/reply.entity';
+import { ReplyReport } from 'waggle-entity/dist/reply-report/reply-report.entity';
+import { Reply } from 'waggle-entity/dist/reply/reply.entity';
 import { UserEntity } from '../user/entity/user.entity';
 import { ReplyReportRepository } from './reply-report.repository';
 

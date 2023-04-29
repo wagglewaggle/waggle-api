@@ -1,8 +1,8 @@
 import { Exclude, Expose } from 'class-transformer';
-import { Category } from '@lib/entity/category/category.entity';
+import { Category } from 'waggle-entity/dist/category/category.entity';
 import { CategoryResponseDto } from '../../category/dtos/category-response.dto';
-import { SktPopulation } from '@lib/entity/skt-population/skt-population.entity';
-import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
+import { SktPopulation } from 'waggle-entity/dist/skt-population/skt-population.entity';
+import { SktPlace } from 'waggle-entity/dist/skt-place/skt-place.entity';
 import { SktPopulationResponseDto } from '../../skt-place/dtos/skt-population-response.dto';
 
 export class SktPlaceLocationResponseDto {

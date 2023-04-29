@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
-import { KtRoadTraffic } from '@lib/entity/kt-road-traffic/kt-road-traffic.entity';
+import { KtRoadTraffic } from 'waggle-entity/dist/kt-road-traffic/kt-road-traffic.entity';
 
 @Injectable()
 export class KtRoadTrafficRepository {

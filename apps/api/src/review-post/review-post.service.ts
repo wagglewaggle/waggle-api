@@ -1,5 +1,5 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { ReviewPostStatus } from '@lib/entity/review-post/review-post.constant';
+import { ReviewPostStatus } from 'waggle-entity/dist/review-post/review-post.constant';
 import { DEFAULT_REPORT_COUNT, PlaceType } from '../app/app.constant';
 import { PlaceService } from '../place/place.service';
 import { UserEntity } from '../user/entity/user.entity';
