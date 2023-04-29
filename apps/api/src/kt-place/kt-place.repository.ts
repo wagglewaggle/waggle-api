@@ -50,4 +50,42 @@ export class KtPlaceRepository {
     const [places, count] = await queryBuilder.getManyAndCount();
     return [places, count];
   }
+
+  async getPlaceAllInfo(idx: number): Promise<KtPlace | null> {
+    const queryBuilder = this.createQueryBuilder('targetPlace')
+      .leftJoinAndSelect('targetPlace.population', 'population')
+      .leftJoinAndSelect('targetPlace.accidents', 'accident')
+      .leftJoinAndSelect('targetPlace.cctvs', 'cctv')
+      .leftJoinAndSelect('targetPlace.ktRoadTraffic', 'ktRoadTraffic')
+      .leftJoinAndSelect('targetPlace.pinPlaces', 'pinPlace')
+      .leftJoinAndSelect('targetPlace.reviewPosts', 'reviewPost', 'reviewPost.status = :status', { status: ReviewPostStatus.Activated })
+      .leftJoinAndSelect('targetPlace.location', 'location');
+
+    queryBuilder
+      .leftJoinAndSelect('location.ktPlaces', 'ktPlace')
+      .leftJoinAndSelect('ktPlace.population', 'ktPlacePopulation')
+      .leftJoinAndSelect('ktPlace.categories', 'ktPlaceCategory')
+      .leftJoinAndSelect('ktPlace.cctvs', 'ktPlaceCctv')
+      .leftJoinAndSelect('ktPlace.pinPlaces', 'ktPlacePinPlace')
+      .leftJoinAndSelect('ktPlace.reviewPosts', 'ktPlaceReviewPost', 'ktPlaceReviewPost.status = :status', { status: ReviewPostStatus.Activated });
+
+    queryBuilder
+      .leftJoinAndSelect('location.sktPlaces', 'sktPlace')
+      .leftJoinAndSelect('sktPlace.population', 'sktPlacePopulation')
+      .leftJoinAndSelect('sktPlace.categories', 'sktPlaceCategory')
+      .leftJoinAndSelect('sktPlace.pinPlaces', 'sktPlacePinPlace')
+      .leftJoinAndSelect('sktPlace.reviewPosts', 'sktPlaceReviewPost', 'sktPlaceReviewPost.status = :status', { status: ReviewPostStatus.Activated });
+
+    queryBuilder
+      .leftJoinAndSelect('location.extraPlaces', 'extraPlace')
+      .leftJoinAndSelect('extraPlace.categories', 'extraPlaceCategory')
+      .leftJoinAndSelect('extraPlace.pinPlaces', 'extraPlacePinPlace')
+      .leftJoinAndSelect('extraPlace.reviewPosts', 'extraPlaceReviewPost', 'extraPlaceReviewPost.status = :status', {
+        status: ReviewPostStatus.Activated,
+      });
+
+    queryBuilder.where('targetPlace.idx = :idx', { idx });
+
+    return queryBuilder.getOne();
+  }
 }
