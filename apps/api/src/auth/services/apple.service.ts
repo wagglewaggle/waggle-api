@@ -37,7 +37,7 @@ export class AppleService extends BaseAuthService {
       const newUser = this.userService.createInstance({
         snsId: sub,
         snsType: SnsType.Apple,
-        nickname: email.split('@')[0], // TODO: 이름으로 변경
+        nickname: 'Apple_user', // TODO: 이름으로 변경
         status: UserStatus.Activated,
       });
 
@@ -64,7 +64,7 @@ export class AppleService extends BaseAuthService {
         key_id: config.appleKeyId,
         redirect_uri: config.appleRedirectUri,
         private_key_path: config.applePrivateKeyFile,
-        scope: 'name%20email',
+        scope: 'name',
       };
 
       const appleAuth = new AppleAuth(appleKey, privateKey.toString(), 'text');
