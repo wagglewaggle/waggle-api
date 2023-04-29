@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
-import { SktPopulation } from '@lib/entity/skt-population/skt-population.entity';
+import { SktPlace } from 'waggle-entity/dist/skt-place/skt-place.entity';
+import { SktPopulation } from 'waggle-entity/dist/skt-population/skt-population.entity';
 import { SktPopulationRepository } from './skt-population.repository';
 
 @Injectable()

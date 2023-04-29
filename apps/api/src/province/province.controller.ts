@@ -1,5 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { Province } from '@lib/entity/province/province.entity';
+import { Province } from 'waggle-entity/dist/province/province.entity';
 import { GetProvinceIdxDto } from './province.dto';
 import { ProvinceService } from './province.service';
 

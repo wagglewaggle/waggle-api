@@ -7987,9 +7987,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typeorm@npm:^0.3.14":
-  version: 0.3.14
-  resolution: "typeorm@npm:0.3.14"
+"typeorm@npm:^0.3.15":
+  version: 0.3.15
+  resolution: "typeorm@npm:0.3.15"
   dependencies:
     "@sqltools/formatter": ^1.2.5
     app-root-path: ^3.1.0
@@ -8011,7 +8011,7 @@ __metadata:
     better-sqlite3: ^7.1.2 || ^8.0.0
     hdb-pool: ^0.1.6
     ioredis: ^5.0.4
-    mongodb: ^3.6.0
+    mongodb: ^5.2.0
     mssql: ^9.1.1
     mysql2: ^2.2.5 || ^3.0.1
     oracledb: ^5.1.0
@@ -8062,7 +8062,7 @@ __metadata:
     typeorm: cli.js
     typeorm-ts-node-commonjs: cli-ts-node-commonjs.js
     typeorm-ts-node-esm: cli-ts-node-esm.js
-  checksum: bbbef95275265ceab30bc0286579236c6d96fe77912e7999b9b22f43a227175385c9aa39b64c1ac9c6bf4f5ec2c63de1c5dc7f15292071a8b79e287bb81a5d10
+  checksum: 91038765ac3472ede5a979454c6e5c9b9d93527d5e61426c6c434e5f37c3561230fe9517fad93b8309fcf5cdd57648521b86791ecf9f6cbbb7872bfba74cf4f8
   languageName: node
   linkType: hard
 
@@ -8232,9 +8232,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wagglewaggle@workspace:.":
+"waggle-api@workspace:.":
   version: 0.0.0-use.local
-  resolution: "wagglewaggle@workspace:."
+  resolution: "waggle-api@workspace:."
   dependencies:
     "@nestjs/axios": ^1.0.0
     "@nestjs/cli": ^9.0.0
@@ -8286,13 +8286,28 @@ __metadata:
     ts-loader: ^9.2.3
     ts-node: ^10.0.0
     tsconfig-paths: 4.1.0
-    typeorm: ^0.3.14
+    typeorm: ^0.3.15
     typescript: ~4.7.4
+    waggle-entity: 1.0.2
     winston: ^3.8.2
     winston-daily-rotate-file: ^4.7.1
     yarn-audit-fix: ^9.3.7
   languageName: unknown
   linkType: soft
+
+"waggle-entity@npm:1.0.2":
+  version: 1.0.2
+  resolution: "waggle-entity@npm:1.0.2"
+  dependencies:
+    "@nestjs/common": ^9.0.0
+    "@nestjs/core": ^9.0.0
+    reflect-metadata: ^0.1.13
+    rimraf: ^3.0.2
+    rxjs: ^7.2.0
+    typeorm: ^0.3.15
+  checksum: 291fe926effd5b82812d480301b697c2b136ab6921ff7398610c93355164f39fa094e71a6830e51d6694ff231d8023e29832e190a6884a4247bc2455935b8935
+  languageName: node
+  linkType: hard
 
 "walker@npm:^1.0.8":
   version: 1.0.8

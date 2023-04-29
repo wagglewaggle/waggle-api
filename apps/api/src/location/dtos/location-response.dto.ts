@@ -1,10 +1,10 @@
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
-import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
+import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
+import { SktPlace } from 'waggle-entity/dist/skt-place/skt-place.entity';
 import { Exclude, Expose } from 'class-transformer';
-import { Location } from '@lib/entity/location/location.entity';
+import { Location } from 'waggle-entity/dist/location/location.entity';
 import { PlaceResponseDto } from '../../place/dtos/place-response.dto';
 import { PlaceEntity } from '../../place/entity/place.entity';
-import { ExtraPlace } from '@lib/entity/extra-place/extra-place.entity';
+import { ExtraPlace } from 'waggle-entity/dist/extra-place/extra-place.entity';
 
 export class LocationResponseDto {
   @Exclude() private readonly _idx: number;

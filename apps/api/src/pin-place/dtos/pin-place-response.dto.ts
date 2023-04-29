@@ -1,5 +1,5 @@
 import { Exclude, Expose } from 'class-transformer';
-import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
+import { PinPlace } from 'waggle-entity/dist/pin-place/pin-place.entity';
 import { PlaceResponseDto } from '../../place/dtos/place-response.dto';
 import { PlaceEntity } from '../../place/entity/place.entity';
 

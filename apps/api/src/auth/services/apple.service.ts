@@ -9,10 +9,10 @@ import { IAuthCallbackResult } from '../auth.interface';
 import { BaseAuthService } from '../base-auth.service';
 import * as jwt from 'jsonwebtoken';
 import * as fs from 'fs';
-import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
 import { config } from '@lib/config';
 import { IAppleJwtPayload, IAppleTokenResponse } from '../auth-platform.interface';
 import ERROR_CODE from '../../app/exceptions/error-code';
+import { SnsType, UserStatus } from 'waggle-entity/dist/user/user.constant';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const AppleAuth = require('apple-auth');
 

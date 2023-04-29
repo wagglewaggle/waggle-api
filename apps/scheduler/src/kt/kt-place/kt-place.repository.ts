@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
+import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
 import { FindManyOptions, FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()

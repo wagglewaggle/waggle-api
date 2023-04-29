@@ -1,9 +1,9 @@
 import { CanActivate, ExecutionContext, HttpStatus, Injectable } from '@nestjs/common';
 import { Request } from 'express';
-import { IpStatus } from '@lib/entity/ip/ip.constant';
 import { IpService } from '../../ip/ip.service';
 import ERROR_CODE from '../exceptions/error-code';
 import { ClientRequestException } from '../exceptions/request.exception';
+import { IpStatus } from 'waggle-entity/dist/ip/ip.constant';
 
 @Injectable()
 export class IpGuard implements CanActivate {

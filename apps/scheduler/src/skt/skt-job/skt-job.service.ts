@@ -7,7 +7,7 @@ import { SktPopulationEntity } from '../skt-population/entity/skt-population.ent
 import { SktPopulationService } from '../skt-population/skt-population.service';
 import { ISktCityData } from './skt-city-data.interface';
 import { SktDefaultInfo } from './skt-job.constant';
-import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
+import { SktPlace } from 'waggle-entity/dist/skt-place/skt-place.entity';
 import { SentryService } from '../../app/sentry/sentry.service';
 import { JobType } from '../../app/app.constant';
 import { LoggerService } from '../../app/logger/logger.service';

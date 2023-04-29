@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserRole } from '@lib/entity/user-role/user-role.entity';
 import { UserRoleService } from './user-role.service';
 import { UserRoleRepository } from './user-role.repository';
+import { UserRole } from 'waggle-entity/dist/user-role/user-role.entity';
 
 const typeOrmModule = TypeOrmModule.forFeature([UserRole]);
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Location } from '@lib/entity/location/location.entity';
+import { Location } from 'waggle-entity/dist/location/location.entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()

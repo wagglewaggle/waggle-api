@@ -1,6 +1,6 @@
 import { Exclude, Expose } from 'class-transformer';
-import { UserRole } from '@lib/entity/user-role/user-role.entity';
-import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
+import { UserRole } from 'waggle-entity/dist/user-role/user-role.entity';
+import { SnsType, UserStatus } from 'waggle-entity/dist/user/user.constant';
 import { UserEntity } from '../entity/user.entity';
 
 export class UserResponseDto {

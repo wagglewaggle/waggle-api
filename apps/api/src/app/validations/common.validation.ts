@@ -1,6 +1,6 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
-import { CategoryType } from '@lib/entity/category/category.constant';
+import { CategoryType } from 'waggle-entity/dist/category/category.constant';
 import { PlaceType } from '../app.constant';
 import ERROR_CODE from '../exceptions/error-code';
 import { ClientRequestException } from '../exceptions/request.exception';

@@ -1,13 +1,13 @@
 import { Exclude, Expose } from 'class-transformer';
-import { Category } from '@lib/entity/category/category.entity';
-import { SktPopulation } from '@lib/entity/skt-population/skt-population.entity';
-import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 import { SktPopulationResponseDto } from './skt-population-response.dto';
 import { CategoryResponseDto } from '../../category/dtos/category-response.dto';
-import { Location } from '@lib/entity/location/location.entity';
 import { LocationResponseDto } from '../../location/dtos/location-response.dto';
-import { ReviewPost } from '@lib/entity/review-post/review-post.entity';
-import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
+import { Category } from 'waggle-entity/dist/category/category.entity';
+import { ReviewPost } from 'waggle-entity/dist/review-post/review-post.entity';
+import { SktPopulation } from 'waggle-entity/dist/skt-population/skt-population.entity';
+import { PinPlace } from 'waggle-entity/dist/pin-place/pin-place.entity';
+import { SktPlace } from 'waggle-entity/dist/skt-place/skt-place.entity';
+import { Location } from 'waggle-entity/dist/location/location.entity';
 
 export class SktPlaceResponseDto {
   @Exclude() private readonly _idx: number;

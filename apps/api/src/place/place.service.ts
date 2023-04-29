@@ -1,6 +1,6 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
-import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
+import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
+import { SktPlace } from 'waggle-entity/dist/skt-place/skt-place.entity';
 import { PlaceType } from '../app/app.constant';
 import ERROR_CODE from '../app/exceptions/error-code';
 import { ClientRequestException } from '../app/exceptions/request.exception';
@@ -9,7 +9,7 @@ import { SktPlaceService } from '../skt-place/skt-place.service';
 import { PlaceEntity } from './entity/place.entity';
 import { PlaceListFilterQueryDto } from './place.dto';
 import { ExtraPlaceService } from '../extra-place/extra-place.service';
-import { ExtraPlace } from '@lib/entity/extra-place/extra-place.entity';
+import { ExtraPlace } from 'waggle-entity/dist/extra-place/extra-place.entity';
 
 @Injectable()
 export class PlaceService {

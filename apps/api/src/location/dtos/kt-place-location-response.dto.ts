@@ -1,7 +1,7 @@
 import { Exclude, Expose } from 'class-transformer';
-import { Category } from '@lib/entity/category/category.entity';
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
-import { KtPopulation } from '@lib/entity/kt-population/kt-population.entity';
+import { Category } from 'waggle-entity/dist/category/category.entity';
+import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
+import { KtPopulation } from 'waggle-entity/dist/kt-population/kt-population.entity';
 import { CategoryResponseDto } from '../../category/dtos/category-response.dto';
 import { KtPopulationResponseDto } from '../../kt-place/dtos/kt-population-response.dto';
 

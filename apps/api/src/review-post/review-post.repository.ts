@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, EntityManager, FindOptionsWhere, Repository } from 'typeorm';
-import { ReviewPost } from '@lib/entity/review-post/review-post.entity';
+import { ReviewPost } from 'waggle-entity/dist/review-post/review-post.entity';
 import { ReviewPostEntity } from './entity/review-post.entity';
 import { PlaceType } from '../app/app.constant';
 import { ListFilterQueryDto } from '../app/app.dto';
 import { PlaceEntity } from '../place/entity/place.entity';
-import { ReviewPostStatus } from '@lib/entity/review-post/review-post.constant';
+import { ReviewPostStatus } from 'waggle-entity/dist/review-post/review-post.constant';
 import { UserEntity } from '../user/entity/user.entity';
 
 @Injectable()

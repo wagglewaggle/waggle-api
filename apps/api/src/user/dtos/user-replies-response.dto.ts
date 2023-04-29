@@ -1,9 +1,9 @@
 import { Exclude, Expose } from 'class-transformer';
-import { ReplyStatus } from '@lib/entity/reply/reply.constant';
-import { ReviewPost } from '@lib/entity/review-post/review-post.entity';
-import { Reply } from '@lib/entity/reply/reply.entity';
 import { ReviewPostEntity } from '../../review-post/entity/review-post.entity';
 import { ReviewPostSimpleResponseDto } from '../../review-post/dtos/review-post-simple-response.dto';
+import { ReplyStatus } from 'waggle-entity/dist/reply/reply.constant';
+import { Reply } from 'waggle-entity/dist/reply/reply.entity';
+import { ReviewPost } from 'waggle-entity/dist/review-post/review-post.entity';
 
 export class UserRepliesResponseDto {
   @Exclude() private readonly _idx: number;

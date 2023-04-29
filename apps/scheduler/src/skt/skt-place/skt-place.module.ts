@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
+import { SktPlace } from 'waggle-entity/dist/skt-place/skt-place.entity';
 import { SktPlaceRepository } from './skt-place.repository';
 import { SktPlaceService } from './skt-place.service';
 

@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Get, HttpCode, HttpStatus, Put, Query, Req, UseGuards } from '@nestjs/common';
-import { UserStatus } from '@lib/entity/user/user.constant';
 import { IRequestAugmented } from '../app/app.interface';
 import { UserGuard } from '../app/guards/user.guard';
 import { UserResponseDto } from './dtos/user-response.dto';
@@ -18,6 +17,7 @@ import { PinReviewPostService } from '../pin-review-post/pin-review-post.service
 import { ListFilterPipe } from '../app/pipe/common.pipe';
 import { ReplyService } from '../reply/reply.service';
 import { UserRepliesResponseDto } from './dtos/user-replies-response.dto';
+import { UserStatus } from 'waggle-entity/dist/user/user.constant';
 
 @Controller(ApiPath.Root)
 @UseGuards(UserGuard)

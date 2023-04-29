@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { KtAccident } from '@lib/entity/kt-accident/kt-accident.entity';
+import { KtAccident } from 'waggle-entity/dist/kt-accident/kt-accident.entity';
 import { KtAccidentRepository } from './kt-accident.repository';
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
+import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
 
 @Injectable()
 export class KtAccidentService {

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { IncomingWebhook } from '@slack/webhook';
-import { Reply } from '@lib/entity/reply/reply.entity';
-import { ReviewPost } from '@lib/entity/review-post/review-post.entity';
 import { config } from '@lib/config';
 import { replyReportForm, reviewPostReportForm } from './slack.constant';
 import { PlaceEntity } from '../../place/entity/place.entity';
+import { ReviewPost } from 'waggle-entity/dist/review-post/review-post.entity';
+import { Reply } from 'waggle-entity/dist/reply/reply.entity';
 
 @Injectable()
 export class SlackService {

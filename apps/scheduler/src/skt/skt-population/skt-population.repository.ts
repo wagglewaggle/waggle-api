@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, FindOptionsWhere, Repository } from 'typeorm';
-import { SktPopulation } from '@lib/entity/skt-population/skt-population.entity';
+import { SktPopulation } from 'waggle-entity/dist/skt-population/skt-population.entity';
 
 @Injectable()
 export class SktPopulationRepository {

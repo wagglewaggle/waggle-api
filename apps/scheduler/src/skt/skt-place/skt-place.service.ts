@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
+import { SktPlace } from 'waggle-entity/dist/skt-place/skt-place.entity';
 import { SktPlaceRepository } from './skt-place.repository';
 
 @Injectable()

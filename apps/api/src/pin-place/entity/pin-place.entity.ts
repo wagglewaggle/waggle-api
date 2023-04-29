@@ -1,7 +1,7 @@
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
-import { PinPlace } from '@lib/entity/pin-place/pin-place.entity';
-import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
-import { User } from '@lib/entity/user/user.entity';
+import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
+import { PinPlace } from 'waggle-entity/dist/pin-place/pin-place.entity';
+import { SktPlace } from 'waggle-entity/dist/skt-place/skt-place.entity';
+import { User } from 'waggle-entity/dist/user/user.entity';
 
 export class PinPlaceEntity extends PinPlace {
   readonly idx: number;

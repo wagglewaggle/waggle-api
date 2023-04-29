@@ -1,6 +1,6 @@
-import { UserToken } from '@lib/entity/user-token/user-token.entity';
-import { UserTokenStatus } from '@lib/entity/user-token/user-token.constant';
-import { User } from '@lib/entity/user/user.entity';
+import { UserTokenStatus } from 'waggle-entity/dist/user-token/user-token.constant';
+import { UserToken } from 'waggle-entity/dist/user-token/user-token.entity';
+import { User } from 'waggle-entity/dist/user/user.entity';
 
 export class UserTokenEntity extends UserToken {
   readonly idx: number;

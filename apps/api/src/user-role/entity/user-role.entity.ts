@@ -1,6 +1,6 @@
-import { UserRole } from '@lib/entity/user-role/user-role.entity';
-import { UserRoleType } from '@lib/entity/user-role/user-role.constant';
-import { User } from '@lib/entity/user/user.entity';
+import { UserRoleType } from 'waggle-entity/dist/user-role/user-role.constant';
+import { UserRole } from 'waggle-entity/dist/user-role/user-role.entity';
+import { User } from 'waggle-entity/dist/user/user.entity';
 
 export class UserRoleEntity extends UserRole {
   readonly idx: number;

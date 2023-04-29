@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
-import { KtPopulation } from '@lib/entity/kt-population/kt-population.entity';
+import { KtPopulation } from 'waggle-entity/dist/kt-population/kt-population.entity';
 
 @Injectable()
 export class KtPopulationRepository {

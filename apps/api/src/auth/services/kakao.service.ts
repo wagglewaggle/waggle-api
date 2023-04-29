@@ -7,7 +7,7 @@ import { KakaoApiUrl } from '../auth.constant';
 import { IAuthCallbackResult } from '../auth.interface';
 import { CallbackQueryDto } from '../auth.dto';
 import { BaseAuthService } from '../base-auth.service';
-import { SnsType, UserStatus } from '@lib/entity/user/user.constant';
+import { SnsType, UserStatus } from 'waggle-entity/dist/user/user.constant';
 import { UserService } from '../../user/user.service';
 import { UserRoleService } from '../../user-role/user-role.service';
 import { DataSource } from 'typeorm';

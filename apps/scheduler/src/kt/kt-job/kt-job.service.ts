@@ -11,7 +11,7 @@ import { KtPopulationService } from '../kt-population/kt-population.service';
 import { IAccidentObject, IKtCityData } from './kt-city-data.interface';
 import { KtDefaultInfo } from './kt-job.constant';
 import { sleep } from '../../app/app.util';
-import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
+import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
 import { DataSource, QueryRunner } from 'typeorm';
 import { KtRoadTrafficService } from '../kt-road-traffic/kt-road-traffic.service';
 import { KtRoadTrafficEntity } from '../kt-road-traffic/entity/kt-road-traffic.entity';
