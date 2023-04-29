@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { SktPlace } from '@lib/entity/skt-place/skt-place.entity';
 import { PlaceListFilterQueryDto } from '../place/place.dto';
+import { ReviewPostStatus } from '@lib/entity/review-post/review-post.constant';
 
 @Injectable()
 export class SktPlaceRepository {
@@ -25,7 +26,7 @@ export class SktPlaceRepository {
       .leftJoinAndSelect('sktPlace.population', 'population')
       .leftJoinAndSelect('sktPlace.categories', 'category')
       .leftJoinAndSelect('sktPlace.pinPlaces', 'pinPlace')
-      .leftJoinAndSelect('sktPlace.reviewPosts', 'reviewPost');
+      .leftJoinAndSelect('sktPlace.reviewPosts', 'reviewPost', 'reviewPost.status = :status', { status: ReviewPostStatus.Activated });
 
     if (query.level) {
       queryBuilder.andWhere('population.level = :level', { level: query.level });

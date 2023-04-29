@@ -4,6 +4,7 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 import { KtPlace } from '@lib/entity/kt-place/kt-place.entity';
 import { PlaceListFilterQueryDto } from '../place/place.dto';
 import { PopulationLevel } from '../place/place.constant';
+import { ReviewPostStatus } from '@lib/entity/review-post/review-post.constant';
 
 @Injectable()
 export class KtPlaceRepository {
@@ -27,7 +28,7 @@ export class KtPlaceRepository {
       .leftJoinAndSelect('ktPlace.categories', 'category')
       .leftJoinAndSelect('ktPlace.cctvs', 'cctv')
       .leftJoinAndSelect('ktPlace.pinPlaces', 'pinPlace')
-      .leftJoinAndSelect('ktPlace.reviewPosts', 'reviewPost');
+      .leftJoinAndSelect('ktPlace.reviewPosts', 'reviewPost', 'reviewPost.status = :status', { status: ReviewPostStatus.Activated });
 
     if (query.level) {
       if (query.level === PopulationLevel.VeryRelaxation) {

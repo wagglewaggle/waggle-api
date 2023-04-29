@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { ExtraPlace } from '@lib/entity/extra-place/extra-place.entity';
 import { PlaceListFilterQueryDto } from '../place/place.dto';
+import { ReviewPostStatus } from '@lib/entity/review-post/review-post.constant';
 
 @Injectable()
 export class ExtraPlaceRepository {
@@ -25,7 +26,7 @@ export class ExtraPlaceRepository {
     const queryBuilder = this.createQueryBuilder()
       .leftJoinAndSelect('extraPlace.categories', 'category')
       .leftJoinAndSelect('extraPlace.pinPlaces', 'pinPlace')
-      .leftJoinAndSelect('extraPlace.reviewPosts', 'reviewPost');
+      .leftJoinAndSelect('extraPlace.reviewPosts', 'reviewPost', 'reviewPost.status = :status', { status: ReviewPostStatus.Activated });
 
     if (query.category) {
       queryBuilder.andWhere('category.type = :type', { type: query.category });
