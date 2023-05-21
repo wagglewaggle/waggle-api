@@ -97,4 +97,8 @@ export class PinPlaceService {
 
     await this.pinPlaceRepository.deletePinPlace(pinPlace);
   }
+
+  async getPinPlaceCount(): Promise<number> {
+    return await this.pinPlaceRepository.getPinPlaceCount();
+  }
 }

@@ -5,9 +5,10 @@ import { UserModule } from '../user/user.module';
 import { UserTokenModule } from '../user-token/user-token.module';
 import { ReviewPostModule } from '../review-post/review-post.module';
 import { PinReviewPostModule } from '../pin-review-post/pin-review-post.module';
+import { PinPlaceModule } from '../pin-place/pin-place.module';
 
 @Module({
-  imports: [UserModule, UserTokenModule, ReviewPostModule, PinReviewPostModule],
+  imports: [UserModule, UserTokenModule, ReviewPostModule, PinPlaceModule, PinReviewPostModule],
   providers: [StatisticService],
   controllers: [StatisticController],
 })
