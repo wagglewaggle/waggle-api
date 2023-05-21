@@ -59,4 +59,8 @@ export class PinPlaceRepository {
 
     return await queryBuilder.getMany();
   }
+
+  async getPinPlaceCount(): Promise<number> {
+    return await this.repository.count();
+  }
 }
