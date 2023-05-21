@@ -5,7 +5,8 @@ import { UserGuard } from '../app/guards/user.guard';
 import { AdminGuard } from '../app/guards/admin.guard';
 
 @Controller(ApiPath.Root)
-@UseGuards(UserGuard, AdminGuard)
+/** 가드는 admin controller가 기획되면 추가 */
+// @UseGuards(UserGuard, AdminGuard)
 export class StatisticController {
   constructor(private readonly statisticService: StatisticService) {}
 
