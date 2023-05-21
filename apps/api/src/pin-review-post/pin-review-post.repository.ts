@@ -54,4 +54,8 @@ export class PinReviewPostRepository {
 
     return await queryBuilder.getManyAndCount();
   }
+
+  async getPinReviewPostCount(): Promise<number> {
+    return this.repository.count();
+  }
 }

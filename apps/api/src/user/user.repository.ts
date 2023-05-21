@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, EntityManager, FindOptionsWhere, Repository } from 'typeorm';
 import { User } from 'waggle-entity/dist/user/user.entity';
 import { UserEntity } from './entity/user.entity';
+import { UserStatus } from 'waggle-entity/dist/user/user.constant';
 
 @Injectable()
 export class UserRepository {
@@ -37,5 +38,9 @@ export class UserRepository {
       return manager.update(User, where, set);
     }
     return this.repository.update(where, set);
+  }
+
+  async getActivatedUserCount(): Promise<number> {
+    return this.repository.count({ where: { status: UserStatus.Activated } });
   }
 }

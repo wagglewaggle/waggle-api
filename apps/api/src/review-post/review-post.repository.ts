@@ -107,4 +107,8 @@ export class ReviewPostRepository {
     const [results, count] = await queryBuilder.getManyAndCount();
     return [results.map((result) => new ReviewPostEntity(result)), count];
   }
+
+  async getReviewPostCount(): Promise<number> {
+    return this.repository.count();
+  }
 }

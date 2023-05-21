@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, EntityManager, FindOptionsWhere, Repository } from 'typeorm';
 import { UserToken } from 'waggle-entity/dist/user-token/user-token.entity';
 import { UserTokenEntity } from './entity/user-token.entity';
+import { UserTokenStatus } from 'waggle-entity/dist/user-token/user-token.constant';
 
 @Injectable()
 export class UserTokenRepository {
@@ -36,5 +37,9 @@ export class UserTokenRepository {
       return manager.update(UserToken, where, set);
     }
     return this.repository.update(where, set);
+  }
+
+  async getActivatedUserTokenCount(): Promise<number> {
+    return await this.repository.count({ where: { status: UserTokenStatus.Activated } });
   }
 }

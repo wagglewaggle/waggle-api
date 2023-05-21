@@ -138,4 +138,8 @@ export class ReviewPostService {
       await queryRunner.release();
     }
   }
+
+  async getReviewPostCount(): Promise<number> {
+    return await this.reviewPostRepository.getReviewPostCount();
+  }
 }

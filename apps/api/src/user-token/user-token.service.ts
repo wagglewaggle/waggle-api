@@ -45,4 +45,8 @@ export class UserTokenService {
     const payload = new TokenPayloadEntity(new UserEntity(activatedRefreshToken.user));
     return await jwtAccessTokenSign(payload.toJson());
   }
+
+  async getActivatedUserTokenCount(): Promise<number> {
+    return await this.userTokenRepository.getActivatedUserTokenCount();
+  }
 }

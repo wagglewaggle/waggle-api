@@ -49,4 +49,8 @@ export class UserService {
   async modifyUserStatus(idx: number, status: UserStatus) {
     await this.userRepository.modifyUser({ idx }, { status });
   }
+
+  async getActivatedUserCount(): Promise<number> {
+    return await this.userRepository.getActivatedUserCount();
+  }
 }
