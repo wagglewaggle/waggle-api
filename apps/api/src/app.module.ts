@@ -29,6 +29,7 @@ import { ReportModule } from './report/report.module';
 import { ReviewPostReportModule } from './review-post-report/review-post-report.module';
 import { ReplyReportModule } from './reply-report/reply-report.module';
 import { MysqlConfigService } from './app/mysql/mysql-config.service';
+import { StatisticModule } from './statistic/statistic.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
@@ -60,6 +61,7 @@ export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
     ReportModule,
     ReviewPostReportModule,
     ReplyReportModule,
+    StatisticModule,
   ],
   providers: [
     { provide: APP_INTERCEPTOR, useValue: new RavenInterceptor() },

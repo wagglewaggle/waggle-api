@@ -5,6 +5,7 @@ import { plainToInstance } from 'class-transformer';
 import { User } from 'waggle-entity/dist/user/user.entity';
 import { SnsType, UserStatus } from 'waggle-entity/dist/user/user.constant';
 import { UserRole } from 'waggle-entity/dist/user-role/user-role.entity';
+import { UserRoleType } from 'waggle-entity/dist/user-role/user-role.constant';
 
 export class UserEntity extends User {
   readonly idx: number;
@@ -38,5 +39,12 @@ export class UserEntity extends User {
 
   modifyNickname(nickname: string) {
     Object.assign(this, { nickname });
+  }
+
+  isAdmin(): boolean {
+    if (this.userRole.role !== UserRoleType.Admin) {
+      throw new ClientRequestException(ERROR_CODE.ERR_0000005, HttpStatus.FORBIDDEN);
+    }
+    return true;
   }
 }

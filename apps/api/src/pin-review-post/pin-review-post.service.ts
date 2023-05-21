@@ -44,4 +44,8 @@ export class PinReviewPostService {
 
     await this.pinReviewPostRepository.deletePinReviewPost(pinReviewPost);
   }
+
+  async getPinReviewPostCount(): Promise<number> {
+    return await this.pinReviewPostRepository.getPinReviewPostCount();
+  }
 }
