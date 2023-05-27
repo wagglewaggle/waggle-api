@@ -17,17 +17,13 @@ export class ConfigService {
     const envValues = Object.keys(ENV).map((k) => ENV[k]);
     const envVarsSchema: Joi.ObjectSchema = Joi.object({
       PROJECT_NAME: Joi.string().required(),
-      SCHEDULER_NAME: Joi.string().required(),
       ENV: Joi.string()
         .valid(...envValues)
         .default(ENV.DEVELOPMENT),
       USE_SENTRY: Joi.boolean().required().default(false),
       USE_CONSOLE_API: Joi.boolean().required().default(false),
-      USE_CONSOLE_SCHEDULER: Joi.boolean().required().default(false),
       API_HOST: Joi.string().default('0.0.0.0'),
       API_PORT: Joi.number().default(3000),
-      SCHEDULER_HOST: Joi.string().default('0.0.0.0'),
-      SCHEDULER_PORT: Joi.number().default(3030),
       MYSQL_HOST: Joi.string().required(),
       MYSQL_PORT: Joi.number().required(),
       MYSQL_DATABASE: Joi.string().required(),
@@ -46,9 +42,6 @@ export class ConfigService {
       APPLE_KEY_ID: Joi.string().required(),
       APPLE_REDIRECT_URI: Joi.string().required(),
       APPLE_PRIVATE_KEY_FILE: Joi.string().required(),
-      KT_API_KEY: Joi.string().required(),
-      SKT_TMAP_API_KEY: Joi.string().required(),
-      SKT_CONGESTION_API_KEY: Joi.string().required(),
       SLACK_API_SERVER: Joi.string().required(),
       SLACK_REPORT: Joi.string().required(),
       SENTRY_DSN: Joi.string().required(),
@@ -64,9 +57,6 @@ export class ConfigService {
   get projectName(): string {
     return this.envConfig.PROJECT_NAME;
   }
-  get schedulerName(): string {
-    return this.envConfig.SCHEDULER_NAME;
-  }
   get environment(): ENV {
     return this.envConfig.ENV;
   }
@@ -76,20 +66,11 @@ export class ConfigService {
   get useConsoleApi(): boolean {
     return this.envConfig.USE_CONSOLE_API;
   }
-  get useConsoleScheduler(): boolean {
-    return this.envConfig.USE_CONSOLE_SCHEDULER;
-  }
   get apiHost(): string {
     return this.envConfig.API_HOST;
   }
   get apiPort(): number {
     return parseInt(this.envConfig.API_PORT, 10);
-  }
-  get schedulerHost(): string {
-    return this.envConfig.SCHEDULER_HOST;
-  }
-  get schedulerPort(): number {
-    return this.envConfig.SCHEDULER_PORT;
   }
   get mysqlHost(): string {
     return this.envConfig.MYSQL_HOST;
@@ -144,15 +125,6 @@ export class ConfigService {
   }
   get applePrivateKeyFile(): string {
     return this.envConfig.APPLE_PRIVATE_KEY_FILE;
-  }
-  get ktApiKey(): string {
-    return this.envConfig.KT_API_KEY;
-  }
-  get sktTmapApiKey(): string {
-    return this.envConfig.SKT_TMAP_API_KEY;
-  }
-  get sktCongestionApiKey(): string {
-    return this.envConfig.SKT_CONGESTION_API_KEY;
   }
   get slackApiServer(): string {
     return this.envConfig.SLACK_API_SERVER;
