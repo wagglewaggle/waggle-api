@@ -7,9 +7,4 @@ export class ClientRequestException extends HttpException {
     super(response, statusCode);
     this.value = value;
   }
-
-  static parseFailedErrorMessage(message: string): string[] {
-    // 실패메세지:실패횟수:최대실패횟수
-    return message.split(':').slice(1);
-  }
 }

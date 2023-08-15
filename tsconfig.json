@@ -18,19 +18,5 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
-    "paths": {
-      "@lib/entity": [
-        "libs/entity/src"
-      ],
-      "@lib/entity/*": [
-        "libs/entity/src/*"
-      ],
-      "@lib/config": [
-        "libs/config/src"
-      ],
-      "@lib/config/*": [
-        "libs/config/src/*"
-      ],
-    }
   }
 }

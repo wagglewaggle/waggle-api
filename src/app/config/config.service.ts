@@ -22,16 +22,11 @@ export class ConfigService {
         .default(ENV.DEVELOPMENT),
       API_HOST: Joi.string().default('0.0.0.0'),
       API_PORT: Joi.number().default(3000),
-      SCHEDULER_HOST: Joi.string().default('0.0.0.0'),
-      SCHEDULER_PORT: Joi.number().default(3030),
       MYSQL_HOST: Joi.string().required(),
       MYSQL_PORT: Joi.number().required(),
       MYSQL_DATABASE: Joi.string().required(),
       MYSQL_USERNAME: Joi.string().required(),
       MYSQL_PASSWORD: Joi.string(),
-      KT_API_KEY: Joi.string().required(),
-      SKT_TMAP_API_KEY: Joi.string().required(),
-      SKT_CONGESTION_API_KEY: Joi.string().required(),
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(envConfig);
@@ -57,14 +52,6 @@ export class ConfigService {
     return parseInt(this.envConfig.API_PORT, 10);
   }
 
-  get schedulerHost(): string {
-    return this.envConfig.SCHEDULER_HOST;
-  }
-
-  get schedulerPort(): number {
-    return this.envConfig.SCHEDULER_PORT;
-  }
-
   get mysqlHost(): string {
     return this.envConfig.MYSQL_HOST;
   }
@@ -83,18 +70,6 @@ export class ConfigService {
 
   get mysqlPassword(): string {
     return this.envConfig.MYSQL_PASSWORD;
-  }
-
-  get ktApiKey(): string {
-    return this.envConfig.KT_API_KEY;
-  }
-
-  get sktTmapApiKey(): string {
-    return this.envConfig.SKT_TMAP_API_KEY;
-  }
-
-  get sktCongestionApiKey(): string {
-    return this.envConfig.SKT_CONGESTION_API_KEY;
   }
 }
 

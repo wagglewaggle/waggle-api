@@ -22,7 +22,7 @@ export class KtPlaceRepository {
 
   async getKtPlaces(query: KtPlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
     const queryBuilder = this.createQueryBuilder()
-      .leftJoinAndSelect('ktPlace.population', 'population')
+      .leftJoinAndSelect('ktPlace.populations', 'population')
       .leftJoinAndSelect('ktPlace.categories', 'category');
 
     if (query.level) {
