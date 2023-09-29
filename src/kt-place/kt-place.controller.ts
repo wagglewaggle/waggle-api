@@ -4,8 +4,9 @@ import { KtPlaceResponseDto } from './dtos/kt-place-reponse.dto';
 import { PlaceIdxParamDto } from '../app/app.dto';
 import { KtPlaceListFilterQueryDto } from './kt-place.dto';
 import { IListCountResponse } from '../app/interfaces/common.interface';
+import { ApiPath } from './kt-place.constant';
 
-@Controller('kt-place')
+@Controller(ApiPath.Root)
 export class KtPlaceController {
   constructor(private readonly ktPlaceService: KtPlaceService) {}
 
@@ -15,7 +16,7 @@ export class KtPlaceController {
     return { list: places.map((place) => new KtPlaceResponseDto(place)), count };
   }
 
-  @Get(':idx')
+  @Get(ApiPath.GetPlaceIdx)
   async getKtPlace(@Param() param: PlaceIdxParamDto): Promise<KtPlaceResponseDto> {
     const result = await this.ktPlaceService.getKtPlaceAllInfo(param.idx);
     if (Array.isArray(result)) {
@@ -24,6 +25,4 @@ export class KtPlaceController {
     }
     return new KtPlaceResponseDto(result);
   }
-
-  // @Get('')
 }
