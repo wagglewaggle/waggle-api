@@ -154,4 +154,8 @@ describe('ent-to-end Test', () => {
       expect(res.statusCode).toBe(400);
     });
   });
+
+  afterAll(async () => {
+    await app.close();
+  });
 });
