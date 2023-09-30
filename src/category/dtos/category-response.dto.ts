@@ -1,10 +1,10 @@
 import { Exclude, Expose } from 'class-transformer';
-import { CategoryType } from 'waggle-entity/dist/category/category.constant';
 import { Category } from 'waggle-entity/dist/category/category.entity';
+import { CategoryType } from 'waggle-entity/dist/category-type/category-type.entity';
 
 export class CategoryResponseDto {
-  @Exclude() private readonly _idx;
-  @Exclude() private readonly _type;
+  @Exclude() private readonly _idx: number;
+  @Exclude() private readonly _type: CategoryType;
 
   constructor(category: Category) {
     this._idx = category.idx;

@@ -12,13 +12,14 @@ import { LoggerModule } from './app/logger/logger.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './app/interceptors/logging.interceptor';
 import { AllExceptionFilter } from './app/filters/all-exception.filter';
+import { CategoryTypeModule } from './category-type/category-type.module';
 
 export const TypeOrmRootModule = TypeOrmModule.forRootAsync({
   useClass: MysqlConfigService,
 });
 
 @Module({
-  imports: [TypeOrmRootModule, LoggerModule, ProvinceModule, KtPlaceModule, HealthModule, LocationModule, SktPlaceModule, CategoryModule],
+  imports: [TypeOrmRootModule, LoggerModule, ProvinceModule, KtPlaceModule, HealthModule, LocationModule, SktPlaceModule, CategoryModule, CategoryTypeModule],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
     { provide: APP_FILTER, useClass: AllExceptionFilter },
