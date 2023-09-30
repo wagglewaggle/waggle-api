@@ -45,11 +45,9 @@ describe('ent-to-end Test', () => {
       expect(res.body.hasOwnProperty('list')).toEqual(true);
       expect(res.body.hasOwnProperty('count')).toEqual(true);
 
-      if (res.body.list.length > 0) {
-        const level = res.body.list[0]._population.level;
-        expect(level).toEqual(KtPopulationLevel.Relaxation);
-        expect(level).not.toEqual(KtPopulationLevel.VeryCrowded);
-      }
+      const level = res.body.list[0]._population.level;
+      expect(level).toEqual(KtPopulationLevel.Relaxation);
+      expect(level).not.toEqual(KtPopulationLevel.VeryCrowded);
     });
 
     it('/kt-place?category=공원 (GET : 200)', async () => {
@@ -59,10 +57,8 @@ describe('ent-to-end Test', () => {
       expect(res.body.hasOwnProperty('list')).toEqual(true);
       expect(res.body.hasOwnProperty('count')).toEqual(true);
 
-      if (res.body.list.length > 0) {
-        const categories = res.body.list[0]._categories as Category[];
-        expect(categories.findIndex((category) => category.type.idx === 3)).not.toEqual(-1);
-      }
+      const categories = res.body.list[0]._categories as Category[];
+      expect(categories.findIndex((category) => category.type.type === '공원')).not.toEqual(-1);
     });
 
     it('/kt-place/1000 (GET : 400)', async () => {
@@ -113,10 +109,8 @@ describe('ent-to-end Test', () => {
       expect(res.body.hasOwnProperty('list')).toEqual(true);
       expect(res.body.hasOwnProperty('count')).toEqual(true);
 
-      if (res.body.list.length > 0) {
-        const categories = res.body.list[0]._categories as Category[];
-        expect(categories.findIndex((category) => category.type.idx === 2)).not.toEqual(-1);
-      }
+      const categories = res.body.list[0]._categories as Category[];
+      expect(categories.findIndex((category) => category.type.type === '쇼핑몰')).not.toEqual(-1);
     });
 
     it('/skt-place/1000 (GET : 400)', async () => {

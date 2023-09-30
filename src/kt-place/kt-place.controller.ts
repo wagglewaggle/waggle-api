@@ -12,7 +12,7 @@ export class KtPlaceController {
 
   @Get()
   async getKtPlaces(@Query() query: KtPlaceListFilterQueryDto): Promise<IListCountResponse<KtPlaceResponseDto>> {
-    const [places, count] = await this.ktPlaceService.getKtPlaces(query);
+    const [places, count] = await this.ktPlaceService.getActivatedKtPlaces(query);
     return { list: places.map((place) => new KtPlaceResponseDto(place)), count };
   }
 

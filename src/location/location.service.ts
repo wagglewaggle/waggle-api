@@ -17,9 +17,11 @@ export class LocationService {
       'ktPlaces',
       'ktPlaces.population',
       'ktPlaces.categories',
+      'ktPlaces.categories.type',
       'sktPlaces',
       'sktPlaces.population',
       'sktPlaces.categories',
+      'sktPlaces.categories.type',
     ]);
     if (!location) {
       throw new ClientRequestException(ERROR_CODE.ERR_0004001, HttpStatus.BAD_REQUEST);

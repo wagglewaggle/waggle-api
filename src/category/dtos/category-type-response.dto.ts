@@ -1,14 +1,13 @@
 import { Exclude, Expose } from 'class-transformer';
-import { Category } from 'waggle-entity/dist/category/category.entity';
 import { CategoryType } from 'waggle-entity/dist/category-type/category-type.entity';
 
-export class CategoryResponseDto {
+export class CategoryTypeResponseDto {
   @Exclude() private readonly _idx: number;
-  @Exclude() private readonly _type: CategoryType;
+  @Exclude() private readonly _type: string;
 
-  constructor(category: Category) {
-    this._idx = category.idx;
-    this._type = category.type;
+  constructor(categoryType: CategoryType) {
+    this._idx = categoryType.idx;
+    this._type = categoryType.type;
   }
 
   @Expose()
@@ -17,7 +16,7 @@ export class CategoryResponseDto {
   }
 
   @Expose()
-  get type(): CategoryType {
+  get type(): string {
     return this._type;
   }
 }

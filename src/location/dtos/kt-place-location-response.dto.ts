@@ -2,7 +2,7 @@ import { Exclude, Expose } from 'class-transformer';
 import { Category } from 'waggle-entity/dist/category/category.entity';
 import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
 import { KtPopulation } from 'waggle-entity/dist/kt-population/kt-population.entity';
-import { CategoryResponseDto } from '../../category/dtos/category-response.dto';
+import { CategoryTypeResponseDto } from '../../category/dtos/category-type-response.dto';
 import { KtPopulationResponseDto } from '../../kt-place/dtos/kt-population-response.dto';
 
 export class KtPlaceLocationResponseDto {
@@ -29,8 +29,8 @@ export class KtPlaceLocationResponseDto {
   }
 
   @Expose()
-  get categories(): CategoryResponseDto[] {
-    return this._categories.map((category) => new CategoryResponseDto(category));
+  get categories(): CategoryTypeResponseDto[] {
+    return this._categories.map((category) => new CategoryTypeResponseDto(category.type));
   }
 
   @Expose()
