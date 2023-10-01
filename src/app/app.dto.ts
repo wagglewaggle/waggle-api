@@ -1,6 +1,6 @@
 import { Transform, Type } from 'class-transformer';
-import { IsBoolean, IsEnum, IsNumber, IsOptional } from 'class-validator';
-import { CategoryType } from 'waggle-entity/dist/category/category.constant';
+import { IsBoolean, IsEnum, IsNumber, IsOptional, Validate } from 'class-validator';
+import { IsString } from './validations/common.validation';
 
 export class PlaceIdxParamDto {
   @Type(() => Number)
@@ -14,6 +14,6 @@ export class ListFilterQueryDto {
   populationSort: boolean;
 
   @IsOptional()
-  @IsEnum(CategoryType)
-  category: CategoryType;
+  @Validate(IsString)
+  category: string;
 }

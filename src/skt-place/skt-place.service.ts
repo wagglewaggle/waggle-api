@@ -25,7 +25,7 @@ export class SktPlaceService {
   }
 
   async getSktPlaceAllInfo(idx: number): Promise<SktPlace | [SktPlace, Location]> {
-    const place = await this.getSktPlaceByIdx(idx, ['population', 'location']);
+    const place = await this.getSktPlaceByIdx(idx, ['population', 'location', 'cctvs']);
     if (!place.location) {
       return place;
     }

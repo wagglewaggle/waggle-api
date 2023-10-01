@@ -11,8 +11,8 @@ import { Location } from 'waggle-entity/dist/location/location.entity';
 export class KtPlaceService {
   constructor(private readonly ktPlaceRepository: KtPlaceRepository, private readonly locationService: LocationService) {}
 
-  async getKtPlaces(query: KtPlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
-    return await this.ktPlaceRepository.getKtPlaces(query);
+  async getActivatedKtPlaces(query: KtPlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
+    return await this.ktPlaceRepository.getActivatedKtPlaces(query);
   }
 
   async getKtPlaceByIdx(idx: number, relation?: string[]): Promise<KtPlace> {

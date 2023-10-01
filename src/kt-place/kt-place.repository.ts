@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
 import { KtPlaceListFilterQueryDto } from './kt-place.dto';
+import { KtPlaceStatus } from 'waggle-entity/dist/kt-place/kt-place.constant';
+import { Category } from 'waggle-entity/dist/category/category.entity';
 
 @Injectable()
 export class KtPlaceRepository {
@@ -20,17 +22,31 @@ export class KtPlaceRepository {
     return this.repository.find(options);
   }
 
-  async getKtPlaces(query: KtPlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
+  async getActivatedKtPlaces(query: KtPlaceListFilterQueryDto): Promise<[KtPlace[], number]> {
     const queryBuilder = this.createQueryBuilder()
       .leftJoinAndSelect('ktPlace.population', 'population')
-      .leftJoinAndSelect('ktPlace.categories', 'category');
+      .leftJoinAndSelect('ktPlace.categories', 'category')
+      .leftJoinAndSelect('category.type', 'categoryType')
+      .where('ktPlace.status = :status', { status: KtPlaceStatus.Activated });
 
     if (query.level) {
       queryBuilder.andWhere('population.level = :level', { level: query.level });
     }
 
     if (query.category) {
-      queryBuilder.andWhere('category.type = :type', { type: query.category });
+      queryBuilder
+        .andWhere((qb) => {
+          const subQuery = qb
+            .subQuery()
+            .select('category.ktPlaceIdx')
+            .from(Category, 'category')
+            .leftJoin('category.type', 'categoryType')
+            .where('categoryType.type = :type')
+            .andWhere('category.ktPlaceIdx IS NOT NULL')
+            .getQuery();
+          return 'category.ktPlaceIdx IN ' + subQuery;
+        })
+        .setParameters({ type: query.category });
     }
 
     if (query.populationSort) {

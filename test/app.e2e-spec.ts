@@ -3,7 +3,6 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { KtPopulationLevel } from 'waggle-entity/dist/kt-population/kt-population.constant';
-import { CategoryType } from 'waggle-entity/dist/category/category.constant';
 import { Category } from 'waggle-entity/dist/category/category.entity';
 import { SktPopulationLevel } from 'waggle-entity/dist/skt-population/skt-population.constant';
 
@@ -46,24 +45,20 @@ describe('ent-to-end Test', () => {
       expect(res.body.hasOwnProperty('list')).toEqual(true);
       expect(res.body.hasOwnProperty('count')).toEqual(true);
 
-      if (res.body.list.length > 0) {
-        const level = res.body.list[0]._population.level;
-        expect(level).toEqual(KtPopulationLevel.Relaxation);
-        expect(level).not.toEqual(KtPopulationLevel.VeryCrowded);
-      }
+      const level = res.body.list[0]._population.level;
+      expect(level).toEqual(KtPopulationLevel.Relaxation);
+      expect(level).not.toEqual(KtPopulationLevel.VeryCrowded);
     });
 
     it('/kt-place?category=공원 (GET : 200)', async () => {
-      const res = await request(app.getHttpServer()).get(encodeURI(`/kt-place?category=${CategoryType.Park}`));
+      const res = await request(app.getHttpServer()).get(encodeURI(`/kt-place?category=공원`));
 
       expect(res.statusCode).toBe(200);
       expect(res.body.hasOwnProperty('list')).toEqual(true);
       expect(res.body.hasOwnProperty('count')).toEqual(true);
 
-      if (res.body.list.length > 0) {
-        const categories = res.body.list[0]._categories as Category[];
-        expect(categories.findIndex((category) => category.type === CategoryType.Park)).not.toEqual(-1);
-      }
+      const categories = res.body.list[0]._categories as Category[];
+      expect(categories.findIndex((category) => category.type.type === '공원')).not.toEqual(-1);
     });
 
     it('/kt-place/1000 (GET : 400)', async () => {
@@ -108,16 +103,14 @@ describe('ent-to-end Test', () => {
     });
 
     it('/skt-place?category=쇼핑몰 (GET : 200)', async () => {
-      const res = await request(app.getHttpServer()).get(encodeURI(`/skt-place?category=${CategoryType.Shop}`));
+      const res = await request(app.getHttpServer()).get(encodeURI(`/skt-place?category=쇼핑몰`));
 
       expect(res.statusCode).toBe(200);
       expect(res.body.hasOwnProperty('list')).toEqual(true);
       expect(res.body.hasOwnProperty('count')).toEqual(true);
 
-      if (res.body.list.length > 0) {
-        const categories = res.body.list[0]._categories as Category[];
-        expect(categories.findIndex((category) => category.type === CategoryType.Shop)).not.toEqual(-1);
-      }
+      const categories = res.body.list[0]._categories as Category[];
+      expect(categories.findIndex((category) => category.type.type === '쇼핑몰')).not.toEqual(-1);
     });
 
     it('/skt-place/1000 (GET : 400)', async () => {

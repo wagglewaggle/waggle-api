@@ -6,8 +6,8 @@ import { KtPlace } from 'waggle-entity/dist/kt-place/kt-place.entity';
 import { KtPopulationResponseDto } from './kt-population-response.dto';
 import { KtAccidentResponseDto } from './kt-accident-response.dto';
 import { Category } from 'waggle-entity/dist/category/category.entity';
-import { CategoryResponseDto } from '../../category/dtos/category-response.dto';
-import { KtCctvResponseDto } from './kt-cctv-response.dto';
+import { CategoryTypeResponseDto } from '../../category/dtos/category-type-response.dto';
+import { CctvResponseDto } from '../../cctv/dto/cctv-response.dto';
 import { KtRoadTraffic } from 'waggle-entity/dist/kt-road-traffic/kt-road-traffic.entity';
 import { KtRoadTrafficResponseDto } from './kt-road-traffic-response.dto';
 import { Location } from 'waggle-entity/dist/location/location.entity';
@@ -59,11 +59,11 @@ export class KtPlaceResponseDto {
   }
 
   @Expose()
-  get categories(): CategoryResponseDto[] | undefined {
+  get categories(): CategoryTypeResponseDto[] | undefined {
     if (!this._categories) {
       return undefined;
     }
-    return this._categories.map((category) => new CategoryResponseDto(category));
+    return this._categories.map((category) => new CategoryTypeResponseDto(category.type));
   }
 
   @Expose()
@@ -83,11 +83,11 @@ export class KtPlaceResponseDto {
   }
 
   @Expose()
-  get cctvs(): KtCctvResponseDto[] | undefined {
+  get cctvs(): CctvResponseDto[] | undefined {
     if (!this._cctvs) {
       return undefined;
     }
-    return this._cctvs.map((cctv) => new KtCctvResponseDto(cctv));
+    return this._cctvs.map((cctv) => new CctvResponseDto(cctv));
   }
 
   @Expose()

@@ -8663,9 +8663,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"waggle-entity@npm:2.0.0":
-  version: 2.0.0
-  resolution: "waggle-entity@npm:2.0.0"
+"waggle-entity@npm:2.3.0":
+  version: 2.3.0
+  resolution: "waggle-entity@npm:2.3.0"
   dependencies:
     "@nestjs/common": ^9.0.0
     "@nestjs/core": ^9.0.0
@@ -8673,7 +8673,7 @@ __metadata:
     rimraf: ^3.0.2
     rxjs: ^7.2.0
     typeorm: ^0.3.15
-  checksum: c2a0d0195591ef83e85ffc0afbb5307f71f9b2531ca956094f1df18205bc2c84bf95ff9153f492d07271e68e7826be738264cccf9e00f3ad6336891cbc5bc42c
+  checksum: 5b7a93b4ace58b65c397b16b49a7cf265884ffada71022e5e94ef7d6ec92ff23c09483c3d133fe61a32635b72cc159e2ad91410c0003ce404750dba2b3d4b283
   languageName: node
   linkType: hard
 
@@ -8723,7 +8723,7 @@ __metadata:
     tsconfig-paths: 4.1.0
     typeorm: ^0.3.17
     typescript: ~4.7.4
-    waggle-entity: 2.0.0
+    waggle-entity: 2.3.0
     winston: ^3.10.0
     winston-daily-rotate-file: ^4.7.1
   languageName: unknown

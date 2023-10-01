@@ -4,8 +4,9 @@ import { IListCountResponse } from '../app/interfaces/common.interface';
 import { SktPlaceResponseDto } from './dtos/skt-place-response.dto';
 import { SktPlaceListFilterQueryDto } from './skt-place.dto';
 import { SktPlaceService } from './skt-place.service';
+import { ApiPath } from './skt-place.constant';
 
-@Controller('skt-place')
+@Controller(ApiPath.Root)
 export class SktPlaceController {
   constructor(private readonly sktPlaceService: SktPlaceService) {}
 
@@ -15,7 +16,7 @@ export class SktPlaceController {
     return { list: places.map((place) => new SktPlaceResponseDto(place)), count };
   }
 
-  @Get(':idx')
+  @Get(ApiPath.GetPlaceIdx)
   async getSktPlace(@Param() param: PlaceIdxParamDto): Promise<SktPlaceResponseDto> {
     const result = await this.sktPlaceService.getSktPlaceAllInfo(param.idx);
     if (Array.isArray(result)) {

@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { SktPlace } from 'waggle-entity/dist/skt-place/skt-place.entity';
 import { SktPlaceListFilterQueryDto } from './skt-place.dto';
+import { SktPlaceStatus } from 'waggle-entity/dist/skt-place/skt-place.constant';
+import { Category } from 'waggle-entity/dist/category/category.entity';
 
 @Injectable()
 export class SktPlaceRepository {
@@ -23,14 +25,28 @@ export class SktPlaceRepository {
   async getSktPlaces(query: SktPlaceListFilterQueryDto): Promise<[SktPlace[], number]> {
     const queryBuilder = this.createQueryBuilder()
       .leftJoinAndSelect('sktPlace.population', 'population')
-      .leftJoinAndSelect('sktPlace.categories', 'category');
+      .leftJoinAndSelect('sktPlace.categories', 'category')
+      .leftJoinAndSelect('category.type', 'categoryType')
+      .where('sktPlace.status = :status', { status: SktPlaceStatus.Activated });
 
     if (query.level) {
       queryBuilder.andWhere('population.level = :level', { level: query.level });
     }
 
     if (query.category) {
-      queryBuilder.andWhere('category.type = :type', { type: query.category });
+      queryBuilder
+        .andWhere((qb) => {
+          const subQuery = qb
+            .subQuery()
+            .select('category.sktPlaceIdx')
+            .from(Category, 'category')
+            .leftJoin('category.type', 'categoryType')
+            .where('categoryType.type = :type')
+            .andWhere('category.sktPlaceIdx IS NOT NULL')
+            .getQuery();
+          return 'category.sktPlaceIdx IN ' + subQuery;
+        })
+        .setParameters({ type: query.category });
     }
 
     if (query.populationSort) {
