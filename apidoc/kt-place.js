@@ -158,7 +158,7 @@
  *   "cctvs": [
  *     {
  *       "idx": 58,
- *       "src": "/SeoulRtd/cctv?src=http://210.179.218.52:1935/live/165.stream/playlist.m3u8&cctvname=L010142",
+ *       "src": "https://data.seoul.go.kr/SeoulRtd/cctv?src=http://210.179.218.52:1935/live/165.stream/playlist.m3u8&cctvname=L010142",
  *       "cctvname": "종합운동장"
  *     }
  *   ],

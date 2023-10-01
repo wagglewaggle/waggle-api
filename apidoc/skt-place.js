@@ -72,6 +72,10 @@
  * @apiSuccess {string} populations.level 혼잡도 level</br>매우 여유로음 = 'VERY_RELAXATION'</br>여유 = 'RELAXATION'</br>보통 = 'NORMAL'</br>붐빔 = 'CROWDED'</br>매우 붐빔 = 'VERY_CROWDED'
  * @apiSuccess {Date} populations.createdDate 생성 날짜
  * @apiSuccess {Date} populations.updatedDate 업데이트 날짜
+ * @apiSuccess {object[]} cctvs cctv 리스트
+ * @apiSuccess {number} cctvs.idx cctv idx
+ * @apiSuccess {string} cctvs.src cctv 주소
+ * @apiSuccess {string} cctvs.cctvname cctv 이름
  * @apiSuccess {object} location 주변 지역
  * @apiSuccess {number} location.idx 지역 인덱스 번호
  * @apiSuccess {string} location.name 지역 이름
@@ -81,77 +85,84 @@
  * @apiSuccessExample Response (example):
  * HTTP/1.1 200 OK
  * {
- *   "idx": 4,
- *   "poiId": "10067845",
- *   "name": "더현대서울",
- *   "x": 37.52601356,
- *   "y": 126.92827674,
- *   "population": {
  *     "idx": 4,
- *     "level": "VERY_RELAXATION",
- *     "createdDate": "2022-12-19T13:30:02.316Z",
- *     "updatedDate": "2023-09-29T07:00:00.160Z"
- *   },
- *   "location": {
- *     "idx": 2,
- *     "name": "영등포구",
- *     "ktPlaces": [
- *       {
- *         "idx": 48,
- *         "name": "여의도",
- *         "categories": [
- *           {
- *             "idx": 6,
- *             "type": "지하철"
- *           },
- *           {
- *             "idx": 9,
- *             "type": "불꽃축제"
- *           }
- *         ],
- *         "population": {
- *           "idx": 48,
- *           "level": "RELAXATION",
- *           "message": "사람이 몰려있을 가능성이 낮고 붐빔은 거의 느껴지지 않아요. 도보 이동이 자유로워요.",
- *           "male": 46,
- *           "female": 54,
- *           "zeroGen": 1,
- *           "teenage": 9,
- *           "twenties": 26,
- *           "thirties": 23,
- *           "forties": 17,
- *           "fifties": 12,
- *           "sixties": 7,
- *           "seventies": 6,
- *           "resident": 12,
- *           "nonResident": 88,
- *           "createdDate": "2023-04-11T14:25:54.491Z",
- *           "updatedDate": "2023-09-30T09:26:15.978Z"
- *         }
- *       },
- *     ],
- *     "sktPlaces": [
- *       {
+ *     "poiId": "10067845",
+ *     "name": "더현대서울",
+ *     "x": 37.52601356,
+ *     "y": 126.92827674,
+ *     "population": {
  *         "idx": 4,
- *         "name": "더현대서울",
- *         "categories": [
- *           {
- *             "idx": 2,
- *             "type": "쇼핑몰"
- *           },
- *           {
- *             "idx": 8,
- *             "type": "복합문화공간"
- *           }
- *         ],
- *         "population": {
- *           "idx": 4,
- *           "level": "VERY_RELAXATION",
- *           "createdDate": "2022-12-19T13:30:02.316Z",
- *           "updatedDate": "2023-09-29T07:00:00.160Z"
+ *         "level": "VERY_RELAXATION",
+ *         "createdDate": "2022-12-19T13:30:02.316Z",
+ *         "updatedDate": "2023-09-29T07:00:00.160Z"
+ *     },
+ *     "cctvs": [
+ *         {
+ *             "idx": 59,
+ *             "src": "https://data.seoul.go.kr/test",
+ *             "cctvname": "test"
  *         }
- *       }
- *     ]
- *   }
+ *     ],
+ *     "location": {
+ *         "idx": 2,
+ *         "name": "영등포구",
+ *         "ktPlaces": [
+ *             {
+ *                 "idx": 48,
+ *                 "name": "여의도",
+ *                 "categories": [
+ *                     {
+ *                         "idx": 6,
+ *                         "type": "지하철"
+ *                     },
+ *                     {
+ *                         "idx": 9,
+ *                         "type": "불꽃축제"
+ *                     }
+ *                 ],
+ *                 "population": {
+ *                     "idx": 48,
+ *                     "level": "RELAXATION",
+ *                     "message": "사람이 몰려있을 가능성이 낮고 붐빔은 거의 느껴지지 않아요. 도보 이동이 자유로워요.",
+ *                     "male": 46,
+ *                     "female": 54,
+ *                     "zeroGen": 1,
+ *                     "teenage": 9,
+ *                     "twenties": 26,
+ *                     "thirties": 23,
+ *                     "forties": 17,
+ *                     "fifties": 12,
+ *                     "sixties": 7,
+ *                     "seventies": 6,
+ *                     "resident": 12,
+ *                     "nonResident": 88,
+ *                     "createdDate": "2023-04-11T14:25:54.491Z",
+ *                     "updatedDate": "2023-09-30T09:26:15.978Z"
+ *                 }
+ *             },
+ *         ],
+ *         "sktPlaces": [
+ *             {
+ *                 "idx": 4,
+ *                 "name": "더현대서울",
+ *                 "categories": [
+ *                     {
+ *                         "idx": 2,
+ *                         "type": "쇼핑몰"
+ *                     },
+ *                     {
+ *                         "idx": 8,
+ *                         "type": "복합문화공간"
+ *                     }
+ *                 ],
+ *                 "population": {
+ *                     "idx": 4,
+ *                     "level": "VERY_RELAXATION",
+ *                     "createdDate": "2022-12-19T13:30:02.316Z",
+ *                     "updatedDate": "2023-09-29T07:00:00.160Z"
+ *                 }
+ *             }
+ *         ]
+ *     }
  * }
  */
