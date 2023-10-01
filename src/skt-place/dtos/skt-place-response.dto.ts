@@ -6,6 +6,8 @@ import { SktPlace } from 'waggle-entity/dist/skt-place/skt-place.entity';
 import { SktPopulation } from 'waggle-entity/dist/skt-population/skt-population.entity';
 import { Location } from 'waggle-entity/dist/location/location.entity';
 import { LocationResponseDto } from '../../location/dtos/location-response.dto';
+import { Cctv } from 'waggle-entity/dist/cctv/cctv.entity';
+import { CctvResponseDto } from '../../cctv/dto/cctv-response.dto';
 
 export class SktPlaceResponseDto {
   @Exclude() private readonly _idx: number;
@@ -16,6 +18,7 @@ export class SktPlaceResponseDto {
   @Exclude() private readonly _categories: Category[];
   @Exclude() private readonly _population: SktPopulation;
   @Exclude() private readonly _location: Location | undefined;
+  @Exclude() private readonly _cctvs: Cctv[] | undefined;
 
   constructor(place: SktPlace, location?: Location) {
     this._idx = place.idx;
@@ -26,6 +29,7 @@ export class SktPlaceResponseDto {
     this._categories = place.categories;
     this._population = place.population;
     this._location = location;
+    this._cctvs = place.cctvs;
   }
 
   @Expose()
@@ -67,6 +71,14 @@ export class SktPlaceResponseDto {
       return undefined;
     }
     return new SktPopulationResponseDto(this._population);
+  }
+
+  @Expose()
+  get cctvs(): CctvResponseDto[] | undefined {
+    if (!this._cctvs) {
+      return undefined;
+    }
+    return this._cctvs.map((cctv) => new CctvResponseDto(cctv));
   }
 
   @Expose()

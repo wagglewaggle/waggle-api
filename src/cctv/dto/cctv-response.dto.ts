@@ -1,10 +1,10 @@
 import { Exclude, Expose } from 'class-transformer';
 import { Cctv } from 'waggle-entity/dist/cctv/cctv.entity';
 
-export class KtCctvResponseDto {
-  @Exclude() private readonly _idx;
-  @Exclude() private readonly _src;
-  @Exclude() private readonly _cctvname;
+export class CctvResponseDto {
+  @Exclude() private readonly _idx: number;
+  @Exclude() private readonly _src: string;
+  @Exclude() private readonly _cctvname: string;
 
   constructor(cctv: Cctv) {
     this._idx = cctv.idx;

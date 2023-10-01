@@ -9,13 +9,13 @@ export class KtPlaceLocationResponseDto {
   @Exclude() private readonly _idx: number;
   @Exclude() private readonly _name: string;
   @Exclude() private readonly _categories: Category[];
-  @Exclude() private readonly _population: KtPopulation;
+  @Exclude() private readonly _population?: KtPopulation;
 
   constructor(place: KtPlace) {
     this._idx = place.idx;
     this._name = place.name;
     this._categories = place.categories;
-    this._population = place.population;
+    this._population = place?.population;
   }
 
   @Expose()
@@ -34,7 +34,10 @@ export class KtPlaceLocationResponseDto {
   }
 
   @Expose()
-  get population(): KtPopulationResponseDto {
-    return new KtPopulationResponseDto(this._population);
+  get population(): KtPopulationResponseDto | null {
+    if (this._population) {
+      return new KtPopulationResponseDto(this._population);
+    }
+    return null;
   }
 }
