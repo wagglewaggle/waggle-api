@@ -29,7 +29,7 @@ export class SktPlaceService {
     if (!place.location) {
       return place;
     }
-    const location = await this.locationService.getLocationByName(place.location.name);
+    const location = await this.locationService.getLocationByName(place.location.name, place);
     return [place, location];
   }
 }

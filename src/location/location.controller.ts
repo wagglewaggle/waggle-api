@@ -3,6 +3,7 @@ import { Location } from 'waggle-entity/dist/location/location.entity';
 import { GetLocationNameParamDto } from './location.dto';
 import { LocationService } from './location.service';
 import { ApiPath } from './location.constant';
+import { LocationResponseDto } from './dtos/location-response.dto';
 
 @Controller(ApiPath.Root)
 export class LocationController {
@@ -15,7 +16,8 @@ export class LocationController {
   }
 
   @Get(ApiPath.GetLocationName)
-  async getNearByLocation(@Param() param: GetLocationNameParamDto) {
-    return this.locationService.getLocationByName(param.name);
+  async getNearByLocation(@Param() param: GetLocationNameParamDto): Promise<LocationResponseDto> {
+    const result = await this.locationService.getLocationByName(param.name);
+    return new LocationResponseDto(result);
   }
 }
